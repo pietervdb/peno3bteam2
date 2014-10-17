@@ -1,0 +1,54 @@
+body {
+    background-color: ghostwhite;
+}
+
+#map-canvas { height: 250px; margin: 0; padding: 0;}
+
+#navigation li {
+    color: #5a5a5a;
+    font-size: 16px;
+    font-weight: bold;
+    padding: 25px 15px;
+    text-transform: uppercase;
+    display : inline;
+    list-style-type: none;
+}
+
+#navigation ul {
+    padding: 10px 0px;
+    margin-bottom: 0px;
+    display:inline;
+}
+
+
+.jumbotron {
+    background-image:url('http://goo.gl/SMXLQE');
+    background-position: bottom left;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    width: auto;
+    height: auto;
+    margin-bottom: 10px;
+}
+.jumbotron h1 {
+    margin-top: 100px;
+    color:lightgray;
+}
+.jumbotron p{
+    color:#dcdcdc;
+}
+.charts {
+    background-color: lightgray;
+    position: relative;
+    padding: 2px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+/*.container {*/
+    /*background-color: lightgray;*/
+/*}*/
+
+#buttons{
+    margin-left: auto;
+    margin-right: auto;
+}
