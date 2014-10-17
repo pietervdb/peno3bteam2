@@ -1,0 +1,88 @@
+import RPi.GPIO
+import serial
+import picamera
+import time
+from socketIO_client import SocketIO
+import json
+import os
+import zipfile
+
+global lrs
+lrs = 0
+start = {'purpose':'realtime-sender','groupID':'CWB2','userID':'r0369676'}
+socketIO = SocketIO('dali.cs.kuleuven.be',8080)
+
+arduino = serial.Serial('/dev/serial/by-id/usb-Gravitech_ARDUINO_NANO_13BP0853-if00-port0',9600)
+last_value = 0
+time_start = 0
+first_start = 0
+photo_number = 1
+
+
+
+def zipdir(path,zip):
+    for root, dirs, files in os.walk(path):
+        for file in files:
+            zip.write(os.path.join(root,file))
+
+def on_response(*args):
+    global lrs
+    print 'server message is',args
+    lrs = args
+
+    
+##def send_data():
+##    socketIO.on('server_message',on_response)
+##    socketIO.emit('start',json.dumps(start),on_response)
+##
+##    socketIO.wait(0.2) #moet hier staan want anders werkt lrs niet
+##
+##    dictionary = lrs[0]
+##    tripID = dictionary[u'_id']
+##
+##    FOTODATA = {'sensorID':'1','timestamp':'0','data':GPS_data}
+##    sensordata = {'_id':tripID,'sensorData':[SENSORDATA]}
+##    socketIO.emit('rt-sensordata',json.dumps(sensordata),on_response)
+##
+##
+##    metadata = {"distance":"zoveel meter","averageSpeed":'heel snel','other:':"hij is gevallen"}
+##    end = {'_id':tripID,'meta':[metadata]}
+##    socketIO.emit('endBikeTrip',json.dumps(end),on_response)
+##
+##    ##tripdata = {}
+##    ##socketIO.emit('batch-tripdata',json.dumps(tripdata),on_response)
+##
+##    socketIO.wait(0.2)
+##
+##
+
+
+
+    
+while True:
+    arduino.readline() #nodig om readline te kunnen lezen
+    value = int(arduino.readline())
+    if (value != last_value):
+        if value == 1:
+            time_start = time.time()
+            first_start = str(time.localtime()[0])+"-"+str(time.localtime()[1])+"-"+str(time.localtime()[2])+' '+str(time.localtime()[3])+'u'+str(time.localtime()[4])+'min'+str(time.localtime()[5])
+            
+            os.makedirs("/home/pi/Desktop/fotos/"+str(first_start))
+            photonumber = 1
+        elif value == 0:
+            if first_start != 0:
+                zipf = zipfile.ZipFile('Python.zip', 'w')
+                zipdir('
+                
+        #    send_data()
+
+    last_value = value  
+    if value == 1:
+        if time.time() - time_start >=5:
+            with picamera.PiCamera() as camera:
+                camera.capture('/home/pi/Desktop/fotos/'+str(first_start)+'/'+str(photonumber)+'.jpg') #duurt 3,4 seconden
+            photonumber += 1
+            time_start = time.time()
+    
+    
+
