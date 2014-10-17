@@ -5,14 +5,19 @@ google.load("visualization", "1", {packages:["corechart"]});
 google.load('visualization', '1', { 'packages': ['map'] });
 bol.controller.DataAverageMax('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=assistants");
 bol.controller.Coordinates('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips/543632e2d06680ec647a990a/sensors" );
-
+bol.controller.DataTemperature('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips/543bd7fcc3b754432f4db783" );
+bol.controller.Dataimg('NO DATA',"http://dali.cs.kuleuven.be:8080/qbike/trips/543fafc6c786e80f0ec75bcd");
 //checking averagemaxgraph data
 function checkVariable(){
-    if (typeof averagemax !== "undefined" && typeof coordinates !== "undefined"){
+    if (typeof averagemax !== "undefined" && typeof coordinates !== "undefined" && typeof temperature !== "undefined" && typeof image !== "undefined"){
         google.setOnLoadCallback(drawAverageMaxAssistentsChart());
         google.setOnLoadCallback(map());
+        google.setOnLoadCallback(drawTemp());
         bol.controller.Height('NO DATA', coordinates);
-
+        imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
+        imageURL = imageURL.concat(image);
+        console.log(imageURL);
+        $("#image").prepend("<img src='imageURL'/>")
     }
     else{
         window.setTimeout("checkVariable();",100);
@@ -76,7 +81,7 @@ function map() {
     var flightPath = new google.maps.Polyline({
         path: coor,
         geodesic: true,
-        strokeColor: '#FF0000',
+        strokeColor: '#FF00FF',
         strokeOpacity: 1.0,
         strokeWeight: 2
     });
@@ -84,20 +89,6 @@ function map() {
     flightPath.setMap(map);
 
 }
-
-
-//function drawMap() {
-//    var data = google.visualization.arrayToDataTable(coordinates);
-//
-//    var options = { showTip: true,
-//        showLine: true,
-//        enableScrollWheel: true
-//    };
-//
-//    var map = new google.visualization.Map(document.getElementById('chart_div'));
-//
-//    map.draw(data, options);
-//}
 
 function drawHeights() {
     var data = google.visualization.arrayToDataTable(heights);
@@ -110,6 +101,21 @@ function drawHeights() {
     };
 
     var chart = new google.visualization.AreaChart(document.getElementById('heightschart'));
+
+    chart.draw(data, options);
+}
+
+function drawTemp() {
+    var data = google.visualization.arrayToDataTable(temperature);
+
+    var options = {
+        title: 'Temperature',
+        backgroundColor: '#dcdcdc',
+        vAxis: {maxValue: 33, minValue:0},
+        hAxis: {title:"Tripnumber"}
+    };
+
+    var chart = new google.visualization.AreaChart(document.getElementById('tempchart'));
 
     chart.draw(data, options);
 }

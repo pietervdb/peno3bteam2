@@ -1,6 +1,9 @@
 body {
     background-color: ghostwhite;
 }
+.active {
+    color: red;
+}
 
 #map-canvas { height: 250px; margin: 0; padding: 0;}
 

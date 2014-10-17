@@ -2,6 +2,8 @@ var bol = bol || {};
 var averagemax;
 var coordinates;
 var heights;
+var temperature;
+var image;
 
 /**
  * This file serves as the controller and depends on everything in the js folder
@@ -115,6 +117,27 @@ bol.controller = (function() {
         }
     }
 
+    function DataTemperature(status, URL){
+        if (status == 'NO DATA'){
+            return bol.controller.AJAX(URL, DataTemperature);
+        }
+        else {
+            console.log(status);
+            temperature = [];
+            temperature[0] = ['Tijd', 'Temperature'];
+            $.each(status, function(i, v) {
+                var C = v.sensorData;
+                for (i=0;i< C.length;i++){
+                    if (C[i].sensorID == 3){
+                        temperature[temperature.length] = [i, C[i].data[0].value];
+                    }
+                }
+            });
+            console.log(temperature);
+            return temperature
+        }
+    }
+
     function Coordinates(status, URL){
         if (status === 'NO DATA'){
             return bol.controller.AJAX(URL, Coordinates);
@@ -141,6 +164,7 @@ bol.controller = (function() {
             URL = URL.slice(0,URL.length-1);
             URL = URL.concat("&key=AIzaSyDCRwgWbgGGM5zVCUJFJDIE3qSIYs1pATU");
             URL = URL.concat("&callback=Height");
+            console.log(URL);
             return bol.controller.AJAX(URL, Height);
         }
         else {
@@ -150,6 +174,24 @@ bol.controller = (function() {
                 heights[heights.length] = [i,status.results[i].elevation];
             }
             return coordinates
+        }
+    }
+
+    function Dataimg(status, URL){
+        if (status === 'NO DATA'){
+            return bol.controller.AJAX(URL, Dataimg);
+        }
+        else {
+            $.each(status, function(i, v) {
+                var C = v.sensorData;
+                for (i=0;i< C.length;i++){
+                    if (C[i].sensorID == 8){
+                        image = C[i].data[0];
+                    }
+                }
+            });
+            console.log(image);
+            return image
         }
     }
 
@@ -180,7 +222,9 @@ bol.controller = (function() {
         AJAX:AJAX,
         DataAverageMax:DataAverageMax,
         Coordinates:Coordinates,
-        Height:Height
+        Height:Height,
+        DataTemperature:DataTemperature,
+        Dataimg:Dataimg
     };
 
 })();
