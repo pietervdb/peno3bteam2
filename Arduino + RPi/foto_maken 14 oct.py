@@ -5,7 +5,6 @@ import time
 from socketIO_client import SocketIO
 import json
 import os
-import zipfile
 
 global lrs
 lrs = 0
@@ -18,12 +17,6 @@ time_start = 0
 first_start = 0
 photo_number = 1
 
-
-
-def zipdir(path,zip):
-    for root, dirs, files in os.walk(path):
-        for file in files:
-            zip.write(os.path.join(root,file))
 
 def on_response(*args):
     global lrs
@@ -70,11 +63,8 @@ while True:
             os.makedirs("/home/pi/Desktop/fotos/"+str(first_start))
             photonumber = 1
         elif value == 0:
-            if first_start != 0:
-                zipf = zipfile.ZipFile('Python.zip', 'w')
-                zipdir('
-                
-        #    send_data()
+            pass
+            send_data()
 
     last_value = value  
     if value == 1:
