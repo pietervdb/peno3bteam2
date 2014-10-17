@@ -8,23 +8,17 @@ bol.controller.Coordinates('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/tri
 
 //checking averagemaxgraph data
 function checkVariable(){
-    if (typeof averagemax !== "undefined"){
+    if (typeof averagemax !== "undefined" && typeof coordinates !== "undefined"){
         google.setOnLoadCallback(drawAverageMaxAssistentsChart());
+        google.setOnLoadCallback(map());
+        bol.controller.Height('NO DATA', coordinates);
+
     }
     else{
         window.setTimeout("checkVariable();",100);
     }
 }
-//checking coordinates data
-function checkVariable1(){
-    if (typeof coordinates !== "undefined"){
-        google.setOnLoadCallback(map());
-        bol.controller.Height('NO DATA', coordinates);
-    }
-    else{
-        window.setTimeout("checkVariable1();",100);
-    }
-}
+
 //checking heights data
 function checkVariable2(){
     if (typeof heights !== "undefined"){
@@ -35,7 +29,6 @@ function checkVariable2(){
     }
 }
 checkVariable();
-checkVariable1();
 checkVariable2();
 
 
