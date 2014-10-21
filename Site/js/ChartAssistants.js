@@ -38,11 +38,12 @@ function checkVariable2(){
         window.setTimeout("checkVariable2();",100);
     }
 }
-
-$("#thumbnails").click(function(){
-    console.log("click");
-    $(".charts").removeClass("hidden");
-});
+function select() {
+    $(".thumbnail").click(function () {
+        console.log("click");
+        $(".charts").removeClass("hidden");
+    });
+}
 
 function img(json, URL){
     image = []
@@ -56,7 +57,7 @@ function img(json, URL){
     });
     for (i = 5; i<image.length; i++){
         $("#thumbnails").append("<li>");
-        $("#thumbnails li:last-child").attr("class", "col-sm-6 col-md-2");
+        $("#thumbnails li:last-child").attr("class", "col-sm-6 col-md-2 col-lg-2");
         $("#thumbnails li:last-child").append("<button>");
         $("#thumbnails li:last-child button").attr("class","thumbnail btn-default").attr("href", "#");
         $("#thumbnails li:last-child button").append("<img>");
@@ -193,4 +194,5 @@ $(window).resize(function(){
 $(document).ready(function(){
     checkVariable1();
     checkVariable2();
+    select();
 });
