@@ -20,7 +20,6 @@ def send_data():
     socketIO.wait(0.2) #moet hier staan want anders werkt lrs niet
 
     dictionary = lrs[0]
-    print lrs
     tripID = dictionary[u'_id']
 
 
