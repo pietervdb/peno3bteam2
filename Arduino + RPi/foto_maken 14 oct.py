@@ -5,6 +5,8 @@ import time
 from socketIO_client import SocketIO
 import json
 import os
+import base64
+import requests
 
 global lrs
 lrs = 0
