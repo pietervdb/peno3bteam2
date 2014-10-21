@@ -127,9 +127,9 @@ bol.controller = (function() {
         }
     }
 
-    function Dataimg(status, URL){
+    function Dataimg(status, URL, func){
         if (status === 'NO DATA'){
-            return bol.controller.AJAX(URL, Dataimg);
+            return bol.controller.AJAX(URL, func);
         }
         else {
             image = []
