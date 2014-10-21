@@ -58,3 +58,8 @@ body {
     padding-bottom: 10px;
     background-color: #dcdcdc !important;
 }
+
+img {
+    width: auto;
+    height: auto;
+}
