@@ -44,8 +44,9 @@ def send_data(foldername, total_photos):
         PHOTODATA = json.dumps({"imageName" : "foto"+str(i+1)+".jpg", "tripID" : str(tripID), "userID" : "r0369676", "raw" : file}) 
         url = "http://dali.cs.kuleuven.be:8080/qbike/upload"
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} 
-        r = requests.post(url, data = test, headers = headers)
+        r = requests.post(url, data = PHOTODATA, headers = headers)
         socketIO.emit('rt-sensordata', PHOTODATA,on_response)
+        print "foto" ,i,"verzonden"
         i+=1
         
         
@@ -88,6 +89,7 @@ while True:
         if time.time() - time_start >=5:
             with picamera.PiCamera() as camera:
                 camera.capture('/home/pi/Desktop/fotos/'+str(first_start)+'/'+'foto'+str(photonumber)+'.jpg') #duurt 3,4 seconden
+            print 'foto genomen'
             photonumber += 1
             number_of_photos += 1
             time_start = time.time()
