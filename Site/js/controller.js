@@ -132,11 +132,12 @@ bol.controller = (function() {
             return bol.controller.AJAX(URL, Dataimg);
         }
         else {
+            image = []
             $.each(status, function(i, v) {
                 var C = v.sensorData;
                 for (i=0;i< C.length;i++){
                     if (C[i].sensorID == 8){
-                        image = C[i].data[0];
+                        image[image.length] = C[i].data[0];
                     }
                 }
             });

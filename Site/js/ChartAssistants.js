@@ -5,7 +5,7 @@ google.load("visualization", "1", {packages:["corechart", "map", "controls"]});
 bol.controller.DataAverageMax('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=assistants");
 bol.controller.Coordinates('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips/543632e2d06680ec647a990a/sensors" );
 bol.controller.DataTemperature('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips/543bd7fcc3b754432f4db783" );
-bol.controller.Dataimg('NO DATA',"http://dali.cs.kuleuven.be:8080/qbike/trips/543fafc6c786e80f0ec75bcd");
+bol.controller.Dataimg('NO DATA',"http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=CWB2");
 
 //checking averagemaxgraph data
 function checkVariable1(){
@@ -15,8 +15,10 @@ function checkVariable1(){
         google.setOnLoadCallback(drawTemp());
         bol.controller.Height('NO DATA', coordinates);
         var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
-        imageURL = imageURL.concat(image);
-        $("#image").attr("src", imageURL).removeClass("hidden");
+        for (i = 0; i<image.length; i++){
+            $("#image").prepend("<img>");
+            $("#image img:nth-child(1)").attr("src", imageURL.concat(image[i])).removeClass("hidden");
+        }
     }
     else{
         window.setTimeout("checkVariable1();",100);
@@ -93,6 +95,7 @@ function map() {
         bounds.extend(coor[i])
     }
     var mapOptions = {
+        scrollwheel: false
     };
 
     var map = new google.maps.Map(document.getElementById('map-canvas'),
