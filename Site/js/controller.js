@@ -15,54 +15,6 @@ bol.controller = (function() {
     var realtime = false;
     var tripID;
 
-    function init() {
-
-        //init trackers
-        //bol.connectionHandler.init();
-
-        $("#connect")
-            .click(function( event ) {
-                event.preventDefault();
-                bol.connectionHandler.connect();
-            });
-
-        $("#startTrip")
-            .click(function( event ) {
-                event.preventDefault();
-                bol.connectionHandler.startTrip();
-            });
-
-
-        $("#sendTestData")
-            .click(function( event ) {
-                event.preventDefault();
-                bol.controller.sendTripData();
-            });
-
-        $("#endTrip")
-            .click(function( event ) {
-                event.preventDefault();
-                bol.controller.endTrip();
-            });
-
-        $("#queryAll")
-            .click(function( event ) {
-                event.preventDefault();
-                bol.controller.queryAll();
-            });
-
-        $("#clearMessages")
-            .click(function( event ) {
-                event.preventDefault();
-                $('#receiver').empty();
-            });
-        $("#trips")
-            .click(function( event ) {
-                event.preventDefault();
-                bol.controller.tripsassistants();
-            });
-    }
-
     // Example sensor data: array of sensor readings (cfr. wiki how to encode which sensors)
     var tripSensorDataArray = [
         {
@@ -109,10 +61,10 @@ bol.controller = (function() {
             $.each(status, function(i, v) {
                 averagemax[averagemax.length] = [averagemax.length, v.meta.averageSpeed, v.meta.maxSpeed];
             });
-            if (averagemax.length > 50) {
-                averagemax = averagemax.slice(averagemax.length - 50);
-                averagemax.splice(0, 0, ['Trip', 'Average Speed', 'Maximum Speed']);
-            }
+//            if (averagemax.length > 50) {
+//                averagemax = averagemax.slice(averagemax.length - 50);
+//                averagemax.splice(0, 0, ['Trip', 'Average Speed', 'Maximum Speed']);
+//            }
             return averagemax
         }
     }
@@ -122,7 +74,6 @@ bol.controller = (function() {
             return bol.controller.AJAX(URL, DataTemperature);
         }
         else {
-            console.log(status);
             temperature = [];
             temperature[0] = ['Tijd', 'Temperature'];
             $.each(status, function(i, v) {
@@ -133,7 +84,6 @@ bol.controller = (function() {
                     }
                 }
             });
-            console.log(temperature);
             return temperature
         }
     }
@@ -190,7 +140,6 @@ bol.controller = (function() {
                     }
                 }
             });
-            console.log(image);
             return image
         }
     }
@@ -218,7 +167,6 @@ bol.controller = (function() {
     }
 
     return {
-        init: init,
         AJAX:AJAX,
         DataAverageMax:DataAverageMax,
         Coordinates:Coordinates,
@@ -228,5 +176,3 @@ bol.controller = (function() {
     };
 
 })();
-
-$(document).ready(bol.controller.init);

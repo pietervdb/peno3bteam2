@@ -11,7 +11,7 @@ function checkVariable(){
     }
     else{
         console.log(AverageMaxA2);
-        window.setTimeout("checkVariable();",100);
+        window.setTimeout("checkVariable1();",100);
     }
 }
 

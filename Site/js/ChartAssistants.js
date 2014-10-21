@@ -1,26 +1,25 @@
 /**
  * Created by Bernd on 11-10-2014.
  */
-google.load("visualization", "1", {packages:["corechart"]});
-google.load('visualization', '1', { 'packages': ['map'] });
+google.load("visualization", "1", {packages:["corechart", "map", "controls"]});
 bol.controller.DataAverageMax('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=assistants");
 bol.controller.Coordinates('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips/543632e2d06680ec647a990a/sensors" );
 bol.controller.DataTemperature('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips/543bd7fcc3b754432f4db783" );
 bol.controller.Dataimg('NO DATA',"http://dali.cs.kuleuven.be:8080/qbike/trips/543fafc6c786e80f0ec75bcd");
+
 //checking averagemaxgraph data
-function checkVariable(){
+function checkVariable1(){
     if (typeof averagemax !== "undefined" && typeof coordinates !== "undefined" && typeof temperature !== "undefined" && typeof image !== "undefined"){
         google.setOnLoadCallback(drawAverageMaxAssistentsChart());
         google.setOnLoadCallback(map());
         google.setOnLoadCallback(drawTemp());
         bol.controller.Height('NO DATA', coordinates);
-        imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
+        var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
         imageURL = imageURL.concat(image);
-        console.log(imageURL);
-        $("#image").prepend("<img src='imageURL'/>")
+        $("#image").attr("src", imageURL).removeClass("hidden");
     }
     else{
-        window.setTimeout("checkVariable();",100);
+        window.setTimeout("checkVariable1();",100);
     }
 }
 
@@ -28,52 +27,82 @@ function checkVariable(){
 function checkVariable2(){
     if (typeof heights !== "undefined"){
         google.setOnLoadCallback(drawHeights());
+//        window.setTimeout("unhide();",100);
     }
     else{
         window.setTimeout("checkVariable2();",100);
     }
 }
-checkVariable();
-checkVariable2();
 
+function unhide(){
+    console.log("unhide");
+    $('.charts').fadeIn(200).removeClass("hidden");
+    dashboard.draw(dataaveragemax);
+    drawHeights();
+    drawTemp();
+    map();
+    $("#image").fadeIn(500).removeClass("hidden");
+
+
+}
 
 function drawAverageMaxAssistentsChart() {
-    var data = google.visualization.arrayToDataTable(averagemax);
+    dataaveragemax = google.visualization.arrayToDataTable(averagemax);
 
-    var options = {
-        title: 'Average Speed',
-        backgroundColor: '#dcdcdc',
-        vAxis: {maxValue: 33, minValue:0},
-        hAxis: {title:"Tripnumber"}
-    };
+    dashboard = new google.visualization.Dashboard(document.getElementById('dashboard_div'));
 
-    var chart = new google.visualization.ColumnChart(document.getElementById('averagemaxassistantschart'));
+    var chart = new google.visualization.ChartWrapper({
+        'chartType': 'ColumnChart',
+        'containerId': 'chart_div',
+        'options': {
+            'legend': 'right',
+            'title': 'Average Speed',
+            'backgroundColor': '#dcdcdc',
+            'vAxis': {maxValue: 33, minValue:0},
+            'hAxis': {title:"Tripnumber"},
+            'animation':{
+                'duration':'0'
+            }
+        }
+    });
 
-    chart.draw(data, options);
+    var RangeSlider = new google.visualization.ControlWrapper({
+        'controlType': 'ChartRangeFilter',
+        'containerId': 'control_div',
+        'options': {
+            'filterColumnLabel': 'Trip',
+            'ui':{
+                'chartType': 'AreaChart',
+                'chartOptions':{
+                    'backgroundColor':'#dcdcdc'
+                }
+            }
+        }
+    });
+
+    dashboard.bind(RangeSlider, chart);
+    dashboard.draw(dataaveragemax);
 }
 
 function map() {
     var coor = [];
+    bounds  = new google.maps.LatLngBounds();
+
     for (i=0; i<coordinates.length; i++){
         coor[coor.length] = new google.maps.LatLng(coordinates[i][0],coordinates[i][1]);
+        bounds.extend(coor[i])
     }
     var mapOptions = {
-//        center: coor[0],
-//        zoom: 6
     };
 
     var map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
 
-    bounds  = new google.maps.LatLngBounds();
-
     for (i=0; i<coordinates.length; i++){
         var marker = new google.maps.Marker({
             position: coor[i],
-            map: map,
+            map: map
         });
-        var loc = new google.maps.LatLng(marker.position.lat(), marker.position.lng());
-        bounds.extend(loc);
     }
 
     map.fitBounds(bounds);
@@ -94,10 +123,12 @@ function drawHeights() {
     var data = google.visualization.arrayToDataTable(heights);
 
     var options = {
-        title: 'Average Speed',
+        title: 'Elevation',
         backgroundColor: '#dcdcdc',
-        vAxis: {maxValue: 33, minValue:0},
-        hAxis: {title:"Tripnumber"}
+        hAxis: {title:"Distance"},
+        legend:{
+            position:'none'
+        }
     };
 
     var chart = new google.visualization.AreaChart(document.getElementById('heightschart'));
@@ -113,9 +144,21 @@ function drawTemp() {
         backgroundColor: '#dcdcdc',
         vAxis: {maxValue: 33, minValue:0},
         hAxis: {title:"Tripnumber"}
+
     };
 
     var chart = new google.visualization.AreaChart(document.getElementById('tempchart'));
 
     chart.draw(data, options);
 }
+
+$(window).resize(function(){
+    dashboard.draw(dataaveragemax);
+//    drawHeights();
+//    drawTemp();
+//    map();
+});
+$(document).ready(function(){
+    checkVariable1();
+    checkVariable2();
+});
