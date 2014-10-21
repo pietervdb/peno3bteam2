@@ -9,7 +9,7 @@ function checkVariable(){
         google.setOnLoadCallback(drawAverageMaxB2Chart());
     }
     else{
-        window.setTimeout("checkVariable();",100);
+        window.setTimeout("checkVariable1();",100);
     }
 }
 
