@@ -15,6 +15,8 @@ body {
     list-style-type: none;
 }
 
+
+
 #navigation ul {
     padding: 10px 0px;
     margin-bottom: 0px;
@@ -58,3 +60,25 @@ body {
     padding-bottom: 10px;
     background-color: #dcdcdc !important;
 }
+
+img {
+    width: 500px;
+    height: auto;
+}
+table, th, td {
+  border: 1px #808080;
+  border-collapse: collapse;
+}
+th,td {
+    padding: 15px;
+}
+th {
+    text-align: left;
+} 
+table {
+    border-spacing: 5px;
+}
+table {
+    
+     background-color: #dcdcdc;
+} 

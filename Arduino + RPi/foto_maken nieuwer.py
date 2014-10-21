@@ -20,7 +20,7 @@ last_value = 0
 time_start = 0
 first_start = 0
 photo_number = 1
-
+number_of_photos = 0
 
 def on_response(*args):
     global lrs
@@ -28,7 +28,7 @@ def on_response(*args):
     lrs = args
 
     
-def send_data(foldername):
+def send_data(foldername, total_photos):
     socketIO.on('server_message',on_response)
     socketIO.emit('start',json.dumps(start),on_response)
 
@@ -38,16 +38,18 @@ def send_data(foldername):
     tripID = dictionary[u'_id']
 
 
-    foto = open("/home/pi/Desktop/fotos/"+str(first_start)+"/foto"+str(1)+".jpg","rb").read().encode("base64")
-    test = json.dumps({"imageName":"/home/pi/Desktop/fotos/"+str(first_start)+"/foto"+str(1)+".jpg","tripID":tripID,'userID': userID, 'groupID':groupID,"raw": foto})
-    print test
-    url = "http://dali.cs.kuleuven.be:8080/qbike/upload"
-    data = test
-    headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
-    r = requests.post(url, data = test, headers = headers)
-
-    sensordata = {'_id':tripID,'sensorData':[data]}
-    socketIO.emit('rt-sensordata', data,on_response)
+    i = 0
+    while i < total_photos:
+        file = open(foldername+"/foto"+str(i+1)+".jpg", "rb").read().encode("base64") 
+        PHOTODATA = json.dumps({"imageName" : "foto"+str(i+1)+".jpg", "tripID" : str(tripID), "userID" : "r0369676", "raw" : file}) 
+        url = "http://dali.cs.kuleuven.be:8080/qbike/upload"
+        headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} 
+        r = requests.post(url, data = PHOTODATA, headers = headers)
+        socketIO.emit('rt-sensordata', PHOTODATA,on_response)
+        print "foto" ,i,"verzonden"
+        i+=1
+        
+        
 ##
 ##    FOTODATA = {'sensorID':'1','timestamp':'0','data':GPS_data}
 ##    sensordata = {'_id':tripID,'sensorData':[SENSORDATA]}
@@ -73,20 +75,23 @@ while True:
     value = int(arduino.readline())
     if (value != last_value):
         if value == 1:
+            number_of_photos = 0
             time_start = time.time()
             first_start = str(time.localtime()[0])+"-"+str(time.localtime()[1])+"-"+str(time.localtime()[2])+' '+str(time.localtime()[3])+'u'+str(time.localtime()[4])+'min'+str(time.localtime()[5])
             
             os.makedirs("/home/pi/Desktop/fotos/"+str(first_start))
             photonumber = 1
         elif value == 0:
-            send_data("/home/pi/Desktop/fotos/"+str(first_start))
+            send_data("/home/pi/Desktop/fotos/"+str(first_start),number_of_photos)
 
     last_value = value  
     if value == 1:
         if time.time() - time_start >=5:
             with picamera.PiCamera() as camera:
                 camera.capture('/home/pi/Desktop/fotos/'+str(first_start)+'/'+'foto'+str(photonumber)+'.jpg') #duurt 3,4 seconden
+            print 'foto genomen'
             photonumber += 1
+            number_of_photos += 1
             time_start = time.time()
     
     

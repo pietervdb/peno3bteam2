@@ -9,7 +9,7 @@
     <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/Assistants.css">
 
     <script src="bower_components/jquery/distr/jquery.min.js"></script>
     <script src="bower_components/jquery/distr/jquery.js"></script>
@@ -47,20 +47,15 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                 <ul class="nav navbar-nav navbar">
                     <li><a href="#">About</a></li>
-                    <!--<li class="dropdown">-->
-                        <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">Groups <span class="caret"></span></a>-->
-                        <!--<ul class="dropdown-menu" role="menu">-->
                 </ul>
                 <ul class="nav navbar-nav navbar navbar-right" id="bs-example-navbar-collapse-2">
-                            <li class="active"><a href="Assistants.html">Assistants</a></li>
-                            <li><a href="#">A1</a></li>
-                            <li><a href="#">A2</a></li>
-                            <li><a href="#">A3</a></li>
-                            <li><a href="#">B1</a></li>
-                            <li><a href="B2.html">B2</a></li>
-                            <li><a href="#">B3</a></li>
-                        <!--</ul>-->
-                    <!--</li>-->
+                    <li class="active"><a href="Assistants.html">Assistants</a></li>
+                    <li><a href="#">A1</a></li>
+                    <li><a href="#">A2</a></li>
+                    <li><a href="#">A3</a></li>
+                    <li><a href="#">B1</a></li>
+                    <li><a href="B2.html">B2</a></li>
+                    <li><a href="#">B3</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
@@ -68,57 +63,33 @@
 
     <div class="row">
         <div class='jumbotron'>
-            <h1>CW1B2</h1>
-            <p>Quantify!</p>
+            <h1>ASSISTANTS</h1>
         </div>
     </div>
 
-    <div class="row">
-        <div>
-            <ul class="nav nav-pills nav-justified">
-                <li class = "disabled"><a href="#">A1</a></li>
-                <li class = "disabled"><a href="A2.html">A2</a></li>
-                <li class = "disabled"><a href="#">A3</a></li>
-                <li><a href="Assistants.html">Assistants</a></li>
-                <li class = "disabled"><a href="#">B1</a></li>
-                <li><a href="B2.html">B2</a></li>
-                <li class = "disabled"><a href="#">B3</a></li>
-            </ul>
-        </div>
-    </div>
-	<table	>
-		<tr>
-			<th>Average Speed</th>
-			<th>25 km/u</th> 
-		</tr>
-		<tr>
-			<th>Top Speed</th>
-			<th>66 km/u</th> 
-		</tr>
-		<tr>
-			<th>Overall Distance</th>
-			<th>1200 km</th> 
-		</tr>
-	</table> 
-	
     <div class="charts" id="dashboard">
         <div id="dashboard_div" style="width: auto; height: auto;">
             <div id="chart_div"></div>
             <div id="control_div" style="height:50px; background-color: lightgray"></div>
         </div>
+
     </div>
-    <div class="charts">
+    <div class="row">
+        <ul id="thumbnails">
+        </ul>
+    </div>
+    <div class="charts hidden">
         <div id="tempchart" style="width: auto; height: auto;"></div>
     </div>
-    <div class="charts">
+    <div class="charts hidden">
         <div id="map-canvas"></div>
     </div>
-    <div class="charts">
+    <div class="charts hidden">
         <div id="heightschart" style="width: auto; height: 150px;"></div>
     </div>
-    <!--<div>-->
-        <!--<img class="hidden" src="" id="image"/>-->
-    <!--</div>-->
+    <div class="row" id="image">
+    <!--<img class="hidden" src="" id="image"/>-->
+    </div>
 </div>
 
 </body>

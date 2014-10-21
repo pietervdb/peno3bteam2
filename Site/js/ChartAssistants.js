@@ -5,7 +5,9 @@ google.load("visualization", "1", {packages:["corechart", "map", "controls"]});
 bol.controller.DataAverageMax('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=assistants");
 bol.controller.Coordinates('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips/543632e2d06680ec647a990a/sensors" );
 bol.controller.DataTemperature('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips/543bd7fcc3b754432f4db783" );
-bol.controller.Dataimg('NO DATA',"http://dali.cs.kuleuven.be:8080/qbike/trips/543fafc6c786e80f0ec75bcd");
+bol.controller.Dataimg('NO DATA',"http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=CWB2", img);
+var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
+
 
 //checking averagemaxgraph data
 function checkVariable1(){
@@ -14,9 +16,12 @@ function checkVariable1(){
         google.setOnLoadCallback(map());
         google.setOnLoadCallback(drawTemp());
         bol.controller.Height('NO DATA', coordinates);
-        var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
-        imageURL = imageURL.concat(image);
-        $("#image").attr("src", imageURL).removeClass("hidden");
+//        var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
+//        for (i = 0; i<image.length; i++){
+//            $("#image").prepend("<img>");
+//            $("#image img:nth-child(1)").attr("src", imageURL.concat(image[i])).removeClass("hidden");
+//        }
+//        $("#imagethumb").attr("src", imageURL.concat(image[0]));
     }
     else{
         window.setTimeout("checkVariable1();",100);
@@ -32,6 +37,33 @@ function checkVariable2(){
     else{
         window.setTimeout("checkVariable2();",100);
     }
+}
+function select() {
+    $(".thumbnail").click(function () {
+        console.log("click");
+        $(".charts").removeClass("hidden");
+    });
+}
+
+function img(json, URL){
+    image = []
+    $.each(json, function(i, v) {
+        var C = v.sensorData;
+        for (i=0;i< C.length;i++){
+            if (C[i].sensorID == 8){
+                image[image.length] = C[i].data[0];
+            }
+        }
+    });
+    for (i = 5; i<image.length; i++){
+        $("#thumbnails").append("<li>");
+        $("#thumbnails li:last-child").attr("class", "col-sm-6 col-md-2 col-lg-2");
+        $("#thumbnails li:last-child").append("<button>");
+        $("#thumbnails li:last-child button").attr("class","thumbnail btn-default").attr("href", "#");
+        $("#thumbnails li:last-child button").append("<img>");
+        $("#thumbnails li:last-child button img").attr("src", imageURL.concat(image[i]));
+        }
+    return image
 }
 
 function unhide(){
@@ -93,6 +125,7 @@ function map() {
         bounds.extend(coor[i])
     }
     var mapOptions = {
+        scrollwheel: false
     };
 
     var map = new google.maps.Map(document.getElementById('map-canvas'),
@@ -161,4 +194,5 @@ $(window).resize(function(){
 $(document).ready(function(){
     checkVariable1();
     checkVariable2();
+    select();
 });
