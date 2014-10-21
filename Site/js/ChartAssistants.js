@@ -61,7 +61,7 @@ function img(json, URL){
         $("#thumbnails li:last-child").append("<button>");
         $("#thumbnails li:last-child button").attr("class","thumbnail btn-default").attr("href", "#");
         $("#thumbnails li:last-child button").append("<img>");
-        $("#thumbnails li:last-child button img").attr("src", imageURL.concat(image[i])).attr("class", "image-responsive");
+        $("#thumbnails li:last-child button img").attr("src", imageURL.concat(image[i]));
         }
     return image
 }
