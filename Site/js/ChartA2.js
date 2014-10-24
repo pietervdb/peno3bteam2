@@ -7,7 +7,7 @@ bol.controller.DataAverageMax('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/
 //bol.controller.DataTemperature('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips/543bd7fcc3b754432f4db783" );
 //bol.controller.Dataimg('NO DATA',"http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=CWB2", img);
 var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
-var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent);
+var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
 
 //checking averagemaxgraph data
 function checkVariable(){
@@ -55,7 +55,7 @@ function checkVariable2(){
 function img(json){
     for (i = json.length-12; i<json.length; i++){
         $("#thumbnails").append("<li>");
-        $("#thumbnails li:last-child").attr("class", "col-sm-6 col-md-1 col-lg-1").append("<button>");
+        $("#thumbnails li:last-child").attr("class", "col-sm-4 col-md-1 col-lg-1").append("<button>");
         $("#thumbnails li:last-child button").attr("class","thumbnail btn-default").attr("id", json[i]._id).attr("type", "button").append("<img>").append("<p>");
         $("#thumbnails li:last-child button img").attr("src", "foto/foto1.png").attr("class");
         $("#thumbnails li:last-child button p").text(json[i].startTime.slice(5,10));
@@ -82,7 +82,7 @@ function drawAverageMaxAssistentsChart() {
         'chartType': 'ColumnChart',
         'containerId': 'chart_div',
         'options': {
-            'legend': 'right',
+            'legend': 'top',
 //            'title': 'Average Speed',
             'backgroundColor': '#dcdcdc',
             'vAxis': {maxValue: 33, minValue:0},
@@ -128,15 +128,14 @@ function drawAverageMaxAssistentsChart() {
                 min: averagemax.length -30,
                 max: averagemax.length - 1
             },
-//            step: {
-//                months: 1
-//            },
-            arrows: false,
+            arrows: true,
             wheelMode: null
         }).bind('valuesChanged', function(e, data) {
             controlWrapper.setState({range: { start: data.values.min, end: data.values.max }});
             controlWrapper.draw();
         });
+//        $( "#filter_mobile" ).editRangeSlider({type: "number"});
+//        $('#filter_mobile').draggable();
     }
 
 }
