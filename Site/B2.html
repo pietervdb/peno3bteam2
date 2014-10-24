@@ -9,19 +9,19 @@
     <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
 
     <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/Assistants.css">
 
     <script src="bower_components/jquery/distr/jquery.min.js"></script>
     <script src="bower_components/jquery/distr/jquery.js"></script>
     <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
     <script src="bower_components/d3/d3.js"></script>
+    <script src="js/bootstrap.js"></script>
     <script src="http://dali.cs.kuleuven.be:8080/socket.io/socket.io.js"></script>
+    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCRwgWbgGGM5zVCUJFJDIE3qSIYs1pATU"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi?autoload={'modules':[{'name':'visualization','version':'1','packages':['corechart']}]}"></script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
 
-    <script type='text/javascript' >
-        var AverageMaxB2;
-    </script>
+    <!--<script src="js/Maps.js"></script>-->
     <script src="js/controller.js"></script>
     <script src="js/connection.js"></script>
     <script type="text/javascript" src="js/ChartB2.js"></script>
@@ -30,36 +30,65 @@
 </head>
 <body>
 <div class="container">
-    <div class="nav" id="navigation">
-        <div class="container">
-            <ul class ='pull-left'>
-                <li><a href="#">Home</a></li>
-                <li><a href="#">About</a></li>
-            </ul>
-        </div>
-    </div>
+    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+        <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="index.html">Brand</a>
+            </div>
+
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav navbar">
+                    <li><a href="#">About</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar navbar-right" id="bs-example-navbar-collapse-2">
+                    <li class="active"><a href="Assistants.html">Assistants</a></li>
+                    <li><a href="#">A1</a></li>
+                    <li><a href="#">A2</a></li>
+                    <li><a href="#">A3</a></li>
+                    <li><a href="#">B1</a></li>
+                    <li><a href="B2.html">B2</a></li>
+                    <li><a href="#">B3</a></li>
+                </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+
     <div class="row">
         <div class='jumbotron'>
-            <h1>CW1B2</h1>
-            <p>Quantify!</p>
+            <h1>CWB2</h1>
         </div>
     </div>
 
+    <div class="charts" id="dashboard">
+        <div id="dashboard_div" style="width: auto; height: auto;">
+            <div id="chart_div"></div>
+            <div id="control_div" style="height:50px; background-color: lightgray"></div>
+        </div>
+
+    </div>
     <div class="row">
-        <ul class="nav nav-pills nav-justified">
-            <li class = "disabled"><a href="#">A1</a></li>
-            <li class = "disabled"><a href="A2.html">A2</a></li>
-            <li class = "disabled"><a href="#">A3</a></li>
-            <li><a href="index.html">Assistants</a></li>
-            <li class = "disabled"><a href="#">B1</a></li>
-            <li class="active"><a href="B2.html">B2</a></li>
-            <li class = "disabled"><a href="#">B3</a></li>
+        <ul id="thumbnails">
         </ul>
     </div>
-
-    <div class="charts">
-        <div id="averagemaxB2chart" style="width: auto; height: auto;"></div>
-        <!--<div id="chart_div1" style="width: auto; height: 500px;"></div>-->
+    <div class="charts hidden">
+        <div id="tempchart" style="width: auto; height: auto;"></div>
+    </div>
+    <div class="charts hidden">
+        <div id="map-canvas"></div>
+    </div>
+    <div class="charts hidden">
+        <div id="heightschart" style="width: auto; height: 150px;"></div>
+    </div>
+    <div class="row" id="image">
+        <!--<img class="hidden" src="" id="image"/>-->
     </div>
 </div>
 
