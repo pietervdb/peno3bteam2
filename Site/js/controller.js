@@ -62,11 +62,11 @@ bol.controller = (function() {
             averagemax[0] = ['Trip', 'Average Speed', 'Maximum Speed'];
             $.each(status, function(i, v) {
                 averagemax[averagemax.length] = [averagemax.length, v.meta.averageSpeed, v.meta.maxSpeed];
+                if (typeof averagemax[averagemax.length-1][1] === "undefined"){
+                    averagemax[averagemax.length-1][1] = 0;
+                    averagemax[averagemax.length-1][2] = 0;
+                }
             });
-//            if (averagemax.length > 50) {
-//                averagemax = averagemax.slice(averagemax.length - 50);
-//                averagemax.splice(0, 0, ['Trip', 'Average Speed', 'Maximum Speed']);
-//            }
             return averagemax
         }
     }

@@ -56,8 +56,9 @@ function img(json){
     for (i = json.length-12; i<json.length; i++){
         $("#thumbnails").append("<li>");
         $("#thumbnails li:last-child").attr("class", "col-sm-6 col-md-1 col-lg-1").append("<button>");
-        $("#thumbnails li:last-child button").attr("class","thumbnail btn-default").attr("id", json[i]._id).attr("type", "button").append("<img>");
+        $("#thumbnails li:last-child button").attr("class","thumbnail btn-default").attr("id", json[i]._id).attr("type", "button").append("<img>").append("<p>");
         $("#thumbnails li:last-child button img").attr("src", "foto/foto1.png").attr("class");
+        $("#thumbnails li:last-child button p").text(json[i].startTime.slice(5,10));
     }
 
     $(".thumbnail").click(function () {
@@ -73,6 +74,7 @@ function img(json){
 function drawAverageMaxAssistentsChart() {
 
     dataaveragemax = google.visualization.arrayToDataTable(averagemax);
+    console.log(averagemax);
 
     dashboard = new google.visualization.Dashboard(document.getElementById('dashboard_div'));
 
@@ -81,7 +83,7 @@ function drawAverageMaxAssistentsChart() {
         'containerId': 'chart_div',
         'options': {
             'legend': 'right',
-            'title': 'Average Speed',
+//            'title': 'Average Speed',
             'backgroundColor': '#dcdcdc',
             'vAxis': {maxValue: 33, minValue:0},
             'hAxis': {title:"Tripnumber"},
