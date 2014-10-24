@@ -12,7 +12,7 @@ var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.user
 
 //checking averagemaxgraph data
 function checkVariable1(){
-    if (typeof averagemax !== "undefined" && typeof coordinates !== "undefined" && typeof temperature !== "undefined" && typeof image !== "undefined"){
+    if (typeof averagemax !== "undefined" && typeof coordinates !== "undefined" && typeof temperature !== "undefined"){
         google.setOnLoadCallback(drawAverageMaxAssistentsChart());
         google.setOnLoadCallback(map());
         google.setOnLoadCallback(drawTemp());
@@ -33,12 +33,6 @@ function checkVariable2(){
         window.setTimeout("checkVariable2();",100);
     }
 }
-//function select() {
-    $(".thumbnail").on("click",function () {
-        console.log("click");
-        $(".charts").removeClass("hidden");
-    });
-//}
 
 function img(json, URL){
 //    image = []
@@ -50,12 +44,12 @@ function img(json, URL){
                 $("#thumbnails li:last-child").attr("class", "col-sm-6 col-md-2 col-lg-2").append("<button>");
                 $("#thumbnails li:last-child button").attr("class","thumbnail btn-default").attr("id", v._id).attr("type", "button").append("<img>");
                 $("#thumbnails li:last-child button img").attr("src", imageURL.concat(C[i].data[0])).attr("class");
+                break
             }
         }
     });
 
     $(".thumbnail").click(function () {
-        console.log("click");
         console.log(this.id);
         $(".charts").removeClass("hidden");
     });
@@ -76,6 +70,7 @@ function unhide(){
 function drawAverageMaxAssistentsChart() {
 
     dataaveragemax = google.visualization.arrayToDataTable(averagemax);
+    console.log(averagemax);
 
     dashboard = new google.visualization.Dashboard(document.getElementById('dashboard_div'));
 
@@ -120,8 +115,6 @@ function drawAverageMaxAssistentsChart() {
         $('#control_div').addClass("hidden");
         $('#filter_mobile').removeClass("hidden");
 
-        // http://ghusse.github.io/jQRangeSlider/stable/demo/
-        // http://ghusse.github.io/jQRangeSlider/documentation.html#valueLabelsOption
         $( "#filter_mobile" ).rangeSlider({
             bounds: {
                 min: 0,

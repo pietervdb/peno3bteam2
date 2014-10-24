@@ -65,6 +65,7 @@ bol.controller = (function() {
 //                averagemax = averagemax.slice(averagemax.length - 50);
 //                averagemax.splice(0, 0, ['Trip', 'Average Speed', 'Maximum Speed']);
 //            }
+            console.log(averagemax);
             return averagemax
         }
     }
