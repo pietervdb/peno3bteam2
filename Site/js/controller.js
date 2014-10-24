@@ -1,4 +1,5 @@
 var bol = bol || {};
+var json;
 var averagemax;
 var coordinates;
 var heights;
@@ -56,6 +57,7 @@ bol.controller = (function() {
             return bol.controller.AJAX(URL, DataAverageMax);
         }
         else {
+            json = status;
             averagemax = [];
             averagemax[0] = ['Trip', 'Average Speed', 'Maximum Speed'];
             $.each(status, function(i, v) {
@@ -65,7 +67,6 @@ bol.controller = (function() {
 //                averagemax = averagemax.slice(averagemax.length - 50);
 //                averagemax.splice(0, 0, ['Trip', 'Average Speed', 'Maximum Speed']);
 //            }
-            console.log(averagemax);
             return averagemax
         }
     }
@@ -95,13 +96,21 @@ bol.controller = (function() {
         }
         else {
             coordinates = [];
-//            coordinates[0] = ['Lat', 'Long'];
-            $.each(status, function(i, v) {
-                var C = v.sensorData[0].data[0].coordinates;
-                for (i = 0; i < C.length; i++) {
-                    coordinates[coordinates.length] = [C[i][1],C[i][0]];
+            var C = status[0].sensorData;
+            for (i=0; i < C.length; i++){
+                if (C[i].sensorID == 1){
+                    coordinates[coordinates.length] = [C[i].data[0].coordinates[0], C[i].data[0].coordinates[1]];
                 }
-            });
+
+            }
+//            for (i=0;i<status.len)
+//            coordinates[0] = ['Lat', 'Long'];
+//            $.each(status, function(i, v) {
+//                var C = v.sensorData[0].data[0].coordinates;
+//                for (i = 0; i < C.length; i++) {
+//                    coordinates[coordinates.length] = [C[i][1],C[i][0]];
+//                }
+//            });
             return coordinates
         }
     }
@@ -115,7 +124,6 @@ bol.controller = (function() {
             URL = URL.slice(0,URL.length-1);
             URL = URL.concat("&key=AIzaSyDCRwgWbgGGM5zVCUJFJDIE3qSIYs1pATU");
             URL = URL.concat("&callback=Height");
-            console.log(URL);
             return bol.controller.AJAX(URL, Height);
         }
         else {
