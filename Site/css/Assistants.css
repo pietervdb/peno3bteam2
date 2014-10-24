@@ -47,7 +47,12 @@ ul {
     background-color: #dcdcdc !important;
 }
 
-/*img {*/
-    /*width: 500px;*/
-    /*height: auto;*/
+/*#filter_mobile{*/
+    /*padding-left: 20px;*/
+    /*padding-right: 20px;*/
 /*}*/
+
+img {
+    width: auto;
+    height: auto;
+}

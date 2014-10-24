@@ -7,6 +7,7 @@ bol.controller.Coordinates('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/tri
 bol.controller.DataTemperature('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips/543bd7fcc3b754432f4db783" );
 bol.controller.Dataimg('NO DATA',"http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=CWB2", img);
 var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
+var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry/i.test(navigator.userAgent);
 
 
 //checking averagemaxgraph data
@@ -16,12 +17,6 @@ function checkVariable1(){
         google.setOnLoadCallback(map());
         google.setOnLoadCallback(drawTemp());
         bol.controller.Height('NO DATA', coordinates);
-//        var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
-//        for (i = 0; i<image.length; i++){
-//            $("#image").prepend("<img>");
-//            $("#image img:nth-child(1)").attr("src", imageURL.concat(image[i])).removeClass("hidden");
-//        }
-//        $("#imagethumb").attr("src", imageURL.concat(image[0]));
     }
     else{
         window.setTimeout("checkVariable1();",100);
@@ -38,32 +33,32 @@ function checkVariable2(){
         window.setTimeout("checkVariable2();",100);
     }
 }
-function select() {
-    $(".thumbnail").click(function () {
+//function select() {
+    $(".thumbnail").on("click",function () {
         console.log("click");
         $(".charts").removeClass("hidden");
     });
-}
+//}
 
 function img(json, URL){
-    image = []
+//    image = []
     $.each(json, function(i, v) {
         var C = v.sensorData;
         for (i=0;i< C.length;i++){
             if (C[i].sensorID == 8){
-                image[image.length] = C[i].data[0];
+                $("#thumbnails").append("<li>");
+                $("#thumbnails li:last-child").attr("class", "col-sm-6 col-md-2 col-lg-2").append("<button>");
+                $("#thumbnails li:last-child button").attr("class","thumbnail btn-default").attr("id", v._id).attr("type", "button").append("<img>");
+                $("#thumbnails li:last-child button img").attr("src", imageURL.concat(C[i].data[0])).attr("class");
             }
         }
     });
-    for (i = 5; i<image.length; i++){
-        $("#thumbnails").append("<li>");
-        $("#thumbnails li:last-child").attr("class", "col-sm-6 col-md-2 col-lg-2");
-        $("#thumbnails li:last-child").append("<button>");
-        $("#thumbnails li:last-child button").attr("class","thumbnail btn-default").attr("href", "#");
-        $("#thumbnails li:last-child button").append("<img>");
-        $("#thumbnails li:last-child button img").attr("src", imageURL.concat(image[i]));
-        }
-    return image
+
+    $(".thumbnail").click(function () {
+        console.log("click");
+        console.log(this.id);
+        $(".charts").removeClass("hidden");
+    });
 }
 
 function unhide(){
@@ -79,6 +74,7 @@ function unhide(){
 }
 
 function drawAverageMaxAssistentsChart() {
+
     dataaveragemax = google.visualization.arrayToDataTable(averagemax);
 
     dashboard = new google.visualization.Dashboard(document.getElementById('dashboard_div'));
@@ -93,27 +89,59 @@ function drawAverageMaxAssistentsChart() {
             'vAxis': {maxValue: 33, minValue:0},
             'hAxis': {title:"Tripnumber"},
             'animation':{
-                'duration':'0'
+                'duration':'250'
             }
         }
     });
 
-    var RangeSlider = new google.visualization.ControlWrapper({
+    controlWrapper = new google.visualization.ControlWrapper({
         'controlType': 'ChartRangeFilter',
         'containerId': 'control_div',
         'options': {
+            'width': "80%",
             'filterColumnLabel': 'Trip',
             'ui':{
                 'chartType': 'AreaChart',
                 'chartOptions':{
-                    'backgroundColor':'#dcdcdc'
+                    'backgroundColor':'#dcdcdc',
+                    'chartArea': {
+                        'width':'80%'
+                    }
                 }
             }
         }
     });
 
-    dashboard.bind(RangeSlider, chart);
+    dashboard.bind(controlWrapper, chart);
     dashboard.draw(dataaveragemax);
+
+    if ( is_mobile )
+    {
+        $('#control_div').addClass("hidden");
+        $('#filter_mobile').removeClass("hidden");
+
+        // http://ghusse.github.io/jQRangeSlider/stable/demo/
+        // http://ghusse.github.io/jQRangeSlider/documentation.html#valueLabelsOption
+        $( "#filter_mobile" ).rangeSlider({
+            bounds: {
+                min: 0,
+                max: averagemax.length - 1
+            },
+            defaultValues: {
+                min: averagemax.length -30,
+                max: averagemax.length - 1
+            },
+//            step: {
+//                months: 1
+//            },
+            arrows: false,
+            wheelMode: null
+        }).bind('valuesChanged', function(e, data) {
+            controlWrapper.setState({range: { start: data.values.min, end: data.values.max }});
+            controlWrapper.draw();
+        });
+    }
+
 }
 
 function map() {
@@ -185,6 +213,8 @@ function drawTemp() {
     chart.draw(data, options);
 }
 
+// ChartRangeFilter doesn't work on mobile. Use a dateRangeSlider to manipulate it
+
 $(window).resize(function(){
     dashboard.draw(dataaveragemax);
 //    drawHeights();
@@ -194,5 +224,6 @@ $(window).resize(function(){
 $(document).ready(function(){
     checkVariable1();
     checkVariable2();
-    select();
+
+//    select();
 });
