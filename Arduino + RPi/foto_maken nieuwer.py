@@ -46,7 +46,7 @@ def send_data(foldername, total_photos):
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} 
         r = requests.post(url, data = PHOTODATA, headers = headers)
         socketIO.emit('rt-sensordata', PHOTODATA,on_response)
-        print "foto" ,i,"verzonden"
+        print "foto" ,i+1,'van de',total_photos, 'verzonden'
         i+=1
         
         
@@ -72,6 +72,7 @@ def send_data(foldername, total_photos):
     
 while True:
     arduino.readline() #nodig om readline te kunnen lezen
+
     value = int(arduino.readline())
     if (value != last_value):
         if value == 1:
