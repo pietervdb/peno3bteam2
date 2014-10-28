@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <META NAME="ROBOTS" CONTENT="NOINDEX, NOFOLLOW">
+
     <link rel="stylesheet" href="js/jQRangeSlider-5.7.0/css/classic-min.css" type="text/css" />
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/Assistants.css">
@@ -32,36 +33,37 @@
 </head>
 <body>
 <div class="container">
-    <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
-        <div class="container-fluid">
-            <!-- Brand and toggle get grouped for better mobile display -->
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
-                    <span class="sr-only">Toggle navigation</span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="index.html">HOME</a>
-            </div>
-
-            <!-- Collect the nav links, forms, and other content for toggling -->
-            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-                <ul class="nav navbar-nav navbar">
-                    <li class="active"><a href="about.html">About</a></li>
-                </ul>
-                <ul class="nav navbar-nav navbar navbar-right" id="bs-example-navbar-collapse-2">
-                    <li><a href="Assistants.html">Assistants</a></li>
-                    <li><a href="#">A1</a></li>
-                    <li class="active"><a href="A2.html">A2</a></li>
-                    <li><a href="#">A3</a></li>
-                    <li><a href="#">B1</a></li>
-                    <li><a href="B2.html">B2</a></li>
-                    <li><a href="#">B3</a></li>
-                </ul>
-            </div><!-- /.navbar-collapse -->
-        </div><!-- /.container-fluid -->
-    </nav>
+    <div class="row">
+        <nav class="navbar navbar-default" role="navigation">
+            <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="index.html">HOME</a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav navbar">
+                        <li><a href="about.html">About</a></li>
+                    </ul>
+                    <ul class="nav navbar-nav navbar navbar-right" id="bs-example-navbar-collapse-2">
+                        <li><a href="Assistants.html">Assistants</a></li>
+                        <li><a href="#">A1</a></li>
+                        <li class="active"><a href="A2.html">A2</a></li>
+                        <li><a href="#">A3</a></li>
+                        <li><a href="#">B1</a></li>
+                        <li><a href="B2.html">B2</a></li>
+                        <li><a href="#">B3</a></li>
+                    </ul>
+                </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </nav>
+    </div>
 
     <div class="row">
         <div class='jumbotron'>
@@ -69,30 +71,57 @@
         </div>
     </div>
 
-    <div class="charts" id="dashboard">
-        <div id="dashboard_div" style="width: auto; height: auto;">
-            <div id="chart_div"></div>
-            <div id="control_div" style="height:50px; background-color: lightgray"></div>
-            <div id="filter_mobile" class="hidden" style="height:50px; background-color: lightgray"></div>
+    <div class="row">
+        <div class="charts" id="dashboard">
+            <div id="dashboard_div" style="width: auto; height: auto;">
+                <div id="chart_div"></div>
+                <div id="control_div" style="height:50px; background-color: lightgray"></div>
+                <div id="filter_mobile" class="hidden" style="height:50px; background-color: lightgray"></div>
+            </div>
         </div>
+    </div>
 
-    </div>
-    <div class="row" id="thumbnails">
-        <!--<ul id="thumbnails">-->
+    <!--<div class="row" id="arrows">-->
+        <!--<a href="#" class="pull-left" style="text-decoration:none;">-->
+            <!--<span class="glyphicon glyphicon-chevron-left"></span> Previous-->
+        <!--</a>-->
+        <!--<ul class="center-block slider-dots">-->
+            <!---->
         <!--</ul>-->
+        <!--<a href="#" class="pull-right" style="text-decoration:none;"> Next-->
+            <!--<span class="glyphicon glyphicon-chevron-right"></span>-->
+        <!--</a>-->
+    <!--</div>-->
+
+    <div class="slider-nav">
+        <a href="#" class="arrow-prev" style="text-decoration:none;">
+        <span class="glyphicon glyphicon-chevron-left"></span></a>
+        <ul class="slider-dots">
+            <li class="dot active-dot">&bull;</li>
+            <li class="dot">&bull;</li>
+        </ul>
+        <a href="#" class="arrow-next" style="text-decoration:none;"><span class="glyphicon glyphicon-chevron-right"></span>
+        </a>
     </div>
-    <div class="charts hidden">
-        <div id="tempchart" style="width: auto; height: auto;"></div>
+
+    <div class="row" id="thumbnails">
     </div>
-    <div class="map hidden">
-        <div id="map-canvas"></div>
+
+    <div class="row hidden" id="tripinfo">
+        <div class="col-md-6">
+            <p>DATA</p>
+        </div>
+        <div class="col-md-6" id="map">
+            <div id="map-canvas"></div>
+        </div>
     </div>
-    <div class="charts hidden">
-        <div id="heightschart" style="width: auto; height: 150px;"></div>
-    </div>
-    <div class="row" id="image">
-        <!--<img class="hidden" src="" id="image"/>-->
-    </div>
+
+    <!--<div class="map hidden">-->
+    <!--<div id="map-canvas"></div>-->
+    <!--</div>-->
+    <!--<div class="charts hidden">-->
+    <!--<div id="heightschart" style="width: auto; height: 150px;"></div>-->
+    <!--</div>-->
 </div>
 
 </body>

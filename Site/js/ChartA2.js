@@ -29,36 +29,36 @@ function checkMap(){
     }
 }
 
-function checkVariable1(){
-    if (typeof averagemax !== "undefined" && typeof coordinates !== "undefined" && typeof temperature !== "undefined"){
-        google.setOnLoadCallback(drawAverageMaxAssistentsChart());
-        google.setOnLoadCallback(map());
-        google.setOnLoadCallback(drawTemp());
-        bol.controller.Height('NO DATA', coordinates);
-    }
-    else{
-        window.setTimeout("checkVariable1();",100);
-    }
-}
-
-//checking heights data
-function checkVariable2(){
-    if (typeof heights !== "undefined"){
-        google.setOnLoadCallback(drawHeights());
-//        window.setTimeout("unhide();",100);
-    }
-    else{
-        window.setTimeout("checkVariable2();",100);
-    }
-}
+//function checkVariable1(){
+//    if (typeof averagemax !== "undefined" && typeof coordinates !== "undefined" && typeof temperature !== "undefined"){
+//        google.setOnLoadCallback(drawAverageMaxAssistentsChart());
+//        google.setOnLoadCallback(map());
+//        google.setOnLoadCallback(drawTemp());
+//        bol.controller.Height('NO DATA', coordinates);
+//    }
+//    else{
+//        window.setTimeout("checkVariable1();",100);
+//    }
+//}
+//
+////checking heights data
+//function checkVariable2(){
+//    if (typeof heights !== "undefined"){
+//        google.setOnLoadCallback(drawHeights());
+////        window.setTimeout("unhide();",100);
+//    }
+//    else{
+//        window.setTimeout("checkVariable2();",100);
+//    }
+//}
 
 function img(json){
     for (i = json.length-12; i<json.length; i++){
-        $("#thumbnails").append("<li>");
-        $("#thumbnails li:last-child").attr("class", "col-sm-4 col-md-1 col-lg-1").append("<button>");
-        $("#thumbnails li:last-child button").attr("class","thumbnail btn-default").attr("id", json[i]._id).attr("type", "button").append("<img>").append("<p>");
-        $("#thumbnails li:last-child button img").attr("src", "foto/foto1.png").attr("class");
-        $("#thumbnails li:last-child button p").text(json[i].startTime.slice(5,10));
+        $("#thumbnails").append("<div>");
+        $("#thumbnails div:last-child").attr("class", "col-xs-3 col-sm-2 col-md-1 col-lg-1").append("<button>");
+        $("#thumbnails div:last-child button").attr("class","thumbnail btn-default").attr("id", json[i]._id).attr("type", "button").append("<img>").append("<p>");
+        $("#thumbnails div:last-child button img").attr("src", "foto/foto1.png").attr("class");
+        $("#thumbnails div:last-child button p").text(json[i].startTime.slice(5,10));
     }
 
     $(".thumbnail").click(function () {
@@ -117,9 +117,7 @@ function drawAverageMaxAssistentsChart() {
     if ( is_mobile )
     {
         $('#control_div').addClass("hidden");
-        $('#filter_mobile').removeClass("hidden");
-
-        $( "#filter_mobile" ).rangeSlider({
+        $('#filter_mobile').removeClass("hidden").rangeSlider({
             bounds: {
                 min: 0,
                 max: averagemax.length - 1
@@ -151,7 +149,7 @@ function map() {
     var mapOptions = {
         scrollwheel: false
     };
-    $(".map").removeClass("hidden");
+    $("#tripinfo").removeClass("hidden");
 
     var map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
@@ -223,6 +221,6 @@ $(window).resize(function(){
 });
 $(document).ready(function(){
     checkVariable();
-    checkVariable1();
-    checkVariable2();
+    //checkVariable1();
+    //checkVariable2();
 });

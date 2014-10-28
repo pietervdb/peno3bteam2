@@ -1,11 +1,54 @@
 body {
     background-color: ghostwhite;
-    padding-top: 70px;
+    /*padding-top: 70px; bij fixed nav-bar*/
 }
 
 li {
     list-style-type: none;
     display:inline;
+}
+
+.slider-nav {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.arrow-prev {
+    margin-right: 45px;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 9px;
+    color: lightsteelblue;
+}
+
+.arrow-next {
+    margin-left: 45px;
+    display: inline-block;
+    vertical-align: top;
+    margin-top: 9px;
+    color: lightsteelblue;
+}
+
+.slider-dots {
+    list-style: none;
+    display: inline-block;
+    padding-left: 0;
+    margin-bottom: 0;
+}
+
+.slider-dots li {
+    color: lightsteelblue;
+    display: inline;
+    font-size: 30px;
+    margin-right: 5px;
+}
+
+.slider-dots li.active-dot {
+    color: midnightblue;
+}
+
+#arrows {
+    margin: 10px 15px 10px 15px;
 }
 
 #map-canvas { height: 250px; margin: 0; padding: 0;}
@@ -26,20 +69,16 @@ li {
 .jumbotron p{
     color:#dcdcdc;
 }
-.charts {
+#tripinfo{
     background-color: lightgray;
-    position: relative;
+    /*position: relative;*/
     padding: 2px;
-    margin-top: 10px;
-    margin-bottom: 10px;
 }
 
-.map {
+#map {
     background-color: lightgray;
     position: relative;
-    padding: 2px;
-    margin-top: 10px;
-    margin-bottom: 10px;
+    padding: 0px 2px 0px 2px;
 }
 
 #control_div{
