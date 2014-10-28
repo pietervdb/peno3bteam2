@@ -1,5 +1,6 @@
 var bol = bol || {};
 var json;
+var TripInfo = 'NONE';
 var averagemax;
 var coordinates;
 var heights;
@@ -68,6 +69,16 @@ bol.controller = (function() {
                 }
             });
             return averagemax
+        }
+    }
+
+    function GetTrip(status, URL){
+        if (status === 'NO DATA'){
+            return bol.controller.AJAX(URL, GetTrip);
+        }
+        else {
+            TripInfo = status;
+            return TripInfo
         }
     }
 
@@ -178,6 +189,7 @@ bol.controller = (function() {
 
     return {
         AJAX:AJAX,
+        GetTrip:GetTrip,
         DataAverageMax:DataAverageMax,
         Coordinates:Coordinates,
         Height:Height,
