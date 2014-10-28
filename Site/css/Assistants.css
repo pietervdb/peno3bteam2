@@ -55,6 +55,7 @@ li {
 
 .jumbotron {
     background-image:url('http://goo.gl/SMXLQE');
+    /*background-image: url("../foto/Logo.png");*/
     background-position: left;
     background-size: 100%;
     background-color: gray;

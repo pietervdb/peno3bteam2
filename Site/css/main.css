@@ -3,6 +3,11 @@ body {
     padding-top: 70px;
 }
 
+#logo {
+    height: 40px;
+    width: auto;
+}
+
 #map-canvas { height: 250px; margin: 0; padding: 0;}
 
 #navigation li {
@@ -26,6 +31,7 @@ body {
 
 .jumbotron {
     background-image:url('http://goo.gl/SMXLQE');
+    /*background-image: url("../foto/Logo.png");*/
     background-position: bottom left;
     background-size: 100%;
     background-repeat: no-repeat;
