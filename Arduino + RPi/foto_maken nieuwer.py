@@ -72,7 +72,7 @@ def send_data(foldername, total_photos):
     
 while True:
     arduino.readline() #nodig om readline te kunnen lezen
-
+    print arduino.readline()
     value = int(arduino.readline())
     if (value != last_value):
         if value == 1:
