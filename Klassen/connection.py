@@ -12,6 +12,7 @@ class connection:
         self.userID = userID
         self.socketIO = SocketIO('dali.cs.kuleuven.be',8080)
 
+#Connecteert de ander klasse	
     def setPhoto(self, photo):
         self.photo = photo
 
