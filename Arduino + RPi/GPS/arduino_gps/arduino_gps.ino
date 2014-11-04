@@ -7,17 +7,14 @@ boolean usingInterrupt = false;
 void useInterrupt(boolean);
 
 
-
-
-
 void setup(){
-  Serial.begin(9600);pinMode(5, INPUT);pinMode(9, OUTPUT);pinMode(10, OUTPUT);
-  Serial.println("Adafruit GPS library basic test!");
+  Serial.begin(115200);
   GPS.begin(9600);
   GPS.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCGGA);
   GPS.sendCommand(PMTK_SET_NMEA_UPDATE_1HZ);
   useInterrupt(true);
   delay(1000);
+  mySerial.println(PMTK_Q_RELEASE);
 }
   SIGNAL(TIMER0_COMPA_vect) {
   char c = GPS.read();
@@ -44,31 +41,40 @@ void useInterrupt(boolean v) {
 uint32_t timer = millis();
 
 void loop() {
-//  if (! usingInterrupt) {
-  //  char c = GPS.read();
-    //if (GPSECHO)
-      //if (c) Serial.print(c);
-  //}
+  if (! usingInterrupt) {
+    char c = GPS.read();
+    if (GPSECHO)
+      if (c) Serial.print(c);
+  }
   
   if (GPS.newNMEAreceived()) {
     if (!GPS.parse(GPS.lastNMEA())) 
     return;}
   if (timer > millis())  timer = millis();
   if (millis() - timer > 2000) { timer = millis();
-  Serial.print("_________________________________________");
-  Serial.print(GPS.hour, DEC);Serial.print(":");Serial.print(GPS.minute, DEC);Serial.print(":");Serial.print(GPS.seconds, DEC);
-  Serial.print(":");Serial.print(GPS.latitudeDegrees, 4);Serial.print(":");Serial.println(GPS.longitudeDegrees, 4);
-  Serial.print(":");Serial.println(GPS.speed);Serial.print(":");Serial.println(GPS.altitude);
-
-
-
-  if (GPS.fix){Serial.print("er is een fix");}
-  else{Serial.print("er is geen fix");}
-  Serial.print("tot hier__________________________");
-  
-  }}
-    
-
-  
+Serial.print("\nTime: ");
+    Serial.print(GPS.hour, DEC); Serial.print(':');
+    Serial.print(GPS.minute, DEC); Serial.print(':');
+    Serial.print(GPS.seconds, DEC); Serial.print('.');
+    Serial.println(GPS.milliseconds);
+    Serial.print("Date: ");
+    Serial.print(GPS.day, DEC); Serial.print('/');
+    Serial.print(GPS.month, DEC); Serial.print("/20");
+    Serial.println(GPS.year, DEC);
+    Serial.print("Fix: "); Serial.print((int)GPS.fix);
+    Serial.print(" quality: "); Serial.println((int)GPS.fixquality); 
+    if (GPS.fix) {
+      Serial.print("Location (in degrees, works with Google Maps): ");
+      Serial.print(GPS.latitudeDegrees, 4);
+      Serial.print(", "); 
+      Serial.println(GPS.longitudeDegrees, 4);
+      
+      Serial.print("Speed (knots): "); Serial.println(GPS.speed);
+      Serial.print("Angle: "); Serial.println(GPS.angle);
+      Serial.print("Altitude: "); Serial.println(GPS.altitude);
+      Serial.print("Satellites: "); Serial.println((int)GPS.satellites);
+    }
+  }
+}
   
   
