@@ -10,6 +10,51 @@ var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
 var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
 var interval
 
+function main(){
+    $('.arrow-next').click(function() {
+        var currentSlide = $('.active-list');
+        var nextSlide = currentSlide.prev();
+
+        var currentDot = $('.active-dot');
+        var nextDot = currentDot.next();
+
+        if(nextSlide.length === 0) {
+            nextSlide = $('.Outer').last();
+            nextDot = $('.dot').first();
+        }
+
+        currentSlide.fadeOut(600).removeClass('active-list').addClass("hidden");
+        nextSlide.fadeIn(600).addClass('active-list').removeClass("hidden");
+
+        currentDot.removeClass('active-dot');
+        nextDot.addClass('active-dot');
+
+        return false
+    });
+
+
+    $('.arrow-prev').click(function() {
+        var currentSlide = $('.active-list');
+        var prevSlide = currentSlide.next();
+
+        var currentDot = $('.active-dot');
+        var prevDot = currentDot.prev();
+
+        if(prevSlide.length === 0) {
+            prevSlide = $('.Outer').first();
+            prevDot = $('.dot').last();
+        }
+
+        currentSlide.fadeOut(600).removeClass('active-list').addClass("hidden");
+        prevSlide.fadeIn(600).addClass('active-list').removeClass("hidden");
+
+        currentDot.removeClass('active-dot');
+        prevDot.addClass('active-dot');
+
+        return false
+    });
+}
+
 //checking averagemaxgraph data
 function checkVariable(){
     if (typeof averagemax !== "undefined"){
@@ -55,20 +100,34 @@ function checkData(){
 //}
 
 function thumbnail(json){
-    for (i = json.length-12; i<json.length; i++){
+    var l = 12;
+    var k = 0;
+    for (i = json.length-1; i>-1; i = i-1){
+        l = l + 1;
+        if (l==13) {
+            console.log("x");
+            $("<div>").addClass("Outer").addClass("hidden").attr("id", k+1).appendTo("#thumbnails");
+            $("<li>&bull;</li>").addClass("dot").appendTo($(".slider-dots"));
+            l = 1;
+            k = k + 1;
+        }
         var C = json[i].sensorData;
-        $("#thumbnails").append("<div>");
-        $("#thumbnails div:last-child").attr("class", "col-xs-3 col-sm-2 col-md-1 col-lg-1").append("<button>");
-        $("#thumbnails div:last-child button").attr("class","thumbnail btn-default").attr("id", json[i]._id).attr("type", "button").append("<img>").append("<p>");
-        $("#thumbnails div:last-child button img").attr("src", "foto/foto1.png");
-        $("#thumbnails div:last-child button p").text(json[i].startTime.slice(5,10));
+        $("#"+k).prepend("<div>");
+        $("#thumbnails div:last-child div:first-child").attr("class", "col-xs-3 col-sm-2 col-md-1 col-lg-1").append("<button>");
+        $("#thumbnails div:last-child div:first-child button").attr("class","thumbnail btn-default").attr("id", json[i]._id).attr("type", "button").append("<img>").append("<p>");
+        $("#thumbnails div:last-child div:first-child button img").attr("src", "foto/foto1.png");
+        $("#thumbnails div:last-child div:first-child button p").text(json[i].startTime.slice(5,10));
         for (j=0;j< C.length;j++) {
             if (C[j].sensorID == 8) {
-                $("#thumbnails div:last-child button img").attr("src", imageURL.concat(C[j].data[0]));
+                $("#thumbnails div:last-child div:first-child button img").attr("src", imageURL.concat(C[j].data[0]));
                 break
             }
         }
     }
+    $(".slider-dots li:last-child").addClass("active-dot");
+    $(window).load(function(){
+        $("#1").removeClass("hidden").addClass("active-list");
+    });
 
     $(".thumbnail").click(function () {
         coordinates = "NONE";
@@ -97,7 +156,7 @@ function images(gegevens){
         }
         $("#timelapse img:first-child").removeClass("hidden").addClass("active-img");
     }
-    timelapse();
+    $(window).load(timelapse());
 }
 
 function timelapse() {
@@ -264,6 +323,7 @@ $(window).resize(function(){
 });
 $(document).ready(function(){
     checkVariable();
+    main();
     //checkVariable1();
     //checkVariable2();
 });
