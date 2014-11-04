@@ -1,12 +1,7 @@
-import RPi.GPIO
-import serial
-import picamera
-import time
+import RPi.GPIO, serial, picamera, time, json, os, base64, gps, requests
+
 from socketIO_client import SocketIO
-import json
-import os
-import base64
-import requests
+
 
 global lrs
 lrs = 0
