@@ -1,11 +1,25 @@
 body {
     background-color: ghostwhite;
-    /*padding-top: 70px; bij fixed nav-bar*/
+    padding-top: 70px; bij fixed nav-bar
 }
 
 li {
     list-style-type: none;
     display:inline;
+}
+
+.navbar-brand{
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-right: -10px;
+}
+
+#logo {
+    height: 120px;
+    width: auto;
+    position: relative;
+    padding-bottom: 25px;
+    margin-top: -20px;
 }
 
 .slider-nav {
@@ -52,6 +66,12 @@ li {
 }
 
 #map-canvas {height:300px; margin: 0; padding: 0;}
+
+#map-canvas.fullscreen {
+    position: fixed;
+    width:100%;
+    height: 100%;
+}
 
 .jumbotron {
     background-image:url('http://goo.gl/SMXLQE');

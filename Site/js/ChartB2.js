@@ -53,6 +53,10 @@ function main(){
 
         return false
     });
+
+    $("#map_toggler").click(function() {
+        $("#map-canvas").toggleClass("fullscreen")
+    });
 }
 
 //checking averagemaxgraph data
@@ -126,6 +130,7 @@ function thumbnail(json){
     }
     $(".slider-dots li:last-child").addClass("active-dot");
     $(window).load(function(){
+        $("#loading").addClass("hidden");
         $("#1").removeClass("hidden").addClass("active-list");
     });
 
@@ -251,10 +256,16 @@ function map() {
     var mapOptions = {
         scrollwheel: false
     };
+
+
+
     $("#tripinfo").removeClass("hidden");
 
     var map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
+
+    map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
+        new FullScreenControl(map));
 
     var marker = new google.maps.Marker({
         position: coor[0],

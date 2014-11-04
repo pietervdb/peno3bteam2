@@ -3,9 +3,18 @@ body {
     padding-top: 70px;
 }
 
+.navbar-brand{
+    padding-right: 0px;
+    padding-left: 0px;
+    margin-right: -10px;
+}
+
 #logo {
-    height: 40px;
+    height: 120px;
     width: auto;
+    position: relative;
+    padding-bottom: 25px;
+    margin-top: -20px;
 }
 
 #map-canvas { height: 250px; margin: 0; padding: 0;}
