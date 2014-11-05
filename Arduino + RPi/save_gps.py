@@ -12,11 +12,9 @@ open(name,'w')
 
 
 arduino = serial.Serial('COM7',115200)
-arduino.readline()
-arduino.readline()
-arduino.readline()
-index_woord=0
-co=[]
+#arduino.readline()
+#arduino.readline()
+#arduino.readline()
 
 target = open('tripID.txt','w')
 line = ''
@@ -24,7 +22,7 @@ a = 0
 while(True):
     target = open('tripID.txt','a')
     v =  arduino.readline()
-    if v[0]=="T":
+    if v[0:4]=="Time":
         a = 0
     if a == 0:
         print "nu wordt aan de file toegevoegd:"
@@ -35,8 +33,6 @@ while(True):
     target.close()
     line+=v+''
     a+=1
-        
-        
 
 
 
