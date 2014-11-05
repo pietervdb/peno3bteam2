@@ -14,7 +14,6 @@ start = {'purpose':'realtime-sender','groupID':'CWB2','userID':'r0369676'}
 userID = 'r0369676'
 groupID = 'CWB2'
 socketIO = SocketIO('dali.cs.kuleuven.be',8080)
-
 arduino = serial.Serial('/dev/serial/by-id/usb-Gravitech_ARDUINO_NANO_13BP0853-if00-port0',9600)
 last_value = 0
 time_start = 0
@@ -68,8 +67,6 @@ def send_data(foldername, total_photos):
 ##
 
 
-
-    
 while True:
     arduino.readline() #nodig om readline te kunnen lezen
     print arduino.readline()
@@ -80,16 +77,16 @@ while True:
             time_start = time.time()
             first_start = str(time.localtime()[0])+"-"+str(time.localtime()[1])+"-"+str(time.localtime()[2])+' '+str(time.localtime()[3])+'u'+str(time.localtime()[4])+'min'+str(time.localtime()[5])
             
-            os.makedirs("/home/pi/Desktop/fotos/"+str(first_start))
+            os.makedirs("fotos/"+str(first_start))
             photonumber = 1
         elif value == 0:
-            send_data("/home/pi/Desktop/fotos/"+str(first_start),number_of_photos)
+            send_data("fotos/"+str(first_start),number_of_photos)
 
     last_value = value  
     if value == 1:
         if time.time() - time_start >=5:
             with picamera.PiCamera() as camera:
-                camera.capture('/home/pi/Desktop/fotos/'+str(first_start)+'/'+'foto'+str(photonumber)+'.jpg') #duurt 3,4 seconden
+                camera.capture("fotos/"+str(first_start)+'/'+'foto'+str(photonumber)+'.jpg') #duurt 3,4 seconden
             print 'foto genomen'
             photonumber += 1
             number_of_photos += 1
