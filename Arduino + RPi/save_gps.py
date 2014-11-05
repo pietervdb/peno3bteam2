@@ -5,11 +5,6 @@ import requests
 import serial
 import time
 import sys
-#we creeren een nieuw txt file:
-name = 'tripID.txt'
-open(name,'w')
-
-
 
 arduino = serial.Serial('COM7',115200)
 #arduino.readline()
@@ -17,22 +12,49 @@ arduino = serial.Serial('COM7',115200)
 #arduino.readline()
 
 target = open('tripID.txt','w')
-line = ''
-a = 0
+last_fix = False
+
+
 while(True):
     target = open('tripID.txt','a')
-    v =  arduino.readline()
-    if v[0:4]=="Time":
-        a = 0
-    if a == 0:
-        print "nu wordt aan de file toegevoegd:"
-        print line
-        target.write(line)
-        target.write("\n")
-        line = ''
+    v = arduino.readline()
+    if v[0:4]=="Fix:":
+        if v[6]==1:
+            last_fix = True
+        else:
+            last_fix = False
+    if (v[0:4] == "Date") and last_fix:
+        i = 12
+        while True:
+            if v[i]=="]":
+                break
+            i += 1
+        target.write(v[12:i])   #schrijft de timestamp als er fix is
+        
+    if last_fix:
+        i = 0
+        while True:
+            if v[i] == "[":
+                break
+            i += 1
+        j = i
+        while True:
+            if v[j] == "]":
+                break
+            j += 1
+        target.write(v[0:i]) #schrijft de naam van de data
+        target.write(v[i+1:j])  #schrijft de data
     target.close()
-    line+=v+''
-    a+=1
+        
+    
+
+
+
+
+
+
+
+
 
 
 
