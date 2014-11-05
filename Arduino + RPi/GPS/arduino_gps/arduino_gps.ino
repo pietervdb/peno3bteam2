@@ -52,26 +52,26 @@ void loop() {
     return;}
   if (timer > millis())  timer = millis();
   if (millis() - timer > 2000) { timer = millis();
-Serial.print("\nTime: ");
+Serial.print("\nTime:[");
     Serial.print(GPS.hour, DEC); Serial.print(':');
     Serial.print(GPS.minute, DEC); Serial.print(':');
     Serial.print(GPS.seconds, DEC); Serial.print('.');
-    Serial.println(GPS.milliseconds);
-    Serial.print("Date: ");
+    Serial.println(GPS.milliseconds);Serial.print("]");
+    Serial.print("Date:[");
     Serial.print(GPS.day, DEC); Serial.print('/');
     Serial.print(GPS.month, DEC); Serial.print("/20");
-    Serial.println(GPS.year, DEC);
+    Serial.println(GPS.year, DEC);Serial.print("]");
     Serial.print("Fix: "); Serial.print((int)GPS.fix);
     Serial.print(" quality: "); Serial.println((int)GPS.fixquality); 
     if (GPS.fix) {
-      Serial.print("Location (in degrees, works with Google Maps): ");
+      Serial.print("Location (in degrees, works with Google Maps):[");
       Serial.print(GPS.latitudeDegrees, 4);
       Serial.print(", "); 
-      Serial.println(GPS.longitudeDegrees, 4);
+      Serial.println(GPS.longitudeDegrees, 4);Serial.print("]");
       
-      Serial.print("Speed (knots): "); Serial.println(GPS.speed);
+      Serial.print("Speed (knots):["); Serial.println(GPS.speed);Serial.print("]");
       Serial.print("Angle: "); Serial.println(GPS.angle);
-      Serial.print("Altitude: "); Serial.println(GPS.altitude);
+      Serial.print("Altitude:["); Serial.println(GPS.altitude);Serial.print("]");
       Serial.print("Satellites: "); Serial.println((int)GPS.satellites);
     }
   }
