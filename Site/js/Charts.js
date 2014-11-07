@@ -250,11 +250,20 @@ function drawAverageMaxAssistentsChart() {
 
 function map() {
     var coor = [];
+    var coor_default = [];
     bounds  = new google.maps.LatLngBounds();
 
     for (i=0; i<coordinates.length; i++){
         coor[coor.length] = new google.maps.LatLng(coordinates[i][0],coordinates[i][1]);
-        bounds.extend(coor[i])
+        bounds.extend(coor[i]);
+    }
+    if (coordinates.length === 0) {
+        hoekpunten = [[50.864477,4.679248],[50.863807,4.672468],[50.865913, 4.687649],[50.861890,4.685460]];
+        console.log(hoekpunten.length);
+        for (j=0; j<hoekpunten.length; j++) {
+            coor_default[coor_default.length] = new google.maps.LatLng(hoekpunten[j][0], hoekpunten[j][1]);
+            bounds.extend(coor_default[j]);
+        }
     }
     if ( is_mobile ) {
         var mapOptions = {
