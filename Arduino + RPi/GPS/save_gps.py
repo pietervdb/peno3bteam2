@@ -27,7 +27,7 @@ while(True):
             last_fix = False
             target.write("No Fix\n")
             print "no fix"    
-    elif last_fix and v[0] != "$" and v[0:5] != "Loc(J":
+    elif last_fix and v[0] != "$":
         i = 0
         while True:
             if v[i] == "[":
@@ -40,30 +40,7 @@ while(True):
             j += 1
         target.write(v[0:i]+"\n") #schrijft de naam van de data
         target.write(v[i+1:j]+"\n")  #schrijft de data
-    if v[0:5] == "Loc(J":
-        i = 0
-        while True:
-            if v[i] == "[":
-                break
-            i += 1
-        j = i
-        while True:
-            if v[j] == "]":
-                break
-            j += 1
-        k = i
-        while True:
-            if v[k] == "[":
-                break
-            k += 1
-        k = l
-        while True:
-            if v[l] == "]":
-                break
-            l+=1
         
-        target.write(v[0:i]+"\n") #schrijft de naam van de data
-        target.write(v[i+1:j-1]+", "+v[k+1:l-1])  #schrijft de data
         
         
     target.close()

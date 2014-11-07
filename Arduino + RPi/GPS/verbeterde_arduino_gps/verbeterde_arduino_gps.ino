@@ -64,14 +64,14 @@ void loop() {
 
     Serial.print("Quality: ["); Serial.print((int)GPS.fixquality);Serial.println("]");
     //if (GPS.fix) {
-      Serial.print("Loc(GM):[");
-      Serial.print(GPS.latitudeDegrees, 4);
-      Serial.print(", "); 
-      Serial.print(GPS.longitudeDegrees, 4);Serial.print("]");Serial.println("");
-      Serial.print("Loc(JSON):[");
-      Serial.print(GPS.latitude, 7); Serial.print(GPS.lat);
-      Serial.print(", "); 
-      Serial.print(GPS.longitude, 4); Serial.print(GPS.lon);Serial.print("]");Serial.println("");
+      Serial.print("Loc_x(GM):[");
+      Serial.print(GPS.latitudeDegrees, 7);Serial.print("]");Serial.println("");
+      Serial.print("Loc_y(GM):[");
+      Serial.print(GPS.longitudeDegrees,7);Serial.print("]");Serial.println("");
+      //Serial.print("Loc(JSON):[");
+      //Serial.print(GPS.latitude, 7); Serial.print(GPS.lat);Serial.print("]");
+      //Serial.print(", ["); 
+      //Serial.print(GPS.longitude, 7); Serial.print(GPS.lon);Serial.print("]");Serial.println("");
       
       Serial.print("Speed (knots):["); Serial.print(GPS.speed);Serial.print("]");Serial.println("");
       Serial.print("Angle: ["); Serial.print(GPS.angle);Serial.print("]");Serial.println("");
