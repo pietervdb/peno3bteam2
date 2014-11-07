@@ -1,5 +1,9 @@
 import RPi.GPIO, serial, picamera, time, json, os, base64, gps, requests
-
+import RPi.GPIO as GPIO
+GPIO.setmode(GPIO.BCM)
+GPIO.setup(7,GPIO.IN)
+result = GPIO.input(7)
+aan = 0
 from socketIO_client import SocketIO
 
 
