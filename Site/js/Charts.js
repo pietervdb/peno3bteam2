@@ -2,11 +2,12 @@
  * Created by Bernd on 4-11-2014.
  */
 var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
-var groupURL = "http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=";
+var groupURLbase = "http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=";
 var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
 var interval;
+var averagemax = "undefined";
 
-groupURL = groupURL.concat(groupID);
+groupURL = groupURLbase.concat(groupID);
 google.load("visualization", "1", {packages:["corechart", "map", "controls"]});
 bol.controller.DataAverageMax('NO DATA', groupURL);
 //bol.controller.Coordinates('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips/543632e2d06680ec647a990a/sensors" );
@@ -16,6 +17,27 @@ bol.controller.DataAverageMax('NO DATA', groupURL);
 
 //initialiseren buttons
 function main(){
+
+    $('.switch').click(function() {
+        var currentGroup = $(".switch.active");
+        var newid = this.id;
+        if (currentGroup.attr("id") == this.id){
+            return false
+        }
+        currentGroup.removeClass("active");
+        $(this).addClass("active");
+        groupURL = groupURLbase.concat(this.id);
+        averagemax = "undefined";
+        json = "undefined";
+        bol.controller.DataAverageMax('NO DATA', groupURL);
+        $('#thumbnails').children().remove();
+        $("<p>").text("loading...").attr("id","loading").appendTo("#thumbnails");
+        $('#timelapse').children().remove();
+        $('#map-canvas').children().remove();
+        $('#tripinfo').addClass("hidden");
+        $('.slider-dots').children().remove();
+        checkVariable();
+    });
 
     //klik-functie van pijl naar rechts
     $('.arrow-next').click(function() {
@@ -64,7 +86,7 @@ function main(){
 
 //checking averagemaxgraph data
 function checkVariable(){
-    if (typeof averagemax !== "undefined"){
+    if (averagemax !== "undefined"){
         google.setOnLoadCallback(drawAverageMaxAssistentsChart());
         thumbnail(json);
     }
@@ -112,7 +134,6 @@ function thumbnail(json){
     for (i = json.length-1; i>-1; i = i-1){
         l = l + 1;
         if (l==13) {
-            console.log("x");
             $("<div>").addClass("Outer").addClass("hidden").attr("id", k+1).appendTo("#thumbnails");
             $("<li>&bull;</li>").addClass("dot").appendTo($(".slider-dots"));
             l = 1;
@@ -132,9 +153,10 @@ function thumbnail(json){
         }
     }
     $(".slider-dots li:last-child").addClass("active-dot");
-    $(window).load(function(){
+    $("img").load(function(){
         $("#loading").remove();
         $("#1").removeClass("hidden").addClass("active-list");
+        $(".arrows").removeClass("disabled");
     });
 
     $(".thumbnail").click(function () {

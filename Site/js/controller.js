@@ -1,7 +1,7 @@
 var bol = bol || {};
 var json;
 var TripInfo = 'NONE';
-var averagemax;
+//var averagemax;
 var coordinates;
 var heights;
 var temperature;
@@ -55,6 +55,7 @@ bol.controller = (function() {
 
     function DataAverageMax(status, URL){
         if (status == 'NO DATA'){
+
             return bol.controller.AJAX(URL, DataAverageMax);
         }
         else {

@@ -55,13 +55,13 @@
                         <li><a href="About.html">About</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar navbar-right" id="bs-example-navbar-collapse-2">
-                        <li><a href="Assistants.html">Assistants</a></li>
-                        <li><a href="#">A1</a></li>
-                        <li><a href="A2.html">A2</a></li>
-                        <li><a href="#">A3</a></li>
-                        <li><a href="#">B1</a></li>
-                        <li class="active"><a href="B2.html">B2</a></li>
-                        <li><a href="#">B3</a></li>
+                        <li class="switch" id="assistants"><a href="#">Assistants</a></li>
+                        <li class="switch disabled" id="A1"><a href="#">A1</a></li>
+                        <li class="switch" id="cwa2"><a href="#">A2</a></li>
+                        <li class="switch disabled" id="A3"><a href="#">A3</a></li>
+                        <li class="switch disabled" id="B1"><a href="#">B1</a></li>
+                        <li class="switch active" id="CWB2"><a href="#">B2</a></li>
+                        <li class="switch disabled" id="B3"><a href="#">B3</a></li>
                     </ul>
                 </div><!-- /.navbar-collapse -->
             </div><!-- /.container-fluid -->
@@ -85,11 +85,11 @@
     </div>
     <!--Thumbnail navigatie-->
     <div class="slider-nav">
-        <a href="#" class="arrow-prev" style="text-decoration:none;">
+        <a href="#" class="arrows arrow-prev disabled" style="text-decoration:none;">
             <span class="glyphicon glyphicon-chevron-left"></span></a>
         <ul class="slider-dots">
         </ul>
-        <a href="#" class="arrow-next" style="text-decoration:none;"><span class="glyphicon glyphicon-chevron-right"></span>
+        <a href="#" class="arrows arrow-next disabled" style="text-decoration:none;"><span class="glyphicon glyphicon-chevron-right"></span>
         </a>
     </div>
     <!--Thumbnails-->
