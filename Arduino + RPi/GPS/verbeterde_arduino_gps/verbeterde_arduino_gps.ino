@@ -6,7 +6,7 @@ Adafruit_GPS GPS(&mySerial);
 boolean usingInterrupt = false;
 void useInterrupt(boolean);
 
-
+String latitude = " ";
 void setup(){
   Serial.begin(115200);
   GPS.begin(9600);
@@ -52,32 +52,32 @@ void loop() {
     return;}
   if (timer > millis())  timer = millis();
   if (millis() - timer > 2000) { timer = millis();
-    Serial.print("Fix: "); Serial.print((int)GPS.fix);
+    Serial.print("Fix:["); Serial.print((int)GPS.fix);Serial.println("]");
     
-    Serial.print("\nDate/Time: [");Serial.println("20");
-    Serial.println(GPS.year, DEC);Serial.print("-");
-    Serial.println(GPS.day, DEC);Serial.print("-");
-    Serial.println(GPS.month, DEC);Serial.print(" ");    
+    Serial.print("Date/Time: [");Serial.print("20");
+    Serial.print(GPS.year, DEC);Serial.print("-");
+    Serial.print(GPS.day, DEC);Serial.print("-");
+    Serial.print(GPS.month, DEC);Serial.print(" ");    
     Serial.print(GPS.hour, DEC); Serial.print(':');
     Serial.print(GPS.minute, DEC); Serial.print(':');
-    Serial.print(GPS.seconds, DEC);Serial.print("]");
+    Serial.print(GPS.seconds, DEC);Serial.print("]");Serial.println("");
 
-    Serial.print(" quality: "); Serial.println((int)GPS.fixquality); 
-    if (GPS.fix) {
+    Serial.print("Quality: ["); Serial.print((int)GPS.fixquality);Serial.println("]");
+    //if (GPS.fix) {
       Serial.print("Loc(GM):[");
       Serial.print(GPS.latitudeDegrees, 4);
       Serial.print(", "); 
-      Serial.println(GPS.longitudeDegrees, 4);Serial.print("]");
+      Serial.print(GPS.longitudeDegrees, 4);Serial.print("]");Serial.println("");
       Serial.print("Loc(JSON):[");
-      Serial.print(GPS.latitude, 4); Serial.print(GPS.lat);
+      Serial.print(GPS.latitude, 7); Serial.print(GPS.lat);
       Serial.print(", "); 
-      Serial.print(GPS.longitude, 4); Serial.println(GPS.lon);Serial.print("]");
+      Serial.print(GPS.longitude, 4); Serial.print(GPS.lon);Serial.print("]");Serial.println("");
       
-      Serial.print("Speed (knots):["); Serial.println(GPS.speed);Serial.print("]");
-      Serial.print("Angle: "); Serial.println(GPS.angle);
-      Serial.print("Altitude:["); Serial.println(GPS.altitude);Serial.print("]");
-      Serial.print("Satellites: "); Serial.println((int)GPS.satellites);
-    }
+      Serial.print("Speed (knots):["); Serial.print(GPS.speed);Serial.print("]");Serial.println("");
+      Serial.print("Angle: ["); Serial.print(GPS.angle);Serial.print("]");Serial.println("");
+      Serial.print("Altitude:["); Serial.print(GPS.altitude);Serial.print("]");Serial.println("");
+      Serial.print("Satellites: ["); Serial.print((int)GPS.satellites);Serial.print("]");Serial.println("");
+    //}
   }
 }
   
