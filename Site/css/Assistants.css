@@ -116,3 +116,25 @@ img {
 .thumbimg{
     max-height: 32px;
 }
+#balk_onderaan {
+    text-align: center;
+    font-style: italic;
+    font-size: 15px;
+    padding: 5px;
+    border-spacing: 50px;
+table, th, td {
+    border: 1px #808080;
+    border-collapse: collapse;
+}
+th,td {
+    padding: 15px;
+}
+th {
+    text-align: left;
+}
+table {
+    border-spacing: 5px;
+}
+table {
+    background-color: #dcdcdc;
+}
