@@ -1,0 +1,28 @@
+Date/Time: 
+2014-7-11 15:40:24
+Quality: 
+2
+Loc(GM):
+50.8565826, 4.6835451
+Speed (knots):
+3.84
+Angle: 
+329.65
+Altitude:
+788.20
+Satellites: 
+5
+Date/Time: 
+2014-7-11 15:40:26
+Quality: 
+2
+Loc(GM):
+50.8566474, 4.6835813
+Speed (knots):
+4.15
+Angle: 
+334.69
+Altitude:
+786.80
+Satellites: 
+5

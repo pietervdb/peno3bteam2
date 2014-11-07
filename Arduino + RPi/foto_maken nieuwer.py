@@ -27,7 +27,7 @@ def on_response(*args):
     lrs = args
 
     
-def send_data(foldername, total_photos):
+def send_photos(foldername, total_photos):
     socketIO.on('server_message',on_response)
     socketIO.emit('start',json.dumps(start),on_response)
 
@@ -80,7 +80,7 @@ while True:
             os.makedirs("fotos/"+str(first_start))
             photonumber = 1
         elif value == 0:
-            send_data("fotos/"+str(first_start),number_of_photos)
+            send_photos("fotos/"+str(first_start),number_of_photos)
 
     last_value = value  
     if value == 1:
