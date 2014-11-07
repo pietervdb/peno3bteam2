@@ -1,18 +1,22 @@
 /**
- * Created by Bernd on 11-10-2014.
+ * Created by Bernd on 4-11-2014.
  */
+var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
+var groupURL = "http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=";
+var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
+var interval;
+
+groupURL = groupURL.concat(groupID);
 google.load("visualization", "1", {packages:["corechart", "map", "controls"]});
-bol.controller.DataAverageMax('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=CWB2");
+bol.controller.DataAverageMax('NO DATA', groupURL);
 //bol.controller.Coordinates('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips/543632e2d06680ec647a990a/sensors" );
 //bol.controller.DataTemperature('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips/543bd7fcc3b754432f4db783" );
 //bol.controller.Dataimg('NO DATA',"http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=CWB2", img);
-var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
-var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
-var interval
 
 
 //initialiseren buttons
 function main(){
+
     //klik-functie van pijl naar rechts
     $('.arrow-next').click(function() {
         var currentSlide = $('.active-list');
@@ -58,7 +62,7 @@ function main(){
     });
 }
 
-//controleren averagemax data
+//checking averagemaxgraph data
 function checkVariable(){
     if (typeof averagemax !== "undefined"){
         google.setOnLoadCallback(drawAverageMaxAssistentsChart());
@@ -68,7 +72,7 @@ function checkVariable(){
         window.setTimeout("checkVariable();",100);
     }
 }
-//controleren coordinaten data
+
 function checkData(){
     if (typeof coordinates !== "undefined" && coordinates != "NONE" && TripInfo !== 'NONE'){
         google.setOnLoadCallback(map());
@@ -102,7 +106,6 @@ function checkData(){
 //    }
 //}
 
-//aanmaken van thumbnails
 function thumbnail(json){
     var l = 12;
     var k = 0;
@@ -130,7 +133,7 @@ function thumbnail(json){
     }
     $(".slider-dots li:last-child").addClass("active-dot");
     $(window).load(function(){
-        $("#loading").addClass("hidden");
+        $("#loading").remove();
         $("#1").removeClass("hidden").addClass("active-list");
     });
 
@@ -138,34 +141,30 @@ function thumbnail(json){
         coordinates = "NONE";
         URL = "http://dali.cs.kuleuven.be:8080/qbike/trips/";
         URL = URL.concat(this.id);
-        //URL = URL.concat("/sensors");
-        bol.controller.GetTrip('NO DATA', URL)
+        bol.controller.GetTrip('NO DATA', URL);
         bol.controller.Coordinates('NO DATA', URL.concat("/sensors"));
         $("#tripinfo").removeClass("hidden");
         clearInterval(interval);
-        console.log($("#timelapse").children());
         while ($("#timelapse").children().length != 0) {
-            console.log("remove");
             $("#timelapse img:first-child").remove();
         }
         checkData();
     });
 }
 
-//Laden van afbeeldingen voor timelapse
 function images(gegevens){
     var C = gegevens[0].sensorData;
+    var timelapseid = $("#timelapse");
     for (j=0;j< C.length;j++) {
         if (C[j].sensorID == 8) {
-            $("#timelapse").append("<img>");
-            $("#timelapse img:last-child").attr("src", imageURL.concat(C[j].data[0])).attr("class", "hidden");
+            timelapseid.append("<img>");
+            timelapseid.children("img:last").attr("src", imageURL.concat(C[j].data[0])).attr("class", "hidden");
         }
-        $("#timelapse img:first-child").removeClass("hidden").addClass("active-img");
+        timelapseid.children(":first").removeClass("hidden").addClass("active-img");
     }
-    $(window).load(timelapse());
+    timelapseid.load(timelapse());
 }
 
-//Starten van timelapse
 function timelapse() {
 
     interval = setInterval( showDiv, 100);
@@ -173,15 +172,16 @@ function timelapse() {
     function showDiv() {
         var currentimg = $('.active-img');
         var nextimg = currentimg.next();
+        var timelapseid = $("#timelapse");
         if(nextimg.length === 0) {
-            nextimg = $('#timelapse img:first-child');
+            nextimg = timelapseid.children(':first');
         }
         currentimg.removeClass('active-img').addClass("hidden");
         nextimg.addClass('active-img').removeClass("hidden");
 
-    }}
+    }
+}
 
-//tekenen van grafiek voor gemiddelden van trips
 function drawAverageMaxAssistentsChart() {
 
     dataaveragemax = google.visualization.arrayToDataTable(averagemax);
@@ -224,7 +224,6 @@ function drawAverageMaxAssistentsChart() {
     dashboard.bind(controlWrapper, chart);
     dashboard.draw(dataaveragemax);
 
-    //controleren op smartphone voor scroller
     if ( is_mobile )
     {
         $('#control_div').addClass("hidden");
@@ -249,7 +248,6 @@ function drawAverageMaxAssistentsChart() {
 
 }
 
-//tekenen van google map
 function map() {
     var coor = [];
     bounds  = new google.maps.LatLngBounds();
@@ -300,7 +298,6 @@ function map() {
 
 }
 
-//tekenen van hoogtegrafiek
 function drawHeights() {
     var data = google.visualization.arrayToDataTable(heights);
 
@@ -318,13 +315,12 @@ function drawHeights() {
     chart.draw(data, options);
 }
 
-//tekenen van temperatuur grafiek
 //function drawTemp() {
 //    var data = google.visualization.arrayToDataTable(temperature);
 //
 //    var options = {
 //        title: 'Temperature',
-//        back groundColor: '#dcdcdc',
+//        backgroundColor: '#dcdcdc',
 //        vAxis: {maxValue: 33, minValue:0},
 //        hAxis: {title:"Tripnumber"}
 //
@@ -334,9 +330,13 @@ function drawHeights() {
 //
 //    chart.draw(data, options);
 //}
+$(document).ready(function(){
+    main();
+    checkVariable();
+    //checkVariable1();
+    //checkVariable2();
+});
 
-
-//hertekenen bij resize
 $(window).resize(function(){
     dashboard.draw(dataaveragemax);
     google.maps.event.trigger(map, "resize");
@@ -345,10 +345,6 @@ $(window).resize(function(){
 //    map();
 });
 
-//eerste functies uit te voeren
-$(document).ready(function(){
-    checkVariable();
-    main();
-    //checkVariable1();
-    //checkVariable2();
-});
+
+
+
