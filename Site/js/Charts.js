@@ -6,7 +6,9 @@ var groupURLbase = "http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=";
 var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
 var interval;
 var averagemax = "undefined";
-
+//var groupID = global.localStorage.getItem("group");
+var groupID = getUrlVars()["group"];
+console.log(groupID);
 groupURL = groupURLbase.concat(groupID);
 google.load("visualization", "1", {packages:["corechart", "map", "controls"]});
 bol.controller.DataAverageMax('NO DATA', groupURL);
@@ -21,21 +23,26 @@ function main(){
     $('.switch').click(function() {
         var currentGroup = $(".switch.active");
         var newid = this.id;
+
         if (currentGroup.attr("id") == this.id){
             return false
         }
+
         currentGroup.removeClass("active");
         $(this).addClass("active");
-        groupURL = groupURLbase.concat(this.id);
+
         averagemax = "undefined";
         json = "undefined";
+        groupURL = groupURLbase.concat(this.id);
         bol.controller.DataAverageMax('NO DATA', groupURL);
-        $('#thumbnails').children().remove();
+
         $("<p>").text("loading...").attr("id","loading").appendTo("#thumbnails");
-        $('#timelapse').children().remove();
-        $('#map-canvas').children().remove();
         $('#tripinfo').addClass("hidden");
+        $('#timelapse').children().remove();
+        $('#thumbnails').children().remove();
+        $('#map-canvas').children().remove();
         $('.slider-dots').children().remove();
+
         checkVariable();
     });
 
@@ -105,6 +112,18 @@ function checkData(){
     }
 }
 
+function equalHeight(group) {
+    var tallest = 0;
+    group.each(function() {
+        var thisHeight = $(this).height();
+        console.log(thisHeight);
+        if(thisHeight > tallest) {
+            tallest = thisHeight;
+        }
+    });
+    group.each(function() { $(this).height(tallest); });
+}
+
 //function checkVariable1(){
 //    if (typeof averagemax !== "undefined" && typeof coordinates !== "undefined" && typeof temperature !== "undefined"){
 //        google.setOnLoadCallback(drawAverageMaxAssistentsChart());
@@ -128,6 +147,14 @@ function checkData(){
 //    }
 //}
 
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
+
 function thumbnail(json){
     var l = 12;
     var k = 0;
@@ -141,9 +168,9 @@ function thumbnail(json){
         }
         var C = json[i].sensorData;
         $("#"+k).prepend("<div>");
-        $("#thumbnails div:last-child div:first-child").attr("class", "col-xs-3 col-sm-2 col-md-1 col-lg-1").append("<button>");
+        $("#thumbnails div:last-child div:first-child").attr("class", "col-xs-3 col-sm-2 col-md-1 col-lg-1 thumbtn").append("<button>");
         $("#thumbnails div:last-child div:first-child button").attr("class","thumbnail btn-default").attr("id", json[i]._id).attr("type", "button").append("<img>").append("<p>");
-        $("#thumbnails div:last-child div:first-child button img").attr("src", "foto/foto1.png");
+        $("#thumbnails div:last-child div:first-child button img").attr("src", "foto/foto1.png").addClass("thumbimg");
         $("#thumbnails div:last-child div:first-child button p").text(json[i].startTime.slice(5,10));
         for (j=0;j< C.length;j++) {
             if (C[j].sensorID == 8) {
@@ -152,6 +179,7 @@ function thumbnail(json){
             }
         }
     }
+    //equalHeight($(".thumbtn"));
     $(".slider-dots li:last-child").addClass("active-dot");
     $("img").load(function(){
         $("#loading").remove();
@@ -275,6 +303,30 @@ function map() {
     var coor_default = [];
     bounds  = new google.maps.LatLngBounds();
 
+    console.log(coordinates);
+
+    if (coordinates.length !== 0){
+        console.log("true");
+        if (coordinates[0][0] >= 100){
+            for (i=0; i<coordinates.length; i++){
+                var x = coordinates[i][0];
+                var y = coordinates[i][1];
+                var x1 = (x - x%100)/100;
+                var x2 = x%100 - x%1;
+                var x3 = (x%1)*100;
+                var ddx = x1 + x2/60 + x3/3600;
+                var y1 = (y - y%100)/100;
+                var y2 = y%100 - y%1;
+                var y3 = (y%1)*100;
+                var ddy =y1+y2/60 + y3/3600;
+
+                coordinates[i][0] = ddx;
+                coordinates[i][1] = ddy;
+            }
+        }
+    }
+
+
     for (i=0; i<coordinates.length; i++){
         coor[coor.length] = new google.maps.LatLng(coordinates[i][0],coordinates[i][1]);
         bounds.extend(coor[i]);
@@ -287,17 +339,11 @@ function map() {
             bounds.extend(coor_default[j]);
         }
     }
-    if ( is_mobile ) {
-        var mapOptions = {
-            scrollwheel: false
-        };
-    }
 
-    else {
         var mapOptions = {
             scrollwheel: true
         }
-    }
+
 
     var map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);

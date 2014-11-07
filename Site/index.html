@@ -25,6 +25,12 @@
     <script src="js/controller.js"></script>
     <script src="js/connection.js"></script>
     <script type="text/javascript" src="js/ChartAssistants.js"></script>
+    <script>
+        $(".switch").click(function(){
+            console.log("global");
+            global.localStorage.setItem("group", this.id);
+        });
+    </script>
 
 
 </head>
@@ -48,18 +54,18 @@
                 <ul class="nav navbar-nav navbar">
                     <li><a href="about.html">About</a></li>
                     <!--<li class="dropdown">-->
-                        <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">Groups <span class="caret"></span></a>-->
-                        <!--<ul class="dropdown-menu" role="menu">-->
+                    <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown">Groups <span class="caret"></span></a>-->
+                    <!--<ul class="dropdown-menu" role="menu">-->
                 </ul>
                 <ul class="nav navbar-nav navbar navbar-right" id="bs-example-navbar-collapse-2">
-                            <li><a href="Assistants.html">Assistants</a></li>
-                            <li><a href="#">A1</a></li>
-                            <li><a href="A2.html">A2</a></li>
-                            <li><a href="#">A3</a></li>
-                            <li><a href="#">B1</a></li>
-                            <li><a href="B2.html">B2</a></li>
-                            <li><a href="#">B3</a></li>
-                        <!--</ul>-->
+                    <li class="switch" id="assistants"><a href="#">Assistants</a></li>
+                    <li class="switch disabled" id="A1"><a href="#">A1</a></li>
+                    <li class="switch" id="cwa2"><a href="#">A2</a></li>
+                    <li class="switch disabled" id="A3"><a href="#">A3</a></li>
+                    <li class="switch disabled" id="B1"><a href="#">B1</a></li>
+                    <li class="switch" id="CWB2"><a href="B2.html?group=CWB2">B2</a></li>
+                    <li class="switch disabled" id="B3"><a href="#">B3</a></li>
+                    <!--</ul>-->
                     <!--</li>-->
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -86,21 +92,21 @@
             </ul>
         </div>
     </div>
-	<table	>
-		<tr>
-			<th>Average Speed</th>
-			<th>25 km/u</th> 
-		</tr>
-		<tr>
-			<th>Top Speed</th>
-			<th>66 km/u</th> 
-		</tr>
-		<tr>
-			<th>Overall Distance</th>
-			<th>1200 km</th> 
-		</tr>
-	</table> 
-	
+    <table	>
+        <tr>
+            <th>Average Speed</th>
+            <th>25 km/u</th>
+        </tr>
+        <tr>
+            <th>Top Speed</th>
+            <th>66 km/u</th>
+        </tr>
+        <tr>
+            <th>Overall Distance</th>
+            <th>1200 km</th>
+        </tr>
+    </table>
+
     <div class="charts" id="dashboard">
         <div id="dashboard_div" style="width: auto; height: auto;">
             <div id="chart_div"></div>
@@ -108,26 +114,26 @@
         </div>
     </div>
     <!--<div class="charts">-->
-        <!--<div id="tempchart" style="width: auto; height: auto;"></div>-->
+    <!--<div id="tempchart" style="width: auto; height: auto;"></div>-->
     <!--</div>-->
     <!--<div class="charts">-->
-        <!--<div id="map-canvas"></div>-->
+    <!--<div id="map-canvas"></div>-->
     <!--</div>-->
     <!--<div class="charts">-->
-        <!--<div id="heightschart" style="width: auto; height: 150px;"></div>-->
+    <!--<div id="heightschart" style="width: auto; height: 150px;"></div>-->
     <!--</div>-->
     <!--<div>-->
-        <!--<img class="hidden" src="" id="image"/>-->
+    <!--<img class="hidden" src="" id="image"/>-->
     <!--</div>-->
 </div>
-    <p>
-       <br />   
-    </p>
-    <table style="width:100%">
-        <td>
-            
-        </td>
-    </table>
+<p>
+    <br />
+</p>
+<table style="width:100%">
+    <td>
+
+    </td>
+</table>
 
 </body>
 
