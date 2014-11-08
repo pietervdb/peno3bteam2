@@ -4,6 +4,9 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(7,GPIO.IN)
 result = GPIO.input(7)
 aan = 0
+GPIO.setup(8,GPIO.OUT)
+GPIO.setup(25,GPIO.OUT)
+
 from socketIO_client import SocketIO
 
 def drukknop(last_result):
@@ -84,6 +87,8 @@ while True:
     value = drukknop(value=0)
     if (value != last_value):
         if value == 1:
+            GPIO.output(25,False)
+            GPIO.output(8,True)
             number_of_photos = 0
             time_start = time.time()
             first_start = str(time.localtime()[0])+"-"+str(time.localtime()[1])+"-"+str(time.localtime()[2])+' '+str(time.localtime()[3])+'u'+str(time.localtime()[4])+'min'+str(time.localtime()[5])
@@ -91,10 +96,13 @@ while True:
             os.makedirs("/home/pi/Desktop/fotos/"+str(first_start))
             photonumber = 1
         elif value == 0:
+            GPIO.output(8,False)
+            GPIO.output(25,True)
             send_data("/home/pi/Desktop/fotos/"+str(first_start),number_of_photos)
 
     last_value = value  
     if value == 1:
+        
         if time.time() - time_start >=5:
             with picamera.PiCamera() as camera:
                 camera.capture('/home/pi/Desktop/fotos/'+str(first_start)+'/'+'foto'+str(photonumber)+'.jpg') #duurt 3,4 seconden
