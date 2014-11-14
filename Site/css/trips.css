@@ -134,9 +134,9 @@ img {
     padding: 5px;
     border-spacing: 50px;
 }
+
 table, th, td {
-    border: 1px #808080;
-    border-collapse: collapse;
+    border: 5px #808080;
 }
 th,td {
     padding: 15px;
@@ -148,8 +148,13 @@ table {
     border-spacing: 5px;
 }
 table {
-    background-color: #dcdcdc;
 }.groupform{
     vertical-align: bottom!important;
+}
+
+
+#lijn_onderaan {
+    border-top-style: solid;
+    border-top-width: 1px;
 }
 
