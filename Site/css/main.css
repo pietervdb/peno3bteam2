@@ -94,13 +94,15 @@ table {
     border-spacing: 5px;
 }
 table {
-    
      background-color: #dcdcdc;
 }
 #balk_onderaan {
     text-align: center;
     font-style: italic;
     font-size: 15px;
+    padding: 5px;
+    border-spacing: 50px;
+
 }
 h2 {
     text-align: center;
@@ -111,5 +113,6 @@ p {
 img.displayed {
     display: block;
     margin-left: auto;
-    margin-right: auto
+    margin-right: auto;
+
 }
