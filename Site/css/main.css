@@ -99,15 +99,7 @@ table {
     padding: 5px;
     border-spacing: 50px;
 }
-#footer {
-    bottom: 0;
-    position: relative;
-    z-index: 150;
-    _position: absolute;
-    _top: expression(eval(document.documentElement.scrollTop+
-        (document.documentElement.clientHeight-this.offsetHeight)));
-    height: 15px;
-}
+
 h2 {
     text-align: center;
 }

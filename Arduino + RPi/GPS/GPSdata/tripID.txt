@@ -1,28 +1,81 @@
 Date/Time: 
-2014-7-11 15:40:24
+2014-07-11T16:50:36.000Z
 Quality: 
 2
-Loc(GM):
-50.8565826, 4.6835451
+Loc_x(GM):
+50.8639984
+Loc_y(GM):
+4.6791315
 Speed (knots):
-3.84
+0.01
 Angle: 
-329.65
+0.00
 Altitude:
-788.20
+23.80
 Satellites: 
-5
+7
 Date/Time: 
-2014-7-11 15:40:26
+2014-07-11T16:50:40.000Z
 Quality: 
 2
-Loc(GM):
-50.8566474, 4.6835813
+Loc_x(GM):
+50.8639984
+Loc_y(GM):
+4.6791315
 Speed (knots):
-4.15
+0.01
 Angle: 
-334.69
+0.00
 Altitude:
-786.80
+23.80
 Satellites: 
-5
+7
+Date/Time: 
+2014-07-11T16:50:42.000Z
+Quality: 
+2
+Loc_x(GM):
+50.8639984
+Loc_y(GM):
+4.6791315
+Speed (knots):
+0.01
+Angle: 
+0.00
+Altitude:
+23.80
+Satellites: 
+7
+Date/Time: 
+2014-07-11T16:50:44.000Z
+Quality: 
+2
+Loc_x(GM):
+50.8639984
+Loc_y(GM):
+4.6791315
+Speed (knots):
+0.00
+Angle: 
+0.00
+Altitude:
+23.80
+Satellites: 
+7
+Date/Time: 
+2014-07-11T16:50:47.000Z
+Quality: 
+2
+Loc_x(GM):
+50.8639984
+Loc_y(GM):
+4.6791315
+Speed (knots):
+0.01
+Angle: 
+0.00
+Altitude:
+23.80
+Satellites: 
+7
+

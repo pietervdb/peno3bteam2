@@ -12,8 +12,8 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="css/trips.css">
 
-    <script src="bower_components/jquery/distr/jquery.min.js"></script>
-    <!--<script src="bower_components/jquery/distr/jquery.js"></script>-->
+    <!--<script src="bower_components/jquery/distr/jquery.min.js"></script>-->
+    <script src="bower_components/jquery/distr/jquery.js"></script>
     <script src="http://code.jquery.com/ui/1.11.1/jquery-ui.js"></script>
     <script src="js/Bootstrap/bootstrap.min.js"></script>
     <script src="js/jquery-ui-touch-punch-master/jquery.ui.touch-punch.min.js"></script>
@@ -48,6 +48,7 @@
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav navbar">
                         <li><a href="About.html">About</a></li>
+                        <li><a href="http://cw1b2.wordpress.com/" target="_blank">Blog</a></li>
                     </ul>
                     <ul class="nav navbar-nav navbar navbar-right" id="bs-example-navbar-collapse-2">
                         <li>
@@ -109,9 +110,16 @@
             <div class="row" id="thumbnails">
             </div>
         </div>
+
         <!--Tripinfo-->
         <div class="row hidden" id="tripinfo">
             <div class="col-md-6" id="timelapse">
+                <p>
+                    gemiddelde snelheid:
+                    topsnelheid:
+                    totale afstand :
+                </p>
+
             </div>
             <div class="col-md-6" id="map">
                 <div id="map-canvas"></div>
@@ -127,7 +135,7 @@
         <!--<div id="heightschart" style="width: auto; height: 150px;"></div>-->
         <!--</div>-->
     </div>
-    <table style="width:100%" id = "footer">
+    <table style="width:100%">
         <tr>
             <td align="center" id="lijn_onderaan">
                 <font color="green">Bike-Lapse</font>
