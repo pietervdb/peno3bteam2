@@ -77,16 +77,13 @@ def send_GPS():
     sensorData = []
     for point in GPS_lijst:
         sensorData.append({'sensorID':1,'data':[{'type':'MultiPoint',"coordinates":[point]}]})
-    print ""
-    print ""
-    print ""
+    print "ook dit:"
+    print sensorData
     print ""
     print ""
     print "check dit:"
     print sensorData
     print socketIO.emit('batch-tripdata',json.dumps([{'userID':userID,'groupID':groupID,'sensorData':[{'sensorID': 1, 'data': [{'type': 'MultiPoint', 'coordinates': [[50.863998, 4.679131]]}]}]}]), on_response)
-    print ""
-    print ""
     print ""
     print ""
     socketIO.wait(5000)
