@@ -128,10 +128,10 @@ function getUrlVars() {
 //checking averagemaxgraph data
 function checkVariable(){
     if (averagemax !== "undefined"){
-        //$.when(google.setOnLoadCallback(drawAverageMaxAssistentsChart())
-        //).done(function(){
+        $.when(google.setOnLoadCallback(drawAverageMaxAssistentsChart())
+        ).done(function(){
                 thumbnail(AllTrips);
-            //});
+            });
     }
     else{
         window.setTimeout("checkVariable()",100);
@@ -142,7 +142,7 @@ function checkVariable(){
 //Controleren of coordinaten zijn opgehaald
 function checkData(){
     if (typeof coordinates !== "undefined" && coordinates != "NONE" && TripInfo !== 'NONE'){
-        google.setOnLoadCallback(map());
+        //google.setOnLoadCallback(map());
         images(TripInfo);
     }
     else{
@@ -206,9 +206,8 @@ function thumbnail(json){
 
     $(".slider-dots li:last-child").addClass("active-dot");
     $("img").load(function(){
-        drawAverageMaxAssistentsChart();
-        $("#loadicon").addClass("hidden");
-        $('#loadicon').data('spinner').stop();
+        //google.setOnLoadCallback(drawAverageMaxAssistentsChart());
+        $("#loadicon").addClass("hidden").data('spinner').stop();
         $("#groupinfo").removeClass("hidden");
         $("#loading").remove();
         $("#1").removeClass("hidden").addClass("active-list");
@@ -229,7 +228,7 @@ function thumbnail(json){
         while ($("#timelapse").children().length != 0) {
             $("#timelapse img:first-child").remove();
         }
-        checkData();
+        //checkData();
     });
 }
 
