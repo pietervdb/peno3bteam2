@@ -54,13 +54,17 @@ void loop() {
   if (millis() - timer > 2000) { timer = millis();
     Serial.print("Fix:["); Serial.print((int)GPS.fix);Serial.println("]");
     
-    Serial.print("Date/Time: [");
+    Serial.print("Date/Time: [");Serial.print("20");
     Serial.print(GPS.year, DEC);Serial.print("-");
+    if ((GPS.day,DEC) <10){Serial.print("0");}
     Serial.print(GPS.day, DEC);Serial.print("-");
-    Serial.print(GPS.month, DEC);Serial.print(" ");    
+    Serial.print(GPS.month, DEC);Serial.print("T"); 
+    if ((GPS.hour,DEC) <10){Serial.print("0");}
     Serial.print(GPS.hour, DEC); Serial.print(':');
+    if ((GPS.minute,DEC) <10){Serial.print("0");}
     Serial.print(GPS.minute, DEC); Serial.print(':');
-    Serial.print(GPS.seconds, DEC);Serial.print("]");Serial.println("");
+    if ((GPS.seconds,DEC) <10){Serial.print("0");}
+    Serial.print(GPS.seconds, DEC);Serial.print(".000Z]");Serial.println("");Serial.print(GPS.day, DEC);Serial.println("");
 
     Serial.print("Quality: ["); Serial.print((int)GPS.fixquality);Serial.println("]");
     //if (GPS.fix) {
