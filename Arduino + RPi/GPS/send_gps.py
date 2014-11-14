@@ -12,6 +12,8 @@ socketIO = SocketIO('dali.cs.kuleuven.be',8080)
 tripID = ''
 userID = "r0369676"
 groupID = 'CWB2'
+starTime = ""
+endTime = ""
 
 
 def find_time(tripID,st):
@@ -38,7 +40,7 @@ def find_data(tripID,first_five):
     aantal_punten_gevonden = 0
     while i < len(lijnen_lijst) and aantal_punten_gevonden < aantal_punten:
         if lijnen_lijst[i][0:5] == first_five:
-            data_lijst.append(lijnen_lijst[i+1][0:-2])
+            data_lijst.append(lijnen_lijst[i+1][0:-1])
             aantal_punten_gevonden += 1
         i+=1
     return data_lijst
@@ -75,17 +77,13 @@ def send_GPS():
     
     #tripID = lrs[0][u'_id']
     sensorData = []
+    print "dit is GPS_lijst",GPS_lijst
     for point in GPS_lijst:
         sensorData.append({'sensorID':1,'data':[{'type':'MultiPoint',"coordinates":[point]}]})
-    print "ook dit:"
-    print sensorData
-    print ""
-    print ""
-    print "check dit:"
-    print sensorData
-    print socketIO.emit('batch-tripdata',json.dumps([{'userID':userID,'groupID':groupID,'sensorData':[{'sensorID': 1, 'data': [{'type': 'MultiPoint', 'coordinates': [[50.863998, 4.679131]]}]}]}]), on_response)
-    print ""
-    print ""
+
+    print socketIO.emit('batch-tripdata',json.dumps([{'userID':userID,'groupID':groupID,'startTime':startTime,'endTime':endTime,\
+            'sensorData':[{'sensorID': 1, 'data': [{'type': 'MultiPoint', 'coordinates': GPS_lijst}]}]}]), on_response)
+
     socketIO.wait(5000)
         
     
