@@ -122,6 +122,7 @@ img {
     font-size: 15px;
     padding: 5px;
     border-spacing: 50px;
+}
 table, th, td {
     border: 1px #808080;
     border-collapse: collapse;
