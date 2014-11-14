@@ -1,6 +1,6 @@
 body {
     background-color: ghostwhite;
-    padding-top: 70px; bij fixed nav-bar
+    padding-top: 65px; /*bij fixed nav-bar*/
 }
 
 li {
@@ -15,11 +15,10 @@ li {
 }
 
 #logo {
-    height: 120px;
+    height: 70px;
     width: auto;
-    position: relative;
-    padding-bottom: 25px;
-    margin-top: -20px;
+    padding-bottom: 15px;
+    margin-top: -15px;
 }
 
 .slider-nav {
@@ -65,7 +64,7 @@ li {
     margin: 10px 15px 10px 15px;
 }
 
-#map-canvas {height:300px; margin: 0; padding: 0;}
+#map-canvas {min-height:320px; margin: 0; padding: 0;}
 
 #map-canvas.fullscreen {
     position: fixed;
@@ -99,13 +98,25 @@ li {
 #map {
     background-color: lightgray;
     position: relative;
-    padding: 0px 2px 0px 2px;
+    padding: 0 2px 0 2px;
+}
+
+#timelapse{
+    padding: 0 2px 0 2px;
+}
+
+.Outer{
+    /*position: absolute;*/
 }
 
 #control_div{
     padding-top: 10px;
     padding-bottom: 10px;
     background-color: #dcdcdc !important;
+}
+
+.thumbp{
+    position:relative;
 }
 
 img {
@@ -122,6 +133,7 @@ img {
     font-size: 15px;
     padding: 5px;
     border-spacing: 50px;
+}
 table, th, td {
     border: 1px #808080;
     border-collapse: collapse;
@@ -137,4 +149,7 @@ table {
 }
 table {
     background-color: #dcdcdc;
+}.groupform{
+    vertical-align: bottom!important;
 }
+
