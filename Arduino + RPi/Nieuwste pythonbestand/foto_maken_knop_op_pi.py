@@ -4,12 +4,17 @@ GPIO.setmode(GPIO.BCM)
 GPIO.setup(7,GPIO.IN)
 result = GPIO.input(7)
 aan = 0
+value=0
+GPIO.setwarnings(False)
 GPIO.setup(8,GPIO.OUT)
-GPIO.setup(25,GPIO.OUT)
+GPIO.setup(11,GPIO.OUT)
+GPIO.output(8,False)
+GPIO.output(11,True)
+
 
 from socketIO_client import SocketIO
 
-def drukknop(last_result):
+def drukknop(last_result=0):
     result = GPIO.input(7)
     if result ==1 and last_result != 1:
         last_result = 1
@@ -28,7 +33,6 @@ userID = 'r0369676'
 groupID = 'CWB2'
 socketIO = SocketIO('dali.cs.kuleuven.be',8080)
 
-arduino = serial.Serial('/dev/serial/by-id/usb-Gravitech_ARDUINO_NANO_13BP0853-if00-port0',9600)
 last_value = 0
 time_start = 0
 first_start = 0
@@ -84,10 +88,10 @@ def send_data(foldername, total_photos):
 
     
 while True:
-    value = drukknop(value=0)
+    value = drukknop(value)
     if (value != last_value):
         if value == 1:
-            GPIO.output(25,False)
+            GPIO.output(11,False)
             GPIO.output(8,True)
             number_of_photos = 0
             time_start = time.time()
@@ -97,7 +101,7 @@ while True:
             photonumber = 1
         elif value == 0:
             GPIO.output(8,False)
-            GPIO.output(25,True)
+            GPIO.output(11,True)
             send_data("/home/pi/Desktop/fotos/"+str(first_start),number_of_photos)
 
     last_value = value  
