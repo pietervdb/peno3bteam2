@@ -167,7 +167,9 @@ function thumbnail(json){
         $("#thumbnails div:last-child div:first-child").attr("class", "col-xs-3 col-sm-2 col-md-1 col-lg-1 thumbtn").append("<button>");
         $("#thumbnails div:last-child div:first-child button").attr("class","thumbnail btn-default").attr("id", json[i]._id).attr("type", "button").append("<img>").append("<p>");
         $("#thumbnails div:last-child div:first-child button img").attr("src", "foto/foto1.png").addClass("thumbimg");
-        $("#thumbnails div:last-child div:first-child button p").text(json[i].startTime.slice(5,10)).addClass("thumbp");
+        if (typeof json[i].startTime !== "undefined") {
+            $("#thumbnails div:last-child div:first-child button p").text(json[i].startTime.slice(5, 10)).addClass("thumbp");
+        }
 
         $.each(C,function(){
             if (this.sensorID == CAM){
@@ -464,16 +466,6 @@ $(document).ready(function(){
     //checkVariable1();
     //checkVariable2();
 });
-
-//$( document ).ajaxStart(function() {
-//    console.log("a");
-//    $( "#ajaxcall" ).removeClass("hidden");
-//});
-//
-//$( document ).ajaxComplete(function() {
-//    console.log("b");
-//    $( "#ajaxcall" ).addClass("hidden");
-//});
 
 //Wat doen bij resize
 $(window).resize(function(){

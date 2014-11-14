@@ -61,9 +61,11 @@ bol.controller = (function() {
     function ExtractCoordinatesfromExtractTrip(json){
         coordinates = [];
         var C = json.sensorData;
-        $.each(C,function(){
-            if (this.sensorID == GPS){
-                coordinates.push([this.data[0].coordinates[0], this.data[0].coordinates[1]]);
+        $.each(C,function() {
+            if (this.sensorID == GPS && this.data[0].type == "MultiPoint") {
+                $.each(this.data[0].coordinates, function(){
+                    coordinates.push([this[0], this[1]]);
+                });
             }
         });
     }
@@ -88,9 +90,9 @@ bol.controller = (function() {
             $.each(status, function(i, v) {
                 var C = v.sensorData;
                 $.each(C,function(){
-                   if (this.sensorID == THERMO){
-                       temperature.push([i, this.data[0].value]);
-                   }
+                    if (this.sensorID == THERMO){
+                        temperature.push([i, this.data[0].value]);
+                    }
                 });
             });
             return temperature
@@ -152,9 +154,9 @@ bol.controller = (function() {
             $.each(status, function(i, v) {
                 var C = v.sensorData;
                 $.each(C,function(){
-                   if (this.sensorID == CAM){
-                       image.push(this.data[0]);
-                   }
+                    if (this.sensorID == CAM){
+                        image.push(this.data[0]);
+                    }
                 });
             });
             return image
@@ -182,6 +184,7 @@ bol.controller = (function() {
             },
             // work with the response
             success: function( response ) {
+                console.log("c");
                 return callback(response, URL); // server response
             }
         });
