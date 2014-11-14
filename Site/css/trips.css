@@ -148,10 +148,11 @@ table {
     border-spacing: 5px;
 }
 table {
-}.groupform{
-    vertical-align: bottom!important;
 }
 
+.groupform{
+    vertical-align: bottom!important;
+}
 
 #lijn_onderaan {
     border-top-style: solid;

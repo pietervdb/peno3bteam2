@@ -62,10 +62,16 @@ bol.controller = (function() {
         coordinates = [];
         var C = json.sensorData;
         $.each(C,function() {
-            if (this.sensorID == GPS && this.data[0].type == "MultiPoint") {
-                $.each(this.data[0].coordinates, function(){
-                    coordinates.push([this[0], this[1]]);
-                });
+            if (this.sensorID == GPS) {
+                if (this.data[0].type == "MultiPoint") {
+                    $.each(this.data[0].coordinates, function(){
+                        coordinates.push([this[0], this[1]]);
+                    });
+                }
+                else if (this.data[0].type == "Point") {
+                    coordinates.push([this.data[0].coordinates[0], this.data[0].coordinates[1]]);
+                }
+
             }
         });
     }
