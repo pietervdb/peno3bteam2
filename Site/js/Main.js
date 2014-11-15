@@ -49,6 +49,8 @@ function main(){
     //    checkVariable();
     //});
 
+
+
     //klik-functie van pijl naar rechts
     $('.arrow-next').click(function() {
         if ($(this).hasClass("disabled")){
@@ -140,7 +142,7 @@ function checkVariable(){
 //Controleren of coordinaten zijn opgehaald
 function checkData(){
     if (typeof coordinates !== "undefined" && coordinates != "NONE" && TripInfo !== 'NONE'){
-        google.setOnLoadCallback(map());
+        //google.setOnLoadCallback(map());
         images(TripInfo);
     }
     else{
@@ -148,6 +150,29 @@ function checkData(){
     }
 }
 
+function spinner(){
+    var opts = {
+        lines: 13, // The number of lines to draw
+        length: 20, // The length of each line
+        width: 10, // The line thickness
+        radius: 30, // The radius of the inner circle
+        corners: 1, // Corner roundness (0..1)
+        rotate: 0, // The rotation offset
+        direction: 1, // 1: clockwise, -1: counterclockwise
+        color: '#000', // #rgb or #rrggbb or array of colors
+        speed: 1, // Rounds per second
+        trail: 60, // Afterglow percentage
+        shadow: false, // Whether to render a shadow
+        hwaccel: false, // Whether to use hardware acceleration
+        className: 'spinner', // The CSS class to assign to the spinner
+        zIndex: 2e9, // The z-index (defaults to 2000000000)
+        top: '50%', // Top position relative to parent
+        left: '50%' // Left position relative to parent
+    };
+    var target = document.getElementById('loadicon');
+    var spinner = new Spinner(opts).spin(target);
+    $(target).data('spinner', spinner);
+}
 
 //aanmaken thumbnail navigatie + toevoegen dots
 function thumbnail(json){
@@ -181,6 +206,9 @@ function thumbnail(json){
 
     $(".slider-dots li:last-child").addClass("active-dot");
     $("img").load(function(){
+        //google.setOnLoadCallback(drawAverageMaxAssistentsChart());
+        $("#loadicon").addClass("hidden").data('spinner').stop();
+        $("#groupinfo").removeClass("hidden");
         $("#loading").remove();
         $("#1").removeClass("hidden").addClass("active-list");
         $("#slider").removeClass("hidden");
@@ -200,7 +228,7 @@ function thumbnail(json){
         while ($("#timelapse").children().length != 0) {
             $("#timelapse img:first-child").remove();
         }
-        checkData();
+        //checkData();
     });
 }
 
@@ -299,11 +327,8 @@ function drawAverageMaxAssistentsChart() {
             }
         }
     });
-
     dashboard.bind(control, chart);
     dashboard.draw(dataaveragemax);
-    $('#groupinfo').slideDown("slow");
-
 
     if ( is_mobile )
     {
@@ -460,7 +485,7 @@ $(document).ready(function(){
         group = document.getElementById(groupID);
         group.setAttribute("class", "active");
     }
-
+    spinner();
     main();
     checkVariable();
     //checkVariable1();

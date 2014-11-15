@@ -3,9 +3,9 @@ Date/Time:
 Quality: 
 2
 Loc_x(GM):
-50.8639984
+54.8639982
 Loc_y(GM):
-4.6791315
+4.6791318
 Speed (knots):
 0.01
 Angle: 
@@ -19,9 +19,9 @@ Date/Time:
 Quality: 
 2
 Loc_x(GM):
-50.8639984
+55.8649986
 Loc_y(GM):
-4.6791315
+4.6791310
 Speed (knots):
 0.01
 Angle: 
@@ -35,9 +35,9 @@ Date/Time:
 Quality: 
 2
 Loc_x(GM):
-50.8639984
+50.8678983
 Loc_y(GM):
-4.6791315
+6.6791315
 Speed (knots):
 0.01
 Angle: 
@@ -51,9 +51,9 @@ Date/Time:
 Quality: 
 2
 Loc_x(GM):
-50.8639984
+51.86984
 Loc_y(GM):
-4.6791315
+3.6791315
 Speed (knots):
 0.00
 Angle: 
@@ -69,7 +69,7 @@ Quality:
 Loc_x(GM):
 50.8639984
 Loc_y(GM):
-4.6791315
+4.61314
 Speed (knots):
 0.01
 Angle: 
