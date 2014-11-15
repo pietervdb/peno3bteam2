@@ -11,54 +11,54 @@ var CAM = 8;
 
 bol.controller = (function() {
 
-    function DataAverageMax(status, URL){
+    function GroupData(status, URL){
         if (status == 'NO DATA'){
-            return bol.controller.AJAX(URL, DataAverageMax);
+            return bol.controller.AJAX(URL, GroupData);
         }
         else {
+            console.log("stats",status);
+            if (status.length == 0){
+                return NODATA()
+            }
             AllTrips = status;
-            averagemax = [];
-            averagemax[0] = ['Trip', 'Average Speed', 'Maximum Speed'];
-            $.each(status, function(i, v) {
-                var k = averagemax.length;
-                if (v.meta != null) {
-                    averagemax.push([k, v.meta.averageSpeed, v.meta.maxSpeed]);
-                }
-                else {
-                    averagemax.push([k, undefined, undefined])
-                }
-                if (typeof averagemax[k-1][1] === "undefined"){
-                    averagemax[k-1][1] = 0;
-                }
-                if (typeof averagemax[k-1][2] === "undefined") {
-                    averagemax[k-1][2] = 0;
-                }
-            });
-            return averagemax
+            ExtractAverageMax(AllTrips);
+            thumbnail(AllTrips);
         }
     }
 
-    function GetTrip(status, URL){
-        if (status === 'NO DATA'){
-            return bol.controller.AJAX(URL, GetTrip);
-        }
-        else {
-            TripInfo = status;
-            ExtractCoordinates(TripInfo);
-        }
+    function ExtractAverageMax(json){
+        averagemax = [];
+        averagemax[0] = ['Trip', 'Average Speed', 'Maximum Speed'];
+        $.each(json, function(i, v) {
+            var k = averagemax.length;
+            if (v.meta != null) {
+                averagemax.push([k, v.meta.averageSpeed, v.meta.maxSpeed]);
+            }
+            else {
+                averagemax.push([k, undefined, undefined])
+            }
+            if (typeof averagemax[k-1][1] === "undefined"){
+                averagemax[k-1][1] = 0;
+            }
+            if (typeof averagemax[k-1][2] === "undefined") {
+                averagemax[k-1][2] = 0;
+            }
+        });
+        google.setOnLoadCallback(drawAverageMaxChart());
+        return averagemax
     }
 
     function ExtractTrip(json, trip){
         $.each(json, function(i, v) {
             if (v._id == trip){
                 TripInfo = v;
-                ExtractCoordinatesfromExtractTrip(TripInfo);
-                return
+                ExtractCoordinates(TripInfo);
+                return false
             }
         });
     }
 
-    function ExtractCoordinatesfromExtractTrip(json){
+    function ExtractCoordinates(json){
         coordinates = [];
         var C = json.sensorData;
         $.each(C,function() {
@@ -71,64 +71,23 @@ bol.controller = (function() {
                 else if (this.data[0].type == "Point") {
                     coordinates.push([this.data[0].coordinates[0], this.data[0].coordinates[1]]);
                 }
-
             }
         });
     }
 
-    function ExtractCoordinates(json){
-        coordinates = [];
-        var C = json[0].sensorData;
-        $.each(C,function(){
-            if (this.sensorID == GPS){
-                coordinates.push([this.data[0].coordinates[0], this.data[0].coordinates[1]]);
-            }
-        });
-    }
-
-    function DataTemperature(status, URL){
-        if (status == 'NO DATA'){
-            return bol.controller.AJAX(URL, DataTemperature);
-        }
-        else {
-            temperature = [];
-            temperature[0] = ['Tijd', 'Temperature'];
-            $.each(status, function(i, v) {
-                var C = v.sensorData;
-                $.each(C,function(){
-                    if (this.sensorID == THERMO){
-                        temperature.push([i, this.data[0].value]);
-                    }
-                });
+    function ExtractTemp(json){
+        temperature = [];
+        temperature[0] = ['Tijd', 'Temperature'];
+        $.each(status, function(i, v) {
+            var C = v.sensorData;
+            $.each(C,function(){
+                if (this.sensorID == THERMO){
+                    temperature.push([i, this.data[0].value]);
+                }
             });
-            return temperature
-        }
+        });
+        return temperature
     }
-
-//    function Coordinates(status, URL){
-//        if (status === 'NO DATA'){
-//            return bol.controller.AJAX(URL, Coordinates);
-//        }
-//        else {
-//            coordinates = [];
-//            var C = status[0].sensorData;
-//            for (i=0; i < C.length; i++){
-//                if (C[i].sensorID == 1){
-//                    coordinates[coordinates.length] = [C[i].data[0].coordinates[0], C[i].data[0].coordinates[1]];
-//                }
-//
-//            }
-////            for (i=0;i<status.len)
-////            coordinates[0] = ['Lat', 'Long'];
-////            $.each(status, function(i, v) {
-////                var C = v.sensorData[0].data[0].coordinates;
-////                for (i = 0; i < C.length; i++) {
-////                    coordinates[coordinates.length] = [C[i][1],C[i][0]];
-////                }
-////            });
-//            return coordinates
-//        }
-//    }
 
     function Height(status, coordinates){
         var URL = "http://json2jsonp.com/?url=https://maps.googleapis.com/maps/api/elevation/json?locations=";
@@ -169,6 +128,103 @@ bol.controller = (function() {
         }
     }
 
+    //function DataAverageMax(status, URL){
+    //    if (status == 'NO DATA'){
+    //        return bol.controller.AJAX(URL, DataAverageMax);
+    //    }
+    //    else {
+    //        AllTrips = status;
+    //        averagemax = [];
+    //        averagemax[0] = ['Trip', 'Average Speed', 'Maximum Speed'];
+    //        $.each(status, function(i, v) {
+    //            var k = averagemax.length;
+    //            if (v.meta != null) {
+    //                averagemax.push([k, v.meta.averageSpeed, v.meta.maxSpeed]);
+    //            }
+    //            else {
+    //                averagemax.push([k, undefined, undefined])
+    //            }
+    //            if (typeof averagemax[k-1][1] === "undefined"){
+    //                averagemax[k-1][1] = 0;
+    //            }
+    //            if (typeof averagemax[k-1][2] === "undefined") {
+    //                averagemax[k-1][2] = 0;
+    //            }
+    //        });
+    //        return averagemax
+    //    }
+    //}
+
+    //function GetTrip(status, URL){
+    //    if (status === 'NO DATA'){
+    //        return bol.controller.AJAX(URL, GetTrip);
+    //    }
+    //    else {
+    //        TripInfo = status;
+    //        ExtractCoordinates(TripInfo);
+    //    }
+    //}
+
+
+
+    //function ExtractCoordinates(json){
+    //    coordinates = [];
+    //    var C = json[0].sensorData;
+    //    $.each(C,function(){
+    //        if (this.sensorID == GPS){
+    //            coordinates.push([this.data[0].coordinates[0], this.data[0].coordinates[1]]);
+    //        }
+    //    });
+    //}
+
+    //function DataTemperature(status, URL){
+    //    if (status == 'NO DATA'){
+    //        return bol.controller.AJAX(URL, DataTemperature);
+    //    }
+    //    else {
+    //        temperature = [];
+    //        temperature[0] = ['Tijd', 'Temperature'];
+    //        $.each(status, function(i, v) {
+    //            var C = v.sensorData;
+    //            $.each(C,function(){
+    //                if (this.sensorID == THERMO){
+    //                    temperature.push([i, this.data[0].value]);
+    //                }
+    //            });
+    //        });
+    //        return temperature
+    //    }
+    //}
+
+
+
+//    function Coordinates(status, URL){
+//        if (status === 'NO DATA'){
+//            return bol.controller.AJAX(URL, Coordinates);
+//        }
+//        else {
+//            coordinates = [];
+//            var C = status[0].sensorData;
+//            for (i=0; i < C.length; i++){
+//                if (C[i].sensorID == 1){
+//                    coordinates[coordinates.length] = [C[i].data[0].coordinates[0], C[i].data[0].coordinates[1]];
+//                }
+//
+//            }
+////            for (i=0;i<status.len)
+////            coordinates[0] = ['Lat', 'Long'];
+////            $.each(status, function(i, v) {
+////                var C = v.sensorData[0].data[0].coordinates;
+////                for (i = 0; i < C.length; i++) {
+////                    coordinates[coordinates.length] = [C[i][1],C[i][0]];
+////                }
+////            });
+//            return coordinates
+//        }
+//    }
+
+
+
     function AJAX(URL, callback) {
 
         $.ajax({
@@ -199,12 +255,12 @@ bol.controller = (function() {
 
     return {
         AJAX:AJAX,
-        GetTrip:GetTrip,
+        GroupData:GroupData,
+        ExtractAverageMax:ExtractAverageMax,
         ExtractTrip:ExtractTrip,
-        DataAverageMax:DataAverageMax,
-        //Coordinates:Coordinates,
+        ExtractCoordinates:ExtractCoordinates,
+        ExtractTemp:ExtractTemp,
         Height:Height,
-        DataTemperature:DataTemperature,
         Dataimg:Dataimg
     };
 

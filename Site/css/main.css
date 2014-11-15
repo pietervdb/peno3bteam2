@@ -116,6 +116,6 @@ img.displayed {
     background-color: black;
     width: 100%;
 }
-#lijn_onderaan {
+.lijn_onderaan {
     border-top-style: solid;
 }

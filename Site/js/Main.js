@@ -1,14 +1,14 @@
 /**
  * Created by Bernd on 7-11-2014.
  */
-var KNOWNGROUPS = ['assistants', 'cwa2', 'CWB2'],
 //URL = "http://dali.cs.kuleuven.be:8080/qbike/trips/",
-    imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/",
+var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/",
     groupURLbase = "http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=",
-    groupURL,   groupID = getUrlVars()["group"],
+    groupURL, group, groupHead,   groupID = getUrlVars()["group"],
     is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent),
     interval,   AllTrips,   coordinates,    dataaveragemax,     dashboard,
-    averagemax = "undefined";
+    averagemax = "undefined",
+    mapsload = false;
 
 
 //controleren of laatste letter in URL een "#" is
@@ -17,39 +17,44 @@ if (groupID[groupID.length-1] == "#"){
 }
 groupURL = groupURLbase.concat(groupID);
 
-bol.controller.DataAverageMax('NO DATA', groupURL);
+//Wat doen bij laden van pagina
+$(document).ready(function(){
+    group = document.getElementById(groupID);
+
+    if (typeof groupID !== 'undefined' && group != null){
+        group.setAttribute("class", "active");
+        groupHead = group.firstChild.innerHTML;
+        $(".jumbotron > h1").text(groupHead);
+    }
+
+    else if (typeof groupID !== 'undefined') {
+        $(".jumbotron > h1").text(groupID);
+    }
+
+    loadMaps();
+    spinner();
+    main();
+    checkMaps();
+});
+
+//Wat doen bij resize
+$(window).resize(function(){
+    dashboard.draw(dataaveragemax);
+    google.maps.event.trigger(map, "resize");
+});
+
+function checkMaps(){
+    if (mapsload == true){
+        console.log(groupURL);
+        bol.controller.GroupData('NO DATA', groupURL);
+    }
+    else{
+        window.setTimeout("checkMaps()",100);
+    }
+}
 
 //initialiseren buttons en basisfunctionaliteit
 function main(){
-
-    //$('li.switch').click(function() {
-    //    var currentGroup = $("li.switch.active");
-    //
-    //    if (currentGroup.attr("id") == this.id){
-    //        return false
-    //    }
-    //    $('#groupinfo').slideUp("slow");
-    //    currentGroup.removeClass("active");
-    //    $(this).addClass("active");
-    //
-    //    averagemax = "undefined";
-    //    AllTrips = "undefined";
-    //    groupURL = groupURLbase.concat(this.id);
-    //    bol.controller.DataAverageMax('NO DATA', groupURL);
-    //
-    //    $("<p>loading...</p>").attr("id","loading").appendTo("#thumbnails");
-    //    $('#tripinfo').addClass("hidden");
-    //    $('#timelapse').children().remove();
-    //    $('#thumbnails').children().remove();
-    //    $('#map-canvas').children().remove();
-    //    $('.slider-dots').children().remove();
-    //
-    //    //$('#groupinfo').slideDown("slow");
-    //
-    //    checkVariable();
-    //});
-
-
 
     //klik-functie van pijl naar rechts
     $('.arrow-next').click(function() {
@@ -126,23 +131,23 @@ function getUrlVars() {
 
 
 //checking averagemaxgraph data
-function checkVariable(){
-    if (averagemax !== "undefined"){
-        $.when(google.setOnLoadCallback(drawAverageMaxAssistentsChart())
-        ).done(function(){
-                thumbnail(AllTrips);
-            });
-    }
-    else{
-        window.setTimeout("checkVariable()",100);
-    }
-}
+//function checkVariable(){
+//    if (averagemax !== "undefined"){
+//        $.when(google.setOnLoadCallback(drawAverageMaxAssistentsChart())
+//        ).done(function(){
+//                thumbnail(AllTrips);
+//            });
+//    }
+//    else{
+//        window.setTimeout("checkVariable()",100);
+//    }
+//}
 
 
 //Controleren of coordinaten zijn opgehaald
 function checkData(){
     if (typeof coordinates !== "undefined" && coordinates != "NONE" && TripInfo !== 'NONE'){
-        //google.setOnLoadCallback(map());
+        google.setOnLoadCallback(map());
         images(TripInfo);
     }
     else{
@@ -163,7 +168,7 @@ function spinner(){
         speed: 1, // Rounds per second
         trail: 60, // Afterglow percentage
         shadow: false, // Whether to render a shadow
-        hwaccel: false, // Whether to use hardware acceleration
+        hwaccel: true, // Whether to use hardware acceleration
         className: 'spinner', // The CSS class to assign to the spinner
         zIndex: 2e9, // The z-index (defaults to 2000000000)
         top: '50%', // Top position relative to parent
@@ -172,6 +177,12 @@ function spinner(){
     var target = document.getElementById('loadicon');
     var spinner = new Spinner(opts).spin(target);
     $(target).data('spinner', spinner);
+}
+
+function NODATA(){
+    $("#groupinfo").addClass("hidden");
+    $("#nodata").removeClass("hidden");
+    $("#loadicon").addClass("hidden").data('spinner').stop();
 }
 
 //aanmaken thumbnail navigatie + toevoegen dots
@@ -228,7 +239,7 @@ function thumbnail(json){
         while ($("#timelapse").children().length != 0) {
             $("#timelapse img:first-child").remove();
         }
-        //checkData();
+        checkData();
     });
 }
 
@@ -271,7 +282,7 @@ function images(gegevens){
 function timelapse() {
 
     interval = setInterval( showIMG, 100);
-    var h = $("#timelapse").height();
+    var h = $("#left-column").height();
     $("#map-canvas").height(h);
 
     function showIMG() {
@@ -289,7 +300,7 @@ function timelapse() {
 //
 //GEMIDDELDEN GRAFIEK
 //
-function drawAverageMaxAssistentsChart() {
+function drawAverageMaxChart() {
 
     dataaveragemax = google.visualization.arrayToDataTable(averagemax);
 
@@ -354,6 +365,21 @@ function drawAverageMaxAssistentsChart() {
 //
 // MAP
 //
+function loadMaps() {
+    console.log("loading");
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDCRwgWbgGGM5zVCUJFJDIE3qSIYs1pATU&' +
+    'callback=mapsloaded';
+    //https://maps.googleapis.com/maps/api/js?key=AIzaSyDCRwgWbgGGM5zVCUJFJDIE3qSIYs1pATU&callback=mapsloaded
+    document.body.appendChild(script);
+}
+
+function mapsloaded(){
+    console.log("maps loaded");
+    mapsload = true
+}
+
 function map() {
     var coor = [];
     var coor_default = [];
@@ -479,23 +505,3 @@ function drawTemp() {
 }
 
 
-//Wat doen bij laden van pagina
-$(document).ready(function(){
-    if (typeof groupID !== 'undefined' && $.inArray(groupID,KNOWNGROUPS) != -1){
-        group = document.getElementById(groupID);
-        group.setAttribute("class", "active");
-    }
-    spinner();
-    main();
-    checkVariable();
-    //checkVariable1();
-    //checkVariable2();
-});
-
-//Wat doen bij resize
-$(window).resize(function(){
-    dashboard.draw(dataaveragemax);
-    google.maps.event.trigger(map, "resize");
-//    drawHeights();
-//    drawTemp();
-});
