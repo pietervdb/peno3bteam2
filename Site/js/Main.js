@@ -2,14 +2,23 @@
  * Created by Bernd on 7-11-2014.
  */
 //URL = "http://dali.cs.kuleuven.be:8080/qbike/trips/",
-var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/",
-    groupURLbase = "http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=",
-    groupURL, group, groupHead,   groupID = getUrlVars()["group"],
-    is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent),
-    interval,   AllTrips,   coordinates,    dataaveragemax,     dashboard,
-    averagemax = "undefined",
-    mapsload = false;
+var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
+var groupURLbase = "http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=";
+var groupID = getUrlVars()["group"];
+var groupURL;
+var group;
+var groupHead;
+var interval;
+var AllTrips;
+var coordinates;
+var coor;
+var dataaveragemax;
+var dashboard;
+var averagemax = "undefined";
+var mapsload = false;
+var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
 
+//TODO add filters: all trips/only trips with data
 
 //controleren of laatste letter in URL een "#" is
 if (groupID[groupID.length-1] == "#"){
@@ -34,7 +43,7 @@ $(document).ready(function(){
     loadMaps();
     spinner();
     main();
-    checkMaps();
+    //checkMaps();
 });
 
 //Wat doen bij resize
@@ -43,16 +52,33 @@ $(window).resize(function(){
     google.maps.event.trigger(map, "resize");
 });
 
-function checkMaps(){
-    if (mapsload == true){
-        console.log(groupURL);
-        bol.controller.GroupData('NO DATA', groupURL);
+//
+//CHECKS
+//
+//function checkMaps(){
+//    if (mapsload == true){
+//        lapse.getter.GroupData('NO DATA', groupURL);
+//    }
+//    else{
+//        window.setTimeout("checkMaps()",50);
+//    }
+//}
+
+function checkData(){
+    if (typeof coordinates !== "undefined" && coordinates != "NONE" && TripInfo !== 'NONE'){
+        //google.setOnLoadCallback(map());
+        map();
+        //images(TripInfo);
     }
     else{
-        window.setTimeout("checkMaps()",100);
+        window.setTimeout("checkData();",50);
     }
 }
 
+
+//
+//INIT
+//
 //initialiseren buttons en basisfunctionaliteit
 function main(){
 
@@ -119,7 +145,6 @@ function main(){
     });
 }
 
-
 //parameters uit URL halen
 function getUrlVars() {
     var vars = {};
@@ -127,32 +152,6 @@ function getUrlVars() {
         vars[key] = value;
     });
     return vars;
-}
-
-
-//checking averagemaxgraph data
-//function checkVariable(){
-//    if (averagemax !== "undefined"){
-//        $.when(google.setOnLoadCallback(drawAverageMaxAssistentsChart())
-//        ).done(function(){
-//                thumbnail(AllTrips);
-//            });
-//    }
-//    else{
-//        window.setTimeout("checkVariable()",100);
-//    }
-//}
-
-
-//Controleren of coordinaten zijn opgehaald
-function checkData(){
-    if (typeof coordinates !== "undefined" && coordinates != "NONE" && TripInfo !== 'NONE'){
-        google.setOnLoadCallback(map());
-        images(TripInfo);
-    }
-    else{
-        window.setTimeout("checkData();",100);
-    }
 }
 
 function spinner(){
@@ -179,71 +178,90 @@ function spinner(){
     $(target).data('spinner', spinner);
 }
 
+//wat doen als er geen data is
 function NODATA(){
-    $("#groupinfo").addClass("hidden");
-    $("#nodata").removeClass("hidden");
-    $("#loadicon").addClass("hidden").data('spinner').stop();
+    $("#groupinfo").hide();
+    $("#nodata").show();
+    $("#loadicon").hide().data('spinner').stop();
 }
 
+
+//
+//VISUALISATIE
+//
 //aanmaken thumbnail navigatie + toevoegen dots
 function thumbnail(json){
     var l = 12;
     var k = 0;
     var i;
     for (i = json.length-1; i>-1; i = i-1){
-        l = l + 1;
-        if (l==13) {
-            $("<div>").addClass("Outer").addClass("hidden").attr("id", k+1).appendTo("#thumbnails");
-            $("<li>&bull;</li>").addClass("dot").appendTo($(".slider-dots"));
-            l = 1;
-            k = k + 1;
-        }
-        var C = json[i].sensorData;
-        $("#"+k).prepend("<div>");
-        $("#thumbnails div:last-child div:first-child").attr("class", "col-xs-3 col-sm-2 col-md-1 col-lg-1 thumbtn").append("<button>");
-        $("#thumbnails div:last-child div:first-child button").attr("class","thumbnail btn-default").attr("id", json[i]._id).attr("type", "button").append("<img>").append("<p>");
-        $("#thumbnails div:last-child div:first-child button img").attr("src", "foto/foto1.png").addClass("thumbimg");
-        if (typeof json[i].startTime !== "undefined") {
-            $("#thumbnails div:last-child div:first-child button p").text(json[i].startTime.slice(5, 10)).addClass("thumbp");
-        }
 
-        $.each(C,function(){
-            if (this.sensorID == CAM){
-                $("#thumbnails div:last-child div:first-child button img").attr("src", imageURL.concat(this.data[0]));
-                return false
+        var C = json[i].sensorData;
+        if (C.length != 0) {
+            l = l + 1;
+            if (l==13) {
+                $("<div>").addClass("Outer").addClass("hidden").attr("id", k+1).appendTo("#thumbnails");
+                $("<li>&bull;</li>").addClass("dot").appendTo($(".slider-dots"));
+                l = 1;
+                k = k + 1;
             }
-        });
+            $("#" + k).prepend("<div>");
+            $("#thumbnails div:last-child div:first-child").attr("class", "col-xs-3 col-sm-2 col-md-1 col-lg-1 thumbtn").append("<button>");
+            $("#thumbnails div:last-child div:first-child button").attr("class", "thumbnail btn-default").attr("id", json[i]._id).attr("type", "button").append("<img>").append("<p>");
+            $("#thumbnails div:last-child div:first-child button img").attr("src", "foto/foto1.png").addClass("thumbimg");
+            if (typeof json[i].startTime !== "undefined") {
+                $("#thumbnails div:last-child div:first-child button p").text(json[i].startTime.slice(5, 10)).addClass("thumbp");
+            }
+
+            $.each(C, function () {
+                if (this.sensorID == CAM) {
+                    $("#thumbnails div:last-child div:first-child button img").attr("src", imageURL.concat(this.data[0]));
+                    return false
+                }
+            });
+        }
     }
 
     $(".slider-dots li:last-child").addClass("active-dot");
     $("img").load(function(){
-        //google.setOnLoadCallback(drawAverageMaxAssistentsChart());
-        $("#loadicon").addClass("hidden").data('spinner').stop();
-        $("#groupinfo").removeClass("hidden");
-        $("#loading").remove();
+        $("#loadicon").hide().data('spinner').stop();
         $("#1").removeClass("hidden").addClass("active-list");
-        $("#slider").removeClass("hidden");
-        //$(".arrows").removeClass("disabled");
         equalHeight($(".thumbnail"));
     });
 
     $(".thumbnail").click(function () {
+        var tripid = this.id;
         $(".thumbnail.active").removeClass("active");
         $(this).addClass("active");
-        coordinates = "NONE";
+        //$.when($("#tripinfo").slideUp()).done(function(){
+        //    $("#heightsdiv").hide();
+        //    coordinates = "NONE";
+        //    clearInterval(interval);
+        //    while ($("#timelapse").children().length != 0) {
+        //        $("#timelapse img:first-child").remove();
+        //    }
+        //    lapse.getter.ExtractTrip(json,this.id);
+        //});
+        $("#tripinfo").slideUp({
+            duration:"slow",
+            complete: function () {
+                coordinates = "NONE";
+                $("#map-canvas").empty();
+                $("#timelapse").empty();
+                $("#heightsdiv").hide();
+                clearInterval(interval);
+                lapse.getter.ExtractTrip(json,tripid);
+            }
+        });
 
-        bol.controller.ExtractTrip(json,this.id);
 
-        $("#tripinfo").removeClass("hidden");
-        clearInterval(interval);
-        while ($("#timelapse").children().length != 0) {
-            $("#timelapse img:first-child").remove();
-        }
-        checkData();
+        //$("#tripinfo").show();
+
+        //checkData();
     });
 }
 
-
+//thumbnails zelfde grootte maken
 function equalHeight(group) {
     var tallest = 0;
     group.each(function() {
@@ -254,7 +272,6 @@ function equalHeight(group) {
     });
     group.each(function() { $(this).height(tallest); });
 }
-
 
 //Laden van foto's voor timelapse
 function images(gegevens){
@@ -277,13 +294,12 @@ function images(gegevens){
     }
 }
 
-
 //functie voor timelapse
 function timelapse() {
 
     interval = setInterval( showIMG, 100);
-    var h = $("#left-column").height();
-    $("#map-canvas").height(h);
+    var h = $("div#left-column").height();
+    $("div#map-canvas").height(h);
 
     function showIMG() {
         var currentimg = $('.active-img');
@@ -297,8 +313,10 @@ function timelapse() {
 
     }
 }
+
+
 //
-//GEMIDDELDEN GRAFIEK
+//GRAFIEKEN
 //
 function drawAverageMaxChart() {
 
@@ -344,7 +362,7 @@ function drawAverageMaxChart() {
     if ( is_mobile )
     {
         $('#control_div').addClass("hidden");
-        $('#filter_mobile').removeClass("hidden").rangeSlider({
+        $('#filter_mobile').show().rangeSlider({
             bounds: {
                 min: 0,
                 max: averagemax.length - 1
@@ -362,26 +380,104 @@ function drawAverageMaxChart() {
     }
 
 }
+
+//Tekenen van hoogtegrafiek
+function loadElev() {
+
+    // Create a new chart in the elevation_chart DIV.
+    ELEVCHART = new google.visualization.AreaChart(document.getElementById('heightschart'));
+
+    // Create a PathElevationRequest object using this array.
+    // Ask for 256 samples along that path.
+    var pathRequest = {
+        'path': coor,
+        'samples': 256
+    };
+
+    // Initiate the path request.
+    elevator.getElevationAlongPath(pathRequest, plotElevation);
+}
+
+function plotElevation(results, status) {
+    if (status != google.maps.ElevationStatus.OK) {
+        return;
+    }
+    $("#heightsdiv").show();
+    var elevations = results;
+
+    var options = {
+        title: 'Elevation',
+        backgroundColor: '#dcdcdc',
+        hAxis: {title:"Distance"},
+        legend: 'none',
+        titleY: 'Elevation (m)'
+    };
+
+    var data = new google.visualization.DataTable();
+    data.addColumn('string', 'Sample');
+    data.addColumn('number', 'Elevation');
+    for (var i = 0; i < results.length; i++) {
+        data.addRow(['', elevations[i].elevation]);
+    }
+
+    // Draw the chart using the data within its DIV.
+    ELEVCHART.draw(data, options);
+}
+
+function drawHeights() {
+    $("#heightsdiv").removeClass("hidden");
+    var data = google.visualization.arrayToDataTable(heights);
+
+    var options = {
+        title: 'Elevation',
+        backgroundColor: '#dcdcdc',
+        hAxis: {title:"Distance"},
+        legend:{
+            position:'none'
+        }
+    };
+
+    var chart = new google.visualization.AreaChart(document.getElementById('heightschart'));
+
+    chart.draw(data, options);
+}
+
+//tekenen van temperatuurgrafiek
+function drawTemp() {
+    var data = google.visualization.arrayToDataTable(temperature);
+
+    var options = {
+        title: 'Temperature',
+        backgroundColor: '#dcdcdc',
+        vAxis: {maxValue: 33, minValue:0},
+        hAxis: {title:"Tripnumber"}
+
+    };
+
+    var chart = new google.visualization.AreaChart(document.getElementById('tempchart'));
+
+    chart.draw(data, options);
+}
+
+
 //
 // MAP
 //
 function loadMaps() {
-    console.log("loading");
     var script = document.createElement('script');
     script.type = 'text/javascript';
-    script.src = 'https://maps.googleapis.com/maps/api/js?key=AIzaSyDCRwgWbgGGM5zVCUJFJDIE3qSIYs1pATU&' +
+    script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp?key=AIzaSyDCRwgWbgGGM5zVCUJFJDIE3qSIYs1pATU&' +
     'callback=mapsloaded';
-    //https://maps.googleapis.com/maps/api/js?key=AIzaSyDCRwgWbgGGM5zVCUJFJDIE3qSIYs1pATU&callback=mapsloaded
     document.body.appendChild(script);
 }
 
 function mapsloaded(){
-    console.log("maps loaded");
-    mapsload = true
+    //mapsload = true
+    lapse.getter.GroupData('NO DATA', groupURL);
 }
 
 function map() {
-    var coor = [];
+    coor = [];
     var coor_default = [];
     var HOEKPUNTEN;
     var mapstyle = [
@@ -396,7 +492,7 @@ function map() {
         {"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"on"}]},
         {"featureType":"water","stylers":[{"color":"#84afa3"},{"lightness":52}]},{"stylers":[{"saturation":-17},{"gamma":0.36}]},
         {"featureType":"transit.line","elementType":"geometry","stylers":[{"color":"#3f518c"}]}]
-    bounds  = new google.maps.LatLngBounds();
+    var bounds  = new google.maps.LatLngBounds();
 
     if (coordinates.length !== 0){
         if (coordinates[0][0] >= 100){
@@ -418,11 +514,7 @@ function map() {
         }
     }
 
-    $.each(coordinates, function(){
-        var bound = new google.maps.LatLng(this[0],this[1]);
-        coor.push(bound);
-        bounds.extend(bound);
-    });
+
 
     if (coordinates.length === 0) {
         HOEKPUNTEN = [
@@ -435,6 +527,19 @@ function map() {
             coor_default.push(bound);
             bounds.extend(bound);
         });
+    }
+
+    else {
+        $.each(coordinates, function(){
+            var bound = new google.maps.LatLng(this[0],this[1]);
+            coor.push(bound);
+            bounds.extend(bound);
+        });
+    }
+    if (coor.length >= 2) {
+        // Create an ElevationService.
+        elevator = new google.maps.ElevationService();
+        loadElev();
     }
 
     var mapOptions = {
@@ -459,6 +564,8 @@ function map() {
         strokeWeight: 3
     });
 
+
+
     map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
         new FullScreenControl(map));
     map.fitBounds(bounds);
@@ -468,40 +575,6 @@ function map() {
 }
 
 
-//Tekenen van hoogtegrafiek
-function drawHeights() {
-    var data = google.visualization.arrayToDataTable(heights);
 
-    var options = {
-        title: 'Elevation',
-        backgroundColor: '#dcdcdc',
-        hAxis: {title:"Distance"},
-        legend:{
-            position:'none'
-        }
-    };
-
-    var chart = new google.visualization.AreaChart(document.getElementById('heightschart'));
-
-    chart.draw(data, options);
-}
-
-
-//tekenen van temperatuurgrafiek
-function drawTemp() {
-    var data = google.visualization.arrayToDataTable(temperature);
-
-    var options = {
-        title: 'Temperature',
-        backgroundColor: '#dcdcdc',
-        vAxis: {maxValue: 33, minValue:0},
-        hAxis: {title:"Tripnumber"}
-
-    };
-
-    var chart = new google.visualization.AreaChart(document.getElementById('tempchart'));
-
-    chart.draw(data, options);
-}
 
 

@@ -2,10 +2,10 @@
  * Created by Bernd on 11-10-2014.
  */
 google.load("visualization", "1", {packages:["corechart", "map", "controls"]});
-bol.controller.DataAverageMax('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=cwa2");
-//bol.controller.Coordinates('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips/543632e2d06680ec647a990a/sensors" );
-//bol.controller.DataTemperature('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips/543bd7fcc3b754432f4db783" );
-//bol.controller.Dataimg('NO DATA',"http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=CWB2", img);
+lapse.getter.DataAverageMax('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=cwa2");
+//lapse.getter.Coordinates('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips/543632e2d06680ec647a990a/sensors" );
+//lapse.getter.DataTemperature('NO DATA', "http://dali.cs.kuleuven.be:8080/qbike/trips/543bd7fcc3b754432f4db783" );
+//lapse.getter.Dataimg('NO DATA',"http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=CWB2", img);
 var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
 var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
 
@@ -34,7 +34,7 @@ function checkMap(){
 //        google.setOnLoadCallback(drawAverageMaxAssistentsChart());
 //        google.setOnLoadCallback(map());
 //        google.setOnLoadCallback(drawTemp());
-//        bol.controller.Height('NO DATA', coordinates);
+//        lapse.getter.Height('NO DATA', coordinates);
 //    }
 //    else{
 //        window.setTimeout("checkVariable1();",100);
@@ -66,7 +66,7 @@ function img(json){
         URL = "http://dali.cs.kuleuven.be:8080/qbike/trips/";
         URL = URL.concat(this.id);
         URL = URL.concat("/sensors");
-        bol.controller.Coordinates('NO DATA', URL);
+        lapse.getter.Coordinates('NO DATA', URL);
         checkMap();
     });
 }

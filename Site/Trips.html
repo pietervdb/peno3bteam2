@@ -22,7 +22,7 @@
 
     <script src="js/spin.js"></script>
     <script src="js/Fullscreen.js" type="text/javascript"></script>
-    <script src="js/controller.js" type="text/javascript"></script>
+    <script src="js/getter.js" type="text/javascript"></script>
     <script src="js/Main.js" type="text/javascript"></script>
     <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCRwgWbgGGM5zVCUJFJDIE3qSIYs1pATU&callback=mapsloaded"></script>-->
 
@@ -79,11 +79,9 @@
         </div>
     </div>
 
-    <div class="overlay" id="loadicon" style="min-height: 300px">
-        <!--<img src="foto/ajax-loader.gif" style="height:50px; width:auto;">-->
-    </div>
+    <div class="overlay" id="loadicon" ></div>
 
-    <div id="nodata" class="hidden">
+    <div id="nodata" style="display: none">
         <h3>No data found, please enter another groupID.</h3>
     </div>
 
@@ -97,9 +95,9 @@
                 </div>
             </div>
         </div>
-        <p id="loading">loading...</p>
-        <p id="ajaxcall" class="hidden">AJAX</p>
-        <div id="slider" class="hidden">
+        <!--<p id="loading">loading...</p>-->
+        <!--<p id="ajaxcall" class="hidden">AJAX</p>-->
+        <div id="slider" class="">
             <!--Thumbnail navigatie-->
             <div class="slider-nav">
                 <a href="#" class="arrows arrow-prev" style="text-decoration:none;">
@@ -115,19 +113,32 @@
         </div>
 
         <!--Tripinfo-->
-        <div class="row hidden" id="tripinfo">
+        <div class="row" id="tripinfo" style="display:none;">
             <div class="col-md-6 col-lg-6" id="left-column">
-                <p>
-                    gemiddelde snelheid:
-                    topsnelheid:
-                    totale afstand :
-                </p>
+                <div class="">
+                    <div id="dateinfo">
+                        <p>Date:</p>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="numinfo col-md-4">
+                        <p>Average Speed</p>
+                    </div>
+                    <div class="numinfo col-md-4">
+                        <p>Max Speed</p>
+                    </div>
+                    <div class="numinfo col-md-4">
+                        <p>Distance</p>
+                    </div>
+                </div>
                 <div id="timelapse">
-
                 </div>
             </div>
             <div class="col-md-6 col-lg-6" id="map">
                 <div id="map-canvas"></div>
+                <div id="heightsdiv" class="charts">
+                    <div id="heightschart" style="width: auto; height: 150px;"></div>
+                </div>
             </div>
         </div>
 
@@ -140,16 +151,18 @@
         <!--<div id="heightschart" style="width: auto; height: 150px;"></div>-->
         <!--</div>-->
     </div>
-    <table style="width:100%">
-        <tr>
-            <td align="center" class="lijn_onderaan">
-                <font color="green">Bike-Lapse</font>
-            </td>
-            <td class="lijn_onderaan">
-                <a href="About.html"><font color="green">About</font></a>
-            </td>
-        </tr>
-    </table>
+    <div id="footer">
+        <table style="width:100%">
+            <tr>
+                <td align="center" class="lijn_onderaan">
+                    <font color="green">Bike-Lapse</font>
+                </td>
+                <td class="lijn_onderaan">
+                    <a href="About.html"><font color="green">About</font></a>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
 
 </body>

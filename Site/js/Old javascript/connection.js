@@ -1,4 +1,4 @@
-var bol = bol || {};
+var bol = lapse || {};
 var socket;
 
 /**
@@ -34,7 +34,7 @@ bol.connectionHandler = (function() {
             socket.on('server_message', function(data){
                 $('#receiver').append('<li>' + JSON.stringify(data) + '</li>');
                 if (data._id !== undefined){
-                    bol.controller.setTripID(data._id);
+                    bol.getter.setTripID(data._id);
                 }
             });
 
