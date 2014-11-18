@@ -148,10 +148,11 @@ def make_data_list(tripID):
     #gps
     GPS_coordinaten = compose_GPS_coordinates(tripID)
     timestamp_list = find_GPS_data(tripID,"Date/")
+    speed_list = find_GPS_data(tripID,"Speed")
     i = 0
     while i < len(GPS_coordinaten):
         datalist.append({'sensorID':1,"timestamp":timestamp_list[i],'data': [{'type':'Point', 'coordinates':GPS_coordinaten[i],\
-                                                 'unit':'google'}]})
+                                                 'unit':'google','speed':[speed_list[i]]}]})
         i += 1
 
     #barometer
@@ -170,7 +171,11 @@ def make_meta_list(tripID):
     speed_list = find_GPS_data(tripID,"Speed")
     averageSpeed = sum(speed_list)/len(speed_list)
     maxSpeed = max(speed_list)
-    meta_dict = {"averageSpeed":averageSpeed,"maxSpeed":maxSpeed}
+    temp_list = find_GPS_data(tripID,"Tempe")
+    avgTemp = sum(temp_list)/len(temp_list)
+    maxTemp = max(temp_list)
+    minTemp = min(temp_list)
+    meta_dict = {"averageSpeed":averageSpeed,"maxSpeed":maxSpeed,"other":[{"temperature":[minTemp,avgTemp,maxTemp]}]}
     return meta_dict
     
     
