@@ -65,7 +65,6 @@ lapse.getter = (function() {
         $.each(json, function(i, v) {
             if (v._id == trip){
                 TripInfo = v;
-                //ExtractCoordinates(TripInfo);
                 ExtractData(TripInfo);
                 return false
             }

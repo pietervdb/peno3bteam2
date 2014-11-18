@@ -29,6 +29,10 @@ table {
     border-spacing: 5px;
 }
 
+#searchgroup{
+    margin: 8px 0 8px 0;
+}
+
 .navbar-brand{
     padding-right: 0px;
     padding-left: 0px;
