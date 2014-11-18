@@ -155,8 +155,7 @@ lapse.getter = (function() {
         AJAX:AJAX,
         GroupData:GroupData,
         ExtractAverageMax:ExtractAverageMax,
-        ExtractTrip:ExtractTrip,
-        Height:Height
+        ExtractTrip:ExtractTrip
     };
 
 })();
