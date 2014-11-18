@@ -11,11 +11,6 @@ var THERMO = 3;
 var CAM = 8;
 
 //TODO Delete unused code
-//TODO calculate total distance
-//TODO calculate average speed if possible
-//TODO brede map wanneer geen timelapse
-//TODO Tekst centreren en map naar onder
-
 
 lapse.getter = (function() {
 
@@ -102,6 +97,16 @@ lapse.getter = (function() {
             }
 
         });
+
+        if ( timelapseid.children().length == 0){
+            $("#left-column").hide();
+            $("#right-column").attr("class", "col-md-12 col-lg-12");
+        }
+        else {
+            $("#left-column").show();
+            $("#right-column").attr("class", "col-md-6 col-lg-6");
+        }
+
         $("#tripinfo").slideDown({
             duration:"slow",
             easing: "swing" ,
@@ -118,32 +123,6 @@ lapse.getter = (function() {
         //Starten van timelapse wanneer afbeeldingen geladen zijn
         if (typeof timelapseid.children()[0] !== "undefined"){
             $("img").load(timelapse());
-        }
-    }
-
-    //unused
-    function Height(status, coordinates){
-        var URL = "http://json2jsonp.com/?url=https://maps.googleapis.com/maps/api/elevation/json?locations=";
-        if (status == 'NO DATA'){
-            for (i=0;i<coordinates.length;i++){
-                URL = URL.concat(coordinates[i][0],",",coordinates[i][1],"|");
-            }
-            URL = URL.slice(0,URL.length-1);
-            URL = URL.concat("&key=AIzaSyDCRwgWbgGGM5zVCUJFJDIE3qSIYs1pATU");
-            URL = URL.concat("&callback=Height");
-            return lapse.getter.AJAX(URL, Height);
-        }
-        else {
-            heights = [];
-            heights[0] = ['#', 'Height'];
-            $.each(status.results, function(i,v) {
-                heights.push(["", v.elevation])
-            });
-            //for (i = 0; i < status.results.length;i++){
-            //    heights[heights.length] = [i,status.results[i].elevation];
-            //}
-            drawHeights();
-            return coordinates
         }
     }
 

@@ -259,6 +259,9 @@ function thumbnail(json){
                 $("#map-canvas").empty();
                 $("#timelapse").empty();
                 $("#heightsdiv").hide();
+                if ($("#DIST").children().length > 1){
+                    $("#DIST p:last-child").remove()
+                }
                 clearInterval(interval);
                 lapse.getter.ExtractTrip(json,tripid);
             }
@@ -569,7 +572,17 @@ function map() {
 
     var dist = google.maps.geometry.spherical.computeLength(bikePath.getPath());
 
-    $("<p>").text(dist).appendTo($("#DIST"));
+    if (dist > 1000){
+        dist = Math.round((dist/1000) * 100) / 100;
+        //dist = dist / 1000
+        $("<p>").text(dist + " km").appendTo($("#DIST"));
+    }
+    else {
+        dist =  Math.round(dist * 100) / 100;
+        $("<p>").text(dist + " m").appendTo($("#DIST"));
+    }
+
+
 
 
     map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
