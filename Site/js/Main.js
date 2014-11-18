@@ -18,7 +18,7 @@ var averagemax = "undefined";
 var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
 var mindata = 0;
 
-//TODO add filters: all trips/only trips with data
+//TODO add filters: eenheid snelheid, datum(vanaf, tot, maand, jaar), temperatuur, 
 //TODO datefilter
 //TODO thumbnails efficiënter maken
 //TODO sluitknop tripinfo
@@ -151,7 +151,7 @@ function main(){
     });
 
     //Herladen
-    $(".refresh").click(function () {
+    $("#refresh").click(function () {
         $(".slider-dots").empty();
         $("#thumbnails").empty();
         $("#loadicon").show();
@@ -338,7 +338,12 @@ function drawAverageMaxChart() {
             'legend': 'top',
 //            'title': 'Average Speed',
             'backgroundColor': '#dcdcdc',
-            'vAxis': {maxValue: 33, minValue:0},
+            'vAxis': {
+                viewWindowMode:'explicit',
+                viewWindow:{
+                    max:15,
+                    min:0
+                }},
             'hAxis': {title:"Tripnumber"},
             'animation':{
                 'duration':'250'
