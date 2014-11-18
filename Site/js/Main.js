@@ -421,7 +421,7 @@ function plotElevation(results, status) {
     data.addColumn('string', 'Sample');
     data.addColumn('number', 'Elevation');
     for (var i = 0; i < results.length; i++) {
-        data.addRow(['', elevations[i].elevation]);
+        data.addRow(['', Math.round(elevations[i].elevation * 100) / 100]);
     }
 
     // Draw the chart using the data within its DIV.
