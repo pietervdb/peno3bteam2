@@ -421,7 +421,7 @@ function plotElevation(results, status) {
     data.addColumn('string', 'Sample');
     data.addColumn('number', 'Elevation');
     for (var i = 0; i < results.length; i++) {
-        data.addRow(['', elevations[i].elevation]);
+        data.addRow(['', Math.round(elevations[i].elevation * 100) / 100]);
     }
 
     // Draw the chart using the data within its DIV.
@@ -470,7 +470,7 @@ function drawTemp() {
 function loadMaps() {
     var script = document.createElement('script');
     script.type = 'text/javascript';
-    script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp?key=AIzaSyDCRwgWbgGGM5zVCUJFJDIE3qSIYs1pATU&' +
+    script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp?key=AIzaSyDCRwgWbgGGM5zVCUJFJDIE3qSIYs1pATU&libraries=geometry&' +
     'callback=mapsloaded';
     document.body.appendChild(script);
 }
@@ -559,7 +559,7 @@ function map() {
         position: coor[coor.length-1],
         map: map
     });
-    var flightPath = new google.maps.Polyline({
+    var bikePath = new google.maps.Polyline({
         path: coor,
         geodesic: true,
         strokeColor: '#4373B2',
@@ -567,13 +567,16 @@ function map() {
         strokeWeight: 3
     });
 
+    var dist = google.maps.geometry.spherical.computeLength(bikePath.getPath());
+
+    $("<p>").text(dist).appendTo($("#DIST"));
 
 
     map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
         new FullScreenControl(map));
     map.fitBounds(bounds);
     map.panToBounds(bounds);
-    flightPath.setMap(map);
+    bikePath.setMap(map);
 
 }
 
