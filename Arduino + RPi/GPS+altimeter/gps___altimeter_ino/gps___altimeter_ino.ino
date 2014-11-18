@@ -45,10 +45,6 @@ void useInterrupt(boolean v) {
   
 uint32_t timer = millis();
 void loop() {
- 
-  
-  
-    //if (sensor_read == 0){sensor_read = 1;    
       if (! usingInterrupt) {
     char c = GPS.read();
     if (GPSECHO)
@@ -79,23 +75,20 @@ void loop() {
     Serial.print("Alt1tude: [");Serial.print(GPS.altitude);Serial.print("]");Serial.println("");
     Serial.print("Satellites: [");Serial.print((int)GPS.satellites);Serial.print("]");Serial.println("");
     
-                          }
-//                        }
-//  else if(sensor_read == 1){
-//    
-//    if (! baro.begin()) {
-//    Serial.println("Couldnt find sensor");
-//    return;
-//  }
-//  
-//    float pascals = baro.getPressure();
-//    Serial.print("Pressure: [");Serial.print(pascals/100);Serial.print("]");Serial.println("");
-//    float altm = baro.getAltitude();
-//    float tempC = baro.getTemperature();
-//    
-//    Serial.print("Alt2tude: [");Serial.print(altm);Serial.print("]");Serial.println("");
-//    Serial.print("Temperature: [");Serial.print(tempC);Serial.print("]");Serial.println("");
-//    sensor_read = 0;
-//      }
+                          
+    
+    if (! baro.begin()) {
+    Serial.println("Couldnt find sensor");
+    return;
+  }
+  
+    float pascals = baro.getPressure();
+    Serial.print("Pressure: [");Serial.print(pascals/100);Serial.print("]");Serial.println("");
+    float altm = baro.getAltitude();
+    float tempC = baro.getTemperature();
+    
+    Serial.print("Alt2tude: [");Serial.print(altm);Serial.print("]");Serial.println("");
+    Serial.print("Temperature: [");Serial.print(tempC);Serial.print("]");Serial.println("");
                                 }
+}
             
