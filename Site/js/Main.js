@@ -18,7 +18,7 @@ var averagemax = "undefined";
 var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
 var mindata = 0;
 
-//TODO add filters: all trips/only trips with data
+//TODO add filters: eenheid snelheid, datum(vanaf, tot, maand, jaar), temperatuur, 
 //TODO datefilter
 //TODO thumbnails efficiënter maken
 //TODO sluitknop tripinfo
@@ -151,7 +151,7 @@ function main(){
     });
 
     //Herladen
-    $(".refresh").click(function () {
+    $("#refresh").click(function () {
         $(".slider-dots").empty();
         $("#thumbnails").empty();
         $("#loadicon").show();
@@ -159,6 +159,22 @@ function main(){
         lapse.getter.ExtractAverageMax(AllTrips);
         thumbnail(AllTrips);
     })
+    $("#close").click(function () {
+        $(".thumbnail.active").removeClass("active");
+        $("#tripinfo").slideUp({
+            duration:"slow",
+            complete: function () {
+                coordinates = "NONE";
+                $("#map-canvas").empty();
+                $("#timelapse").empty();
+                $("#heightsdiv").hide();
+                if ($("#DIST").children().length > 1){
+                    $("#DIST p:last-child").remove()
+                }
+                clearInterval(interval);
+            }
+        });
+    });
 }
 
 //parameters uit URL halen
@@ -259,6 +275,9 @@ function thumbnail(json){
                 $("#map-canvas").empty();
                 $("#timelapse").empty();
                 $("#heightsdiv").hide();
+                if ($("#DIST").children().length > 1){
+                    $("#DIST p:last-child").remove()
+                }
                 clearInterval(interval);
                 lapse.getter.ExtractTrip(json,tripid);
             }
@@ -335,7 +354,12 @@ function drawAverageMaxChart() {
             'legend': 'top',
 //            'title': 'Average Speed',
             'backgroundColor': '#dcdcdc',
-            'vAxis': {maxValue: 33, minValue:0},
+            'vAxis': {
+                viewWindowMode:'explicit',
+                viewWindow:{
+                    max:15,
+                    min:0
+                }},
             'hAxis': {title:"Tripnumber"},
             'animation':{
                 'duration':'250'
@@ -421,7 +445,7 @@ function plotElevation(results, status) {
     data.addColumn('string', 'Sample');
     data.addColumn('number', 'Elevation');
     for (var i = 0; i < results.length; i++) {
-        data.addRow(['', elevations[i].elevation]);
+        data.addRow(['', Math.round(elevations[i].elevation * 100) / 100]);
     }
 
     // Draw the chart using the data within its DIV.
@@ -470,7 +494,7 @@ function drawTemp() {
 function loadMaps() {
     var script = document.createElement('script');
     script.type = 'text/javascript';
-    script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp?key=AIzaSyDCRwgWbgGGM5zVCUJFJDIE3qSIYs1pATU&' +
+    script.src = 'https://maps.googleapis.com/maps/api/js?v=3.exp?key=AIzaSyDCRwgWbgGGM5zVCUJFJDIE3qSIYs1pATU&libraries=geometry&' +
     'callback=mapsloaded';
     document.body.appendChild(script);
 }
@@ -559,7 +583,7 @@ function map() {
         position: coor[coor.length-1],
         map: map
     });
-    var flightPath = new google.maps.Polyline({
+    var bikePath = new google.maps.Polyline({
         path: coor,
         geodesic: true,
         strokeColor: '#4373B2',
@@ -567,15 +591,29 @@ function map() {
         strokeWeight: 3
     });
 
+    var dist = google.maps.geometry.spherical.computeLength(bikePath.getPath());
+
+    if (dist > 1000){
+        dist = Math.round((dist/1000) * 100) / 100;
+        //dist = dist / 1000
+        $("<p>").text(dist + " km").appendTo($("#DIST"));
+    }
+    else {
+        dist =  Math.round(dist * 100) / 100;
+        $("<p>").text(dist + " m").appendTo($("#DIST"));
+    }
+
+
 
 
     map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
         new FullScreenControl(map));
     map.fitBounds(bounds);
     map.panToBounds(bounds);
-    flightPath.setMap(map);
+    bikePath.setMap(map);
 
 }
+
 
 
 

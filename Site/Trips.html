@@ -51,7 +51,7 @@
                     </ul>
                     <ul class="nav navbar-nav navbar navbar-right" id="bs-example-navbar-collapse-2">
                         <li>
-                            <form class="navbar-form" role="search">
+                            <form class="navbar-form" id="searchgroup" role="search">
                                 <div class="input-group">
                                     <input type="text" class="form-control" placeholder="groupId" name="group" id="group">
                                     <div class="input-group-btn">
@@ -96,7 +96,7 @@
             </ul>
 
         </div>
-        <div class="refresh" style="display: inline;">
+        <div id="refresh" style="display: inline;">
             <button class="btn btn-link" type="button">
             <span class="glyphicon glyphicon-refresh"></span></button>
         </div>
@@ -136,28 +136,37 @@
         </div>
 
         <!--Tripinfo-->
+
         <div class="row" id="tripinfo" style="display:none;">
+            <div class="row">
+                <div class="col-md-6">
+                <div id="dateinfo">
+                    <p>Date:</p>
+                </div>
+            </div>
+                <div class="col-md-6 text-right"
+                <div id="close" style="display: inline;">
+                    <button class="btn btn-link" type="button">
+                        <span class="glyphicon glyphicon-remove"></span></button>
+                </div>
+            <div class="row">
+                <div class="numinfo col-md-4">
+                    <p>Average Speed</p>
+                </div>
+                <div class="numinfo col-md-4">
+                    <p>Max Speed</p>
+                </div>
+                <div class="numinfo col-md-4" id="DIST">
+                    <p>Distance</p>
+                </div>
+
+                </div>
+            </div>
             <div class="col-md-6 col-lg-6" id="left-column">
-                <div class="">
-                    <div id="dateinfo">
-                        <p>Date:</p>
-                    </div>
-                </div>
-                <div class="row">
-                    <div class="numinfo col-md-4">
-                        <p>Average Speed</p>
-                    </div>
-                    <div class="numinfo col-md-4">
-                        <p>Max Speed</p>
-                    </div>
-                    <div class="numinfo col-md-4">
-                        <p>Distance</p>
-                    </div>
-                </div>
                 <div id="timelapse">
                 </div>
             </div>
-            <div class="col-md-6 col-lg-6" id="map">
+            <div class="col-md-6 col-lg-6" id="right-column">
                 <div id="map-canvas"></div>
                 <div id="heightsdiv" class="charts">
                     <div id="heightschart" style="width: auto; height: 150px;"></div>
