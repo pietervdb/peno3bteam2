@@ -13,6 +13,8 @@ var CAM = 8;
 //TODO Delete unused code
 //TODO calculate total distance
 //TODO calculate average speed if possible
+//TODO brede map wanneer geen timelapse
+//TODO Tekst centreren en map naar onder
 
 
 lapse.getter = (function() {
@@ -97,8 +99,6 @@ lapse.getter = (function() {
                     timelapseid.append("<img>");
                     timelapseid.children("img:last").attr("src", imageURL.concat(this.data[0])).attr("class", "hidden");
                     break;
-
-
             }
 
         });
