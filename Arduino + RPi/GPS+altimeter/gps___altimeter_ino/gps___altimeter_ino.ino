@@ -5,28 +5,28 @@
 Adafruit_MPL3115A2 baro = Adafruit_MPL3115A2();
 SoftwareSerial mySerial(3, 2);
 Adafruit_GPS GPS(&mySerial);
-#define GPSECHO  true
+#define GPSECHO  false
 boolean usingInterrupt = false;
 void useInterrupt(boolean);
-
+//int sensor_read = 0;
 String latitude = " ";
+
 void setup(){
   Serial.begin(9600);
   GPS.begin(9600);
-  baro.begin();
   GPS.sendCommand(PMTK_SET_NMEA_OUTPUT_RMCGGA);
   GPS.sendCommand(PMTK_SET_NMEA_UPDATE_1HZ);
   useInterrupt(true);
   delay(1000);
   mySerial.println(PMTK_Q_RELEASE);
-}
+            }
   SIGNAL(TIMER0_COMPA_vect) {
   char c = GPS.read();
   #ifdef UDR0
   if (GPSECHO)
     if (c) UDR0 = c;  
   #endif
-  }
+                             }
   
 void useInterrupt(boolean v) {
   if (v) {
@@ -35,29 +35,30 @@ void useInterrupt(boolean v) {
     OCR0A = 0xAF;
     TIMSK0 |= _BV(OCIE0A);
     usingInterrupt = true;
-  } else {
+          } 
+  else {
     // do not call the interrupt function COMPA anymore
     TIMSK0 &= ~_BV(OCIE0A);
     usingInterrupt = false;
-  }
-}
+          }
+                              }
   
 uint32_t timer = millis();
-
 void loop() {
-  if (! usingInterrupt) {
+      if (! usingInterrupt) {
     char c = GPS.read();
     if (GPSECHO)
-      if (c) Serial.print(c);
-  }
-  
+      if (c) Serial.print(c);}
+    
   if (GPS.newNMEAreceived()) {
     if (!GPS.parse(GPS.lastNMEA())) 
-    return;}
-  if (timer > millis())  timer = millis();
-  if (millis() - timer > 2000) { timer = millis();
-    Serial.print("Fix:["); Serial.print((int)GPS.fix);Serial.println("]");
+    return;                   }
     
+    if (timer > millis())  timer = millis();
+    if (millis() - timer > 2000) { timer = millis();
+  
+    Serial.print("Fix:["); Serial.print((int)GPS.fix);Serial.println("]");
+    Serial.print("Quality: ["); Serial.print((int)GPS.fixquality);Serial.println("]");
     Serial.print("Date/Time: [");
     Serial.print(GPS.year, DEC);Serial.print("-");
     Serial.print(GPS.day, DEC);Serial.print("-");
@@ -65,33 +66,29 @@ void loop() {
     Serial.print(GPS.hour, DEC); Serial.print(':');
     Serial.print(GPS.minute, DEC); Serial.print(':');
     Serial.print(GPS.seconds, DEC);Serial.print("]");Serial.println("");
-
-    Serial.print("Quality: ["); Serial.print((int)GPS.fixquality);Serial.println("]");
-    
     Serial.print("Loc_x(GM):[");
-    Serial.print(GPS.latitudeDegrees, 7);Serial.print("]");Serial.println("");
+    Serial.print(GPS.latitudeDegrees, 15);Serial.print("]");Serial.println("");
     Serial.print("Loc_y(GM):[");
-    Serial.print(GPS.longitudeDegrees,7);Serial.print("]");Serial.println("");
-    
-    //Serial.print("Loc(JSON):[");
-    //Serial.print(GPS.latitude, 7); Serial.print(GPS.lat);Serial.print("]");
-    //Serial.print(", ["); 
-    //Serial.print(GPS.longitude, 7); Serial.print(GPS.lon);Serial.print("]");Serial.println("");
-      
-    Serial.print("Speed (knots):[");Serial.print(GPS.speed);Serial.print("]");Serial.println("");
+    Serial.print(GPS.longitudeDegrees,15);Serial.print("]");Serial.println("");
+    Serial.print("Speed (m/s):[");Serial.print(GPS.speed*0.514444444);Serial.print("]");Serial.println("");
     Serial.print("Angle: [");Serial.print(GPS.angle);Serial.print("]");Serial.println("");
     Serial.print("Alt1tude: [");Serial.print(GPS.altitude);Serial.print("]");Serial.println("");
     Serial.print("Satellites: [");Serial.print((int)GPS.satellites);Serial.print("]");Serial.println("");
+    
+                          
+    
+    if (! baro.begin()) {
+    Serial.println("Couldnt find sensor");
+    return;
+  }
+  
     float pascals = baro.getPressure();
     Serial.print("Pressure: [");Serial.print(pascals/100);Serial.print("]");Serial.println("");
     float altm = baro.getAltitude();
-    Serial.print("Alt2tude: [");Serial.print(altm);Serial.print("]");Serial.println("");
     float tempC = baro.getTemperature();
-    Serial.print("Temperature: [");Serial.print(tempC);Serial.print("]");Serial.println("");
-
     
-
+    Serial.print("Alt2tude: [");Serial.print(altm);Serial.print("]");Serial.println("");
+    Serial.print("Temperature: [");Serial.print(tempC);Serial.print("]");Serial.println("");
+                                }
 }
-}
-  
-  
+            

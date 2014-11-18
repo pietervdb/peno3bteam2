@@ -3,22 +3,26 @@
  */
 //URL = "http://dali.cs.kuleuven.be:8080/qbike/trips/",
 var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
-var groupURLbase = "http://dali.cs.kuleuven.be:8080/qbike/trips?groupID=";
+var server = 8080; //8081 voor production
+var groupURLbase = "http://dali.cs.kuleuven.be:" + server + "/qbike/trips?groupID=";
 var groupID = getUrlVars()["group"];
 var groupURL;
 var group;
 var groupHead;
 var interval;
-var AllTrips;
 var coordinates;
 var coor;
 var dataaveragemax;
 var dashboard;
 var averagemax = "undefined";
-var mapsload = false;
 var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
+var mindata = 0;
 
 //TODO add filters: all trips/only trips with data
+//TODO datefilter
+//TODO thumbnails efficiënter maken
+//TODO sluitknop tripinfo
+//TODO selectie duidelijker maken?
 
 //controleren of laatste letter in URL een "#" is
 if (groupID[groupID.length-1] == "#"){
@@ -43,7 +47,6 @@ $(document).ready(function(){
     loadMaps();
     spinner();
     main();
-    //checkMaps();
 });
 
 //Wat doen bij resize
@@ -55,15 +58,7 @@ $(window).resize(function(){
 //
 //CHECKS
 //
-//function checkMaps(){
-//    if (mapsload == true){
-//        lapse.getter.GroupData('NO DATA', groupURL);
-//    }
-//    else{
-//        window.setTimeout("checkMaps()",50);
-//    }
-//}
-
+//unused
 function checkData(){
     if (typeof coordinates !== "undefined" && coordinates != "NONE" && TripInfo !== 'NONE'){
         //google.setOnLoadCallback(map());
@@ -143,6 +138,27 @@ function main(){
 
         return false
     });
+
+    //Checkbox "Get all trips"
+    $('#filterall').change(function(){
+        console.log(this.checked);
+        if (this.checked){
+            mindata = -1
+        }
+        else {
+            mindata = 0
+        }
+    });
+
+    //Herladen
+    $(".refresh").click(function () {
+        $(".slider-dots").empty();
+        $("#thumbnails").empty();
+        $("#loadicon").show();
+        spinner();
+        lapse.getter.ExtractAverageMax(AllTrips);
+        thumbnail(AllTrips);
+    })
 }
 
 //parameters uit URL halen
@@ -197,7 +213,10 @@ function thumbnail(json){
     for (i = json.length-1; i>-1; i = i-1){
 
         var C = json[i].sensorData;
-        if (C.length != 0) {
+        if (C == null){
+            C = [];
+        }
+        if (C.length != mindata) {
             l = l + 1;
             if (l==13) {
                 $("<div>").addClass("Outer").addClass("hidden").attr("id", k+1).appendTo("#thumbnails");
@@ -233,15 +252,6 @@ function thumbnail(json){
         var tripid = this.id;
         $(".thumbnail.active").removeClass("active");
         $(this).addClass("active");
-        //$.when($("#tripinfo").slideUp()).done(function(){
-        //    $("#heightsdiv").hide();
-        //    coordinates = "NONE";
-        //    clearInterval(interval);
-        //    while ($("#timelapse").children().length != 0) {
-        //        $("#timelapse img:first-child").remove();
-        //    }
-        //    lapse.getter.ExtractTrip(json,this.id);
-        //});
         $("#tripinfo").slideUp({
             duration:"slow",
             complete: function () {
@@ -253,11 +263,6 @@ function thumbnail(json){
                 lapse.getter.ExtractTrip(json,tripid);
             }
         });
-
-
-        //$("#tripinfo").show();
-
-        //checkData();
     });
 }
 
@@ -289,7 +294,6 @@ function images(gegevens){
 
     //Starten van timelapse wanneer afbeeldingen geladen zijn
     if (typeof timelapseid.children()[0] !== "undefined"){
-
         $("img").load(timelapse());
     }
 }
@@ -472,7 +476,6 @@ function loadMaps() {
 }
 
 function mapsloaded(){
-    //mapsload = true
     lapse.getter.GroupData('NO DATA', groupURL);
 }
 
@@ -491,7 +494,7 @@ function map() {
         {"featureType":"road.local","stylers":[{"visibility":"on"}]},
         {"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"on"}]},
         {"featureType":"water","stylers":[{"color":"#84afa3"},{"lightness":52}]},{"stylers":[{"saturation":-17},{"gamma":0.36}]},
-        {"featureType":"transit.line","elementType":"geometry","stylers":[{"color":"#3f518c"}]}]
+        {"featureType":"transit.line","elementType":"geometry","stylers":[{"color":"#3f518c"}]}];
     var bounds  = new google.maps.LatLngBounds();
 
     if (coordinates.length !== 0){
