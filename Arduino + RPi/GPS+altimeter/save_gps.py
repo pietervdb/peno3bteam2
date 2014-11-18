@@ -46,7 +46,7 @@ def find_signs(line):
 while(True):
     target = open('GPSdata/tripID.txt','a')
     line = arduino.readline()
-    whitelist = ["Qua","Loc","Spe","Ang","Alt","Sat"]               #,"Pre","Tem" voor barometer
+    whitelist = ["Qua","Loc","Spe","Ang","Alt","Sat","Pres","Tem"]               #,"Pre","Tem" voor barometer
     if line[0:4]=="Fix:":
         if line[4:7]=="[1]":
             print "fix!!"
