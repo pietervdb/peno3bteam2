@@ -50,7 +50,7 @@ table {
     background-color: gray;
     width: auto;
     height: 150px;
-    margin-bottom: 10px;
+    margin-bottom: 0;
 }
 
 .jumbotron h1 {
@@ -60,6 +60,15 @@ table {
 
 .jumbotron p{
     color:#dcdcdc;
+}
+
+.btn-link:hover,
+.btn-link:focus {
+    text-decoration: none!important;
+}
+
+.filter{
+    padding-left: 15px;
 }
 
 .slider-nav {
