@@ -159,6 +159,22 @@ function main(){
         lapse.getter.ExtractAverageMax(AllTrips);
         thumbnail(AllTrips);
     })
+    $("#close").click(function () {
+        $(".thumbnail.active").removeClass("active");
+        $("#tripinfo").slideUp({
+            duration:"slow",
+            complete: function () {
+                coordinates = "NONE";
+                $("#map-canvas").empty();
+                $("#timelapse").empty();
+                $("#heightsdiv").hide();
+                if ($("#DIST").children().length > 1){
+                    $("#DIST p:last-child").remove()
+                }
+                clearInterval(interval);
+            }
+        });
+    });
 }
 
 //parameters uit URL halen
@@ -597,6 +613,7 @@ function map() {
     bikePath.setMap(map);
 
 }
+
 
 
 
