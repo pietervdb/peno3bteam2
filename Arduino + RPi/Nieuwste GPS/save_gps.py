@@ -1,13 +1,8 @@
-import base64 
-import json 
-from socketIO_client import SocketIO
-import requests
 import serial
-import time
 import sys
-
+tripID = 'tripID'
 arduino = serial.Serial('COM7',9600)
-target = open('GPSdata/tripID.txt','w')
+target = open('GPSdata/'+tripID+'.txt','w')
 last_fix = False
 
 def decimalextender(number):
@@ -18,7 +13,6 @@ def decimalextender(number):
         return number
     
 def split_data(line):
-    print line
     "Zoekt de haken om effectieve data van intro te splitsen"
     i = 0
     while True:
@@ -44,9 +38,9 @@ def find_signs(line):
     return signs
 
 while(True):
-    target = open('GPSdata/tripID.txt','a')
+    target = open('GPSdata/'+tripID+'.txt','a')
     line = arduino.readline()
-    whitelist = ["Qua","Loc","Spe","Ang","Alt","Sat"]               #,"Pre","Tem" voor barometer
+    whitelist = ["Qua","Loc","Spe","Ang","Alt","Sat"]
     if line[0:4]=="Fix:":
         if line[4:7]=="[1]":
             print "fix!!"
@@ -71,9 +65,10 @@ while(True):
         target.write(correct_datime+"\n")
         
     elif line[:3] in whitelist:
+        print line
         [intro, data] = split_data(line)
         target.write(intro+"\n") #schrijft de naam van de data
         target.write(data+"\n")  #schrijft de data
-    if line[0] == "T":
+    if line[0:3] == "Sat":
         target.write("End\n")
     target.close()
