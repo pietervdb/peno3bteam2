@@ -24,9 +24,12 @@ def gem_snelheid(tripID):
     for i in snelheden:
         gem_snelheid_trip += i/aantal_punten
     gem_snelheid=gem_snelheid_oud*nr_datas_oud/ nr_datas_nieuw + gem_snelheid_trip*aantal_punten/ nr_datas_nieuw
-    gem_snelheid_lijst[0]= str(gem_snelheid)+'\n'
-    gem_snelheid_lijst[1]= str(nr_datas_nieuw)+'\n'
-    target1.writelines(gem_snelheid_lijst)
+    target1.close
+    target = open('GPSdata/gem_snelheid.txt','w')
+    target.write(str(gem_snelheid)+'\n')
+    target.write(str(nr_datas_nieuw)+'\n')
+    target.close
+    target2.close
     return
     
     
