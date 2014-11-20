@@ -5,6 +5,7 @@ import requests
 import sys
 import os
 global lrs
+global fix_on
 
 lrs = 0
 start = {'purpose':'batch-sender','groupID':'CWB2','userID':'r0369676'}
@@ -15,11 +16,13 @@ groupID = "CWB2"
 starTime = ""
 endTime = ""
 lijnen_lijst = []
+fix_on = []
+
 ######NEEDS TO BE REMOVED UPON ACTUAL SERVER USE: only for individual function diagnostics######################
 target = open('GPSdata/'+tripID+'.txt')
 with target as f:
     lijnen_lijst = f.readlines()
-##target.close()
+target.close()
 
 #################################################################################################################
 
@@ -29,35 +32,31 @@ def find_time(tripID,st):
     elif st == 'stop':
         return lijnen_lijst[-20][:-1]
 
-        
-def find_GPS_data(tripID,first_five):
-    "data die afhankelijk is van GPS-fix"
-    punt_start = []
-        
+def find_fix(tripID):
     i = 0
     while i < len(lijnen_lijst):
         if lijnen_lijst[i][0:5] == "Fix:Y":     #veranderen in Y uiteraard!!!
-            punt_start.append(i)
+            fix_on.append(i)
         i += 24
-        
+    print "in functie is fix_on",len(fix_on)
+    
+    
+def find_GPS_data(tripID,first_five):
+    "data die afhankelijk is van GPS-fix"
     i = 0
     while True:
         if lijnen_lijst[i][0:5] == first_five:
             add_number = i+1
             break
         i += 1
-            
     data_lijst = []
     if first_five == "Date/":
-        for i in punt_start:
-            data_lijst.append(lijnen_lijst[i+add_number][0:-1])
-        target.close()
-        return data_lijst
+        for i in fix_on:
+            data_lijst.append(lijnen_lijst[i+add_number][:-1])
         
-    for i in punt_start:
-        data_lijst.append(float(lijnen_lijst[i+add_number][0:-1]))
-
-    target.close()
+        return data_lijst
+    for i in fix_on:
+        data_lijst.append(float(lijnen_lijst[i+add_number][:-1]))
     return data_lijst
 
 
@@ -65,12 +64,6 @@ def find_data(tripID,first_five):
     "data die afhankelijk is van GPS-fix"
     punt_start = []
         
-##    i = 0
-##    while i < len(lijnen_lijst):
-##        if lijnen_lijst[i][0:3] == "Fix":     #veranderen in Y uiteraard!!!
-##            punt_start.append(i)
-##        i += 22
-##    print punt_start
     i = 0
     while True:
         if lijnen_lijst[i][0:5] == first_five:
@@ -82,8 +75,7 @@ def find_data(tripID,first_five):
     while i < len(lijnen_lijst):
         data_lijst.append(float(lijnen_lijst[i][:-1]))
         i += 24
-
-    target.close()
+        
     return data_lijst
 
 def compose_GPS_coordinates(tripID):
@@ -111,13 +103,15 @@ def send_GPS_lijst():
     startTime = find_time(tripID,'start')
     endTime = find_time(tripID,'stop')
     GPS_lijst = compose_GPS_coordinates(tripID)
+    fix_on = []
+    find_fix(tripID)
+    print "hier geraakt ie snel"
 
-    print socketIO.emit('batch-tripdata',json.dumps([{'userID':userID,'groupID':groupID,'startTime':startTime,'endTime':endTime,\
+    socketIO.emit('batch-tripdata',json.dumps([{'userID':userID,'groupID':groupID,'startTime':startTime,'endTime':endTime,\
             'sensorData':[{'sensorID': 1, 'data': [{'type':'MultiPoint', 'coordinates':GPS_lijst, 'unit':'google'}]}]}]), on_response)
 
     socketIO.wait(5000)
-
-
+    print "done"
 
 
 
@@ -131,27 +125,35 @@ def send_all():
     target = open('GPSdata/'+tripID+'.txt')
     with target as f:
         lijnen_lijst = f.readlines()
+    target.close()
+    fix_on = []
+    find_fix(tripID)
+    print fix_on
     
     
     startTime = find_time(tripID,'start')
     endTime = find_time(tripID,'stop')   
     datalist = make_data_list(tripID)
     meta_dict = make_meta_list(tripID)
-    target.close()
+
+    
+    print "zo lang tot emit"
     print socketIO.emit('batch-tripdata', json.dumps([{'userID':userID,'groupID':groupID,'startTime':startTime,'endTime':endTime,\
         'sensorData':datalist,'meta':meta_dict}]),on_response)
-    socketIO.wait(5)
+
+    print "eruit"
+    socketIO.wait(500)
     
 
 def make_data_list(tripID):
     datalist = []
     #gps
     GPS_coordinaten = compose_GPS_coordinates(tripID)
-    timestamp_list = find_GPS_data(tripID,"Date/")
-    speed_list = find_GPS_data(tripID,"Speed")
+    timestamp_list = find_GPS_data(tripID,'Date/')
+    speed_list = find_GPS_data(tripID,'Speed')
     i = 0
     while i < len(GPS_coordinaten):
-        datalist.append({'sensorID':1,"timestamp":timestamp_list[i],'data': [{'type':'Point', 'coordinates':GPS_coordinaten[i],\
+        datalist.append({'sensorID':1,'timestamp':timestamp_list[i],'data': [{'type':'Point', 'coordinates':GPS_coordinaten[i],\
                                                  'unit':'google','speed':[speed_list[i]]}]})
         i += 1
 
@@ -161,8 +163,9 @@ def make_data_list(tripID):
     alt2tude_list = find_data(tripID,"Alt2t")
     i = 0
     while i < len(temperature_list):
-        datalist.append({'sensorID':10, 'data': [{"pressure":[pressure_list[i]],\
-                                    "temperature":[temperature_list[i]],"height":[alt2tude_list[i]]}]})
+        if i in fix_on:
+            datalist.append({'sensorID':10, 'timestamp':timestamp_list[i],'data': [{'pressure':[pressure_list[i]],\
+                                    'temperature':[temperature_list[i]],'height':[alt2tude_list[i]]}]})
         i += 1
     
     return datalist
