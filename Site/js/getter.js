@@ -10,8 +10,6 @@ var GPS = 1;
 var THERMO = 3;
 var CAM = 8;
 
-//TODO Delete unused code
-
 lapse.getter = (function() {
 
     function GroupData(status, URL){
@@ -41,10 +39,15 @@ lapse.getter = (function() {
             if (C.length != mindata) {
                 var k = averagemax.length;
                 if (v.meta != null) {
-                    averagemax.push([k, v.meta.averageSpeed, v.meta.maxSpeed]);
+                    //if (v.meta.averageSpeed > 28){
+                    //    averagemax.push([k,15, 18]);
+                    //}
+                    //else{
+                        averagemax.push([k, v.meta.averageSpeed, v.meta.maxSpeed]);
+                    //}
                 }
                 else {
-                    averagemax.push([k, undefined, undefined])
+                    averagemax.push([k, 0, 0])
                 }
                 if (typeof averagemax[k - 1][1] === "undefined") {
                     averagemax[k - 1][1] = 0;
@@ -71,6 +74,22 @@ lapse.getter = (function() {
     function ExtractData(json){
         coordinates = [];
         temperature = [];
+        var B = json.meta;
+
+        if (typeof B.averageSpeed !== "undefined"){
+            $("<p class='tripdata'>").text(B.averageSpeed + " m/s").appendTo($("#AVSPEED"));
+        }
+        else {
+            $("<p class='tripdata'>").text("/").appendTo($("#AVSPEED"));
+        }
+
+        if (typeof B.maxSpeed !== "undefined"){
+            $("<p class='tripdata'>").text(B.maxSpeed + " m/s").appendTo($("#MAXSPEED"));
+        }
+        else{
+            $("<p class='tripdata'>").text("/").appendTo($("#MAXSPEED"));
+        }
+
         var C = json.sensorData;
         var timelapseid = $("#timelapse");
         $.each(C,function() {
@@ -136,13 +155,6 @@ lapse.getter = (function() {
             // tell jQuery we're expecting JSONP
             dataType: "jsonp",
 
-            beforeSend: function(){
-                $("#ajaxcall").removeClass("hidden");
-            },
-
-            complete: function(){
-                $("#ajaxcall").addClass("hidden");
-            },
             // work with the response
             success: function( response ) {
                 return callback(response, URL); // server response
