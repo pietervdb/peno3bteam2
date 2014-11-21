@@ -38,10 +38,8 @@ def find_time(tripID,st):
 def find_fix(tripID):
     fix_on[:] = []
     i = 0
-    while i < 80:#len(lijnen_lijst):
+    while i < len(lijnen_lijst):
         if lijnen_lijst[i][0:5] == "Fix:Y":     #veranderen in Y uiteraard!!!
-            print i
-            print lijnen_lijst[i]
             fix_on.append(i)
         i += 24
     
@@ -142,41 +140,34 @@ def send_all():
     datalist = make_data_list(tripID)
     meta_dict = make_meta_list(tripID)
 
-    
-    print "zo lang tot emit"
-    #print socketIO.emit('batch-tripdata', json.dumps([{'userID':userID,'groupID':groupID,'startTime':startTime,'endTime':endTime,\
-    #    'sensorData':datalist,'meta':meta_dict}]),on_response)
-
-    print "eruit"
+    socketIO.emit('batch-tripdata', json.dumps([{'userID':userID,'groupID':groupID,'startTime':startTime,'endTime':endTime,\
+        'sensorData':[],'meta':meta_dict}]),on_response)
     socketIO.wait(500)
-    
 
 def make_data_list(tripID):
     datalist = []
+    
     #gps
     GPS_coordinaten = compose_GPS_coordinates(tripID)
     timestamp_list = find_data(tripID,'Date/')
     speed_list = find_GPS_data(tripID,'Speed')
-    i = 0
-    while i < len(GPS_coordinaten):
+    for i in range(len(GPS_coordinaten)):
         datalist.append({'sensorID':1,'timestamp':timestamp_list[i],'data': [{'type':'Point', 'coordinates':GPS_coordinaten[i],\
                                                  'unit':'google','speed':[speed_list[i]]}]})
-        i += 1
 
     #barometer
     temperature_list = find_data(tripID,"Tempe")
     pressure_list = find_data(tripID,"Press")
     alt2tude_list = find_data(tripID,"Alt2t")
     temperature_add = add_number(tripID,"Tempe")
+    
     for i in range(len(temperature_list)):
-        if i-temperature_add in fix_on:
+        if i*24 in fix_on:
             datalist.append({'sensorID':10, 'timestamp':timestamp_list[i],'data': [{'pressure':[pressure_list[i]],\
                                     'temperature':[temperature_list[i]],'height':[alt2tude_list[i]]}]})
         else:
             datalist.append({'sensorID':10,'data': [{'pressure':[pressure_list[i]],\
-                                    'temperature':[temperature_list[i]],'height':[alt2tude_list[i]]}]})
-            
-            
+                                    'temperature':[temperature_list[i]],'height':[alt2tude_list[i]]}]})        
     return datalist
 
 def make_meta_list(tripID):
@@ -189,45 +180,3 @@ def make_meta_list(tripID):
     minTemp = min(temp_list)
     meta_dict = {"averageSpeed":averageSpeed,"maxSpeed":maxSpeed,"other":[{"temperature":[minTemp,avgTemp,maxTemp]}]}
     return meta_dict
-    
-    
-    
-    
-    
-
-
-
-
-
-    
-
-##
-##socketIO.emit('batch-tripdata',json.dumps('groupID':'CWB2',\
-##            'userID':'r0369676','timestamp':'yr-dy-mnth hr-min-sec',\
-##'sensorData':X))
-##
-##X = [
-##
-##    {'sensorID': 1,'data': [{'type': 'Point',\
-##'coordinates': ['Location(JSON)']}],\
-##    'timestamp': 'yr-dy-mnth hr-min-sec'},
-##
-##    {'sensorID': 1,'data': [{'type': 'Point',\
-##'coordinates': ['Location(GM)'], 'height': ['Height']}],\
-##    'timestamp': 'yr-dy-mnth hr-min-sec'},
-##
-##    {'sensorID': 1,'data': [{'type': 'Point',\
-##'coordinates': ['Location(GM)'], 'height': ['Height']}],\
-##    'timestamp': 'yr-dy-mnth hr-min-sec'}
-##
-##    ]
-##
-
-
-
-
-
-
-
-
-
