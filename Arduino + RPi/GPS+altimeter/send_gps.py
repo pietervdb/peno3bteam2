@@ -117,7 +117,7 @@ def send_all():
     socketIO.wait(0.2)
     #tripID = lrs[0][u'_id']
 
-
+    target = open('GPSdata/'+tripID+'.txt')
     with target as f:
         lijnen_lijst = f.readlines()
     target.close()
@@ -133,7 +133,7 @@ def make_data_list(tripID):
     datalist = []
     #gps
     GPS_coordinaten = compose_GPS_coordinates(tripID)
-    GPS_
+    
     datalist.append({'sensorID':1, 'data': [{'type':'MultiPoint', 'coordinates':GPS_coordinaten, 'unit':'google'}]})
     
     

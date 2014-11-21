@@ -45,6 +45,7 @@ void useInterrupt(boolean v) {
   
 uint32_t timer = millis();
 void loop() {
+
       if (! usingInterrupt) {
     char c = GPS.read();
     if (GPSECHO)
@@ -54,8 +55,8 @@ void loop() {
     if (!GPS.parse(GPS.lastNMEA())) 
     return;                   }
     
-    if (timer > millis())  timer = millis();
-    if (millis() - timer > 2000) { timer = millis();
+    //if (timer > millis())  timer = millis();
+    //if (millis() - timer > 2000) { timer = millis();
   
     Serial.print("Fix:["); Serial.print((int)GPS.fix);Serial.println("]");
     Serial.print("Quality: ["); Serial.print((int)GPS.fixquality);Serial.println("]");
@@ -75,7 +76,7 @@ void loop() {
     Serial.print("Alt1tude: [");Serial.print(GPS.altitude);Serial.print("]");Serial.println("");
     Serial.print("Satellites: [");Serial.print((int)GPS.satellites);Serial.print("]");Serial.println("");
     
-                          
+    //}              
     
     if (! baro.begin()) {
     Serial.println("Couldnt find sensor");
@@ -89,6 +90,7 @@ void loop() {
     
     Serial.print("Alt2tude: [");Serial.print(altm);Serial.print("]");Serial.println("");
     Serial.print("Temperature: [");Serial.print(tempC);Serial.print("]");Serial.println("");
-                                }
+    delay(2000);
+                                
 }
             
