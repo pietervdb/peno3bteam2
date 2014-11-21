@@ -75,9 +75,10 @@ lapse.getter = (function() {
         coordinates = [];
         temperature = [];
         var B = json.meta;
+        var averageSpeed = (Math.round(B.averageSpeed*100))/100;
 
         if (typeof B.averageSpeed !== "undefined"){
-            $("<p class='tripdata'>").text(B.averageSpeed + " m/s").appendTo($("#AVSPEED"));
+            $("<p class='tripdata'>").text(averageSpeed + " m/s").appendTo($("#AVSPEED"));
         }
         else {
             $("<p class='tripdata'>").text("/").appendTo($("#AVSPEED"));

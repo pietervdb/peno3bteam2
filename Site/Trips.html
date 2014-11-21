@@ -103,11 +103,43 @@
                     </div>
                 </form>
             </ul>
-
         </div>
-        <div id="refresh" style="display: inline;">
+        <div class="dropdown" style="display: inline;">
+            <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                Date
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <li class="dropdown-header"></li>
+                <form class="filter form-inline" role="form">
+                    <div class="radio">
+                        <label><input type="radio" name="Until" checked="true">From</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="Until">Until</label>
+                    </div>
+                </form>
+                <form class="filter2">
+                    day:<br>
+                    <input id="filterday" type="number" name="day" min="1" max="31" value="1" required>
+                    <br>
+                    month:<br>
+                    <input id="filtermonth" type="number" name="month" min="1" max="12" value="1" required>
+                    year:<br>
+                    <input id ="filteryear" type="number" name="year" min="1970" max="2015" value="2014" required>
+                    <br>
+                    <div class="refresh date" style="display: inline;">
+                        <button class="btn btn-link" type="button">
+                            <span class="glyphicon glyphicon-refresh"></span>
+                        </button>
+                    </div>
+                </form>
+            </ul>
+        </div>
+        <div class="refresh" style="display: inline;">
             <button class="btn btn-link" type="button">
-                <span class="glyphicon glyphicon-refresh"></span></button>
+                <span class="glyphicon glyphicon-refresh"></span>
+            </button>
         </div>
     </div>
 

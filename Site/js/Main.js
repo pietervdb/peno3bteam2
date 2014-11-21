@@ -17,13 +17,11 @@ var dashboard;
 var averagemax = "undefined";
 var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
 var mindata = 0;
+var FilterStartTime = new Date(70,0,1,1,0,0,0);
+var FilterEndTime = new Date(2015,0,1,1,0,0,0);
 
 //TODO add filters: eenheid snelheid, datum(vanaf, tot, maand, jaar), temperatuur, 
 //TODO datefilter
-//TODO thumbnails efficiënter maken
-//TODO sluitknop tripinfo
-//TODO selectie duidelijker maken?
-//TODO average en maxspeed weergeven
 
 //controleren of laatste letter in URL een "#" is
 if (groupID[groupID.length-1] == "#"){
@@ -136,7 +134,19 @@ function main(){
     });
 
     //Herladen
-    $("#refresh").click(function () {
+    $(".refresh").click(function () {
+        $(".slider-dots").empty();
+        $("#thumbnails").empty();
+        $("#loadicon").show();
+        spinner();
+        lapse.getter.ExtractAverageMax(AllTrips);
+        thumbnail(AllTrips);
+    });
+
+    //Herladen-Date
+    $(".refresh.date").click(function () {
+        FilterStartTime.setFullYear($("#filteryear").val(),$("#filtermonth").val()-1,$("#filterday").val());
+        console.log(FilterStartTime)
         $(".slider-dots").empty();
         $("#thumbnails").empty();
         $("#loadicon").show();
@@ -211,6 +221,7 @@ function thumbnail(json){
     var k = 0;
     var i;
     for (i = json.length-1; i>-1; i = i-1){
+
 
         var C = json[i].sensorData;
         if (C == null){
@@ -495,7 +506,7 @@ function map() {
     var coor_default = [];
     var HOEKPUNTEN;
     var mapstyle = [
-        {"featureType":"administrative", "stylers":[{"visibility":"off"}]},
+        {"featureType":"administrative", "stylers":[{"visibility":"on"}]},
         {"featureType":"poi","stylers":[{"visibility":"simplified"}]},
         {"featureType":"road","elementType":"labels","stylers":[{"visibility":"simplified"}]},
         {"featureType":"water","stylers":[{"visibility":"simplified"}]},
