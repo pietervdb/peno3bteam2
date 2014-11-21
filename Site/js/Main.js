@@ -23,6 +23,7 @@ var mindata = 0;
 //TODO thumbnails efficiënter maken
 //TODO sluitknop tripinfo
 //TODO selectie duidelijker maken?
+//TODO average en maxspeed weergeven
 
 //controleren of laatste letter in URL een "#" is
 if (groupID[groupID.length-1] == "#"){
@@ -344,6 +345,7 @@ function timelapse() {
 function drawAverageMaxChart() {
 
     dataaveragemax = google.visualization.arrayToDataTable(averagemax);
+    console.log(dataaveragemax)
 
     dashboard = new google.visualization.Dashboard(document.getElementById('dashboard_div'));
 
@@ -603,9 +605,6 @@ function map() {
         $("<p>").text(dist + " m").appendTo($("#DIST"));
     }
 
-
-
-
     map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
         new FullScreenControl(map));
     map.fitBounds(bounds);
@@ -613,6 +612,7 @@ function map() {
     bikePath.setMap(map);
 
 }
+
 
 
 
