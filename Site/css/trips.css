@@ -29,6 +29,18 @@ table {
     border-spacing: 5px;
 }
 
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
+}
+
 #searchgroup{
     margin: 8px 0 8px 0;
 }
@@ -80,7 +92,7 @@ table {
 
 .slider-nav {
     text-align: center;
-    margin-top: 20px;
+    /*margin-top: 20px;*/
 }
 
 #arrows {

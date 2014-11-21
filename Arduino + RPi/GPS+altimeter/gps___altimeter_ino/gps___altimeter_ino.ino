@@ -2,8 +2,8 @@
 #include <SoftwareSerial.h>
 #include <Wire.h>
 #include <Adafruit_MPL3115A2.h>
-Adafruit_MPL3115A2 baro = Adafruit_MPL3115A2();
-SoftwareSerial mySerial(3, 2);
+Adafruit_MPL3115A2 baro = Adafruit_MPL3115A2(); //SCL A5 en SDA A4
+SoftwareSerial mySerial(3, 2); //RX D2 en TXX D3
 Adafruit_GPS GPS(&mySerial);
 #define GPSECHO  false
 boolean usingInterrupt = false;

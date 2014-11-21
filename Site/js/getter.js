@@ -9,6 +9,21 @@ var image;
 var GPS = 1;
 var THERMO = 3;
 var CAM = 8;
+var month = [
+    "Jan",
+    "Feb",
+    "Mar",
+    "Apr",
+    "May",
+    "June",
+    "July",
+    "Aug",
+    "Sep",
+    "Oct",
+    "Nov",
+    "Dec"
+];
+
 
 lapse.getter = (function() {
 
@@ -43,7 +58,7 @@ lapse.getter = (function() {
                     //    averagemax.push([k,15, 18]);
                     //}
                     //else{
-                        averagemax.push([k, v.meta.averageSpeed, v.meta.maxSpeed]);
+                    averagemax.push([k, v.meta.averageSpeed, v.meta.maxSpeed]);
                     //}
                 }
                 else {
@@ -74,6 +89,9 @@ lapse.getter = (function() {
     function ExtractData(json){
         coordinates = [];
         temperature = [];
+        var Start = new Date(json.startTime);
+        console.log(Start);
+        console.log(month[Start.getMonth()]);
         var B = json.meta;
         var averageSpeed = (Math.round(B.averageSpeed*100))/100;
 
