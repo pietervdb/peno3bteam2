@@ -79,6 +79,26 @@ function main(){
             nextDot = $('.dot').first();
         }
 
+        var nextSlideEndYear = nextSlide.children(":last").find("p").text().slice(-4);
+        var nextSlideStartYear = nextSlide.children(":first").find("p").text().slice(-4);
+        console.log(nextSlideStartYear, nextSlideEndYear);
+        var currentYear = $("#yearinfo").text();
+        if (nextSlideEndYear != currentYear){
+            $("#yearinfo").text("");
+            if (nextSlideStartYear == nextSlideEndYear){
+                $("#yearinfo").text(nextSlideStartYear);
+            }
+            else if (nextSlideEndYear == ""){
+                $("#yearinfo").text(nextSlideStartYear);
+            }
+            else if (nextSlideStartYear == ""){
+                $("#yearinfo").text(nextSlideEndYear);
+            }
+            else{
+                $("#yearinfo").text(nextSlideStartYear + " - " + nextSlideEndYear);
+            }
+        }
+
         $.when(
             currentSlide.fadeOut(500).removeClass('active-list')
         ).done(function(){
@@ -108,6 +128,25 @@ function main(){
         if(prevSlide.length === 0) {
             prevSlide = $('.Outer').first();
             prevDot = $('.dot').last();
+        }
+
+        var prevSlideEndYear = prevSlide.children(":last").find("p").text().slice(-4);
+        var prevSlideStartYear = prevSlide.children(":first").find("p").text().slice(-4);
+        var currentYear = $("#yearinfo").text();
+        if (prevSlideStartYear != currentYear){
+            $("#yearinfo").text("");
+            if (prevSlideEndYear == prevSlideStartYear){
+                $("#yearinfo").text(prevSlideStartYear);
+            }
+            else if (prevSlideEndYear == ""){
+                $("#yearinfo").text(prevSlideStartYear);
+            }
+            else if (prevSlideStartYear == ""){
+                $("#yearinfo").text(prevSlideEndYear);
+            }
+            else{
+                $("#yearinfo").text(prevSlideStartYear + " - " + prevSlideEndYear);
+            }
         }
 
         $.when(
@@ -211,7 +250,7 @@ function thumbnail(json){
     var k = 0;
     var i;
     for (i = json.length-1; i>-1; i = i-1){
-
+        var startTime = new Date(json[i].startTime);
         var C = json[i].sensorData;
         if (C == null){
             C = [];
@@ -224,18 +263,18 @@ function thumbnail(json){
                 l = 1;
                 k = k + 1;
             }
-            var toAdd = '<div class="col-xs-3 col-sm-2 col-md-1 col-lg-1 thumbtn">' +
+            var toAdd = '<div class="col-xs-3 col-sm-2 col-md-1 col-lg-1 thumbtn col-centered">' +
                 '<button class="thumbnail btn-default" type="button" id="' + json[i]._id + '" >' +
                 '<img src="foto/foto1.png" class="thumbimg">';
 
             if (typeof json[i].startTime !== "undefined") {
-                toAdd = toAdd + '<p class="thumbp">'+ json[i].startTime.slice(5, 10) +'</p>';
+                toAdd = toAdd + '<p class="thumbp">'+ month[startTime.getMonth()] + " " + startTime.getDate() + " " + startTime.getFullYear() +'</p>';
             }
 
             toAdd = toAdd + '</button></div>';
             $(toAdd).prependTo($("#" + k));
 
-                $.each(C, function () {
+            $.each(C, function () {
                 if (this.sensorID == CAM) {
                     $("#thumbnails").find("div:last-child div:first-child button img").attr("src", imageURL.concat(this.data[0]));
                     return false
@@ -245,9 +284,27 @@ function thumbnail(json){
     }
 
     $(".slider-dots li:last-child").addClass("active-dot");
-    $("img").load(function(){
+    $(window).load(function(){
+        var firstlist = $("#1");
+        var startyear;
+        var endyear
+        firstlist.removeClass("hidden").addClass("active-list");
+        endyear = firstlist.children(":last").find("p").text().slice(-4);
+        startyear = firstlist.children(":first").find("p").text().slice(-4);
+        if (startyear == endyear){
+            $("#yearinfo").text(startyear);
+        }
+        else if (endyear == ""){
+            $("#yearinfo").text(startyear);
+        }
+        else if (startyear == ""){
+            $("#yearinfo").text(endyear);
+        }
+        else{
+            $("#yearinfo").text(startyear + " - " + endyear);
+        }
         $("#loadicon").hide().data('spinner').stop();
-        $("#1").removeClass("hidden").addClass("active-list");
+        console.log("a");
         equalHeight($(".thumbnail"));
     });
 
@@ -403,11 +460,31 @@ function loadElev() {
     ELEVCHART = new google.visualization.AreaChart(document.getElementById('heightschart'));
 
     // Create a PathElevationRequest object using this array.
-    // Ask for 256 samples along that path.
-    var pathRequest = {
-        'path': coor,
-        'samples': 256
-    };
+    // Ask for 512 samples along that path.
+    if (coor.length > 512) {
+        console.log("to long");
+        var toshortencoor = coor;
+        console.log(toshortencoor)
+        while (toshortencoor.length > 512) {
+            var shortcoor =[];
+            for (var i=0; i < toshortencoor.length-1; i=i+2){
+                shortcoor.push(toshortencoor[i]);
+               }
+            shortcoor.push(toshortencoor[toshortencoor.length-1]);
+            toshortencoor = shortcoor;
+        }
+        var pathRequest = {
+                'path': shortcoor,
+                'samples': 256
+        };
+    }
+
+    else{
+        var pathRequest = {
+            'path': coor,
+            'samples': 512
+        };
+    }
 
     // Initiate the path request.
     elevator.getElevationAlongPath(pathRequest, plotElevation);
