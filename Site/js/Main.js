@@ -55,21 +55,6 @@ $(window).resize(function(){
     google.maps.event.trigger(map, "resize");
 });
 
-//
-//CHECKS
-//
-//unused
-function checkData(){
-    if (typeof coordinates !== "undefined" && coordinates != "NONE" && TripInfo !== 'NONE'){
-        //google.setOnLoadCallback(map());
-        map();
-        //images(TripInfo);
-    }
-    else{
-        window.setTimeout("checkData();",50);
-    }
-}
-
 
 //
 //INIT
@@ -141,7 +126,6 @@ function main(){
 
     //Checkbox "Get all trips"
     $('#filterall').change(function(){
-        console.log(this.checked);
         if (this.checked){
             mindata = -1
         }
@@ -158,7 +142,8 @@ function main(){
         spinner();
         lapse.getter.ExtractAverageMax(AllTrips);
         thumbnail(AllTrips);
-    })
+    });
+
     $("#close").click(function () {
         $(".thumbnail.active").removeClass("active");
         $("#tripinfo").slideUp({
@@ -168,9 +153,7 @@ function main(){
                 $("#map-canvas").empty();
                 $("#timelapse").empty();
                 $("#heightsdiv").hide();
-                if ($("#DIST").children().length > 1){
-                    $("#DIST p:last-child").remove()
-                }
+                $(".tripdata").remove();
                 clearInterval(interval);
             }
         });
@@ -235,22 +218,25 @@ function thumbnail(json){
         if (C.length != mindata) {
             l = l + 1;
             if (l==13) {
-                $("<div>").addClass("Outer").addClass("hidden").attr("id", k+1).appendTo("#thumbnails");
+                $('<div class="Outer hidden">').attr("id", k+1).appendTo("#thumbnails");
                 $("<li>&bull;</li>").addClass("dot").appendTo($(".slider-dots"));
                 l = 1;
                 k = k + 1;
             }
-            $("#" + k).prepend("<div>");
-            $("#thumbnails div:last-child div:first-child").attr("class", "col-xs-3 col-sm-2 col-md-1 col-lg-1 thumbtn").append("<button>");
-            $("#thumbnails div:last-child div:first-child button").attr("class", "thumbnail btn-default").attr("id", json[i]._id).attr("type", "button").append("<img>").append("<p>");
-            $("#thumbnails div:last-child div:first-child button img").attr("src", "foto/foto1.png").addClass("thumbimg");
+            var toAdd = '<div class="col-xs-3 col-sm-2 col-md-1 col-lg-1 thumbtn">' +
+                '<button class="thumbnail btn-default" type="button" id="' + json[i]._id + '" >' +
+                '<img src="foto/foto1.png" class="thumbimg">';
+
             if (typeof json[i].startTime !== "undefined") {
-                $("#thumbnails div:last-child div:first-child button p").text(json[i].startTime.slice(5, 10)).addClass("thumbp");
+                toAdd = toAdd + '<p class="thumbp">'+ json[i].startTime.slice(5, 10) +'</p>';
             }
 
-            $.each(C, function () {
+            toAdd = toAdd + '</button></div>';
+            $(toAdd).prependTo($("#" + k));
+
+                $.each(C, function () {
                 if (this.sensorID == CAM) {
-                    $("#thumbnails div:last-child div:first-child button img").attr("src", imageURL.concat(this.data[0]));
+                    $("#thumbnails").find("div:last-child div:first-child button img").attr("src", imageURL.concat(this.data[0]));
                     return false
                 }
             });
@@ -275,9 +261,7 @@ function thumbnail(json){
                 $("#map-canvas").empty();
                 $("#timelapse").empty();
                 $("#heightsdiv").hide();
-                if ($("#DIST").children().length > 1){
-                    $("#DIST p:last-child").remove()
-                }
+                $(".tripdata").remove();
                 clearInterval(interval);
                 lapse.getter.ExtractTrip(json,tripid);
             }
@@ -370,6 +354,7 @@ function drawAverageMaxChart() {
     var control = new google.visualization.ControlWrapper({
         'controlType': 'ChartRangeFilter',
         'containerId': 'control_div',
+        'state': {'range': {'start': averagemax.length - 12}},
         'options': {
             'width': "80%",
             'filterColumnIndex': 0,
@@ -596,11 +581,11 @@ function map() {
     if (dist > 1000){
         dist = Math.round((dist/1000) * 100) / 100;
         //dist = dist / 1000
-        $("<p>").text(dist + " km").appendTo($("#DIST"));
+        $("<p class='tripdata'>").text(dist + " km").appendTo($("#DIST"));
     }
     else {
         dist =  Math.round(dist * 100) / 100;
-        $("<p>").text(dist + " m").appendTo($("#DIST"));
+        $("<p class='tripdata'>").text(dist + " m").appendTo($("#DIST"));
     }
 
 
