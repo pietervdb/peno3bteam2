@@ -7,14 +7,17 @@ import os
 global lrs
 global fix_on
 
-lrs = 0
+
 start = {'purpose':'batch-sender','groupID':'CWB2','userID':'r0369676'}
 socketIO = SocketIO('dali.cs.kuleuven.be',8080)
-tripID = "tripID"
+
+tripID = "tripID"           #moet aangepast worden (duh)
 userID = "r0369676"
 groupID = "CWB2"
+
 starTime = ""
 endTime = ""
+lrs = 0
 lijnen_lijst = []
 fix_on = []
 
@@ -33,48 +36,55 @@ def find_time(tripID,st):
         return lijnen_lijst[-20][:-1]
 
 def find_fix(tripID):
+    fix_on[:] = []
     i = 0
-    while i < len(lijnen_lijst):
+    while i < 80:#len(lijnen_lijst):
         if lijnen_lijst[i][0:5] == "Fix:Y":     #veranderen in Y uiteraard!!!
+            print i
+            print lijnen_lijst[i]
             fix_on.append(i)
         i += 24
-    print "in functie is fix_on",len(fix_on)
     
-    
-def find_GPS_data(tripID,first_five):
-    "data die afhankelijk is van GPS-fix"
+def add_number(tripID,first_five):
     i = 0
     while True:
         if lijnen_lijst[i][0:5] == first_five:
-            add_number = i+1
+            solution = i+1
             break
         i += 1
+        
+    return solution
+
+def find_GPS_data(tripID,first_five):
+    "data die afhankelijk is van GPS-fix"
+    add_nr = add_number(tripID,first_five)
     data_lijst = []
+    
     if first_five == "Date/":
         for i in fix_on:
-            data_lijst.append(lijnen_lijst[i+add_number][:-1])
-        
-        return data_lijst
-    for i in fix_on:
-        data_lijst.append(float(lijnen_lijst[i+add_number][:-1]))
+            data_lijst.append(lijnen_lijst[i+add_nr][:-1])
+            
+    else:
+        for i in fix_on:
+            data_lijst.append(float(lijnen_lijst[i+add_nr][:-1]))
+            
     return data_lijst
 
 
 def find_data(tripID,first_five):
     "data die afhankelijk is van GPS-fix"
-    punt_start = []
-        
-    i = 0
-    while True:
-        if lijnen_lijst[i][0:5] == first_five:
-            i+=1
-            break
-        i += 1
-        
+    i = add_number(tripID,first_five)
     data_lijst = []
-    while i < len(lijnen_lijst):
-        data_lijst.append(float(lijnen_lijst[i][:-1]))
-        i += 24
+    
+    if first_five == "Date/":
+        while i < len(lijnen_lijst):
+            data_lijst.append(lijnen_lijst[i][:-1])
+            i += 24
+
+    else:
+        while i < len(lijnen_lijst):
+            data_lijst.append(float(lijnen_lijst[i][:-1]))
+            i += 24
         
     return data_lijst
 
@@ -126,11 +136,7 @@ def send_all():
     with target as f:
         lijnen_lijst = f.readlines()
     target.close()
-    fix_on = []
     find_fix(tripID)
-    print fix_on
-    
-    
     startTime = find_time(tripID,'start')
     endTime = find_time(tripID,'stop')   
     datalist = make_data_list(tripID)
@@ -138,8 +144,8 @@ def send_all():
 
     
     print "zo lang tot emit"
-    print socketIO.emit('batch-tripdata', json.dumps([{'userID':userID,'groupID':groupID,'startTime':startTime,'endTime':endTime,\
-        'sensorData':datalist,'meta':meta_dict}]),on_response)
+    #print socketIO.emit('batch-tripdata', json.dumps([{'userID':userID,'groupID':groupID,'startTime':startTime,'endTime':endTime,\
+    #    'sensorData':datalist,'meta':meta_dict}]),on_response)
 
     print "eruit"
     socketIO.wait(500)
@@ -149,7 +155,7 @@ def make_data_list(tripID):
     datalist = []
     #gps
     GPS_coordinaten = compose_GPS_coordinates(tripID)
-    timestamp_list = find_GPS_data(tripID,'Date/')
+    timestamp_list = find_data(tripID,'Date/')
     speed_list = find_GPS_data(tripID,'Speed')
     i = 0
     while i < len(GPS_coordinaten):
@@ -161,13 +167,16 @@ def make_data_list(tripID):
     temperature_list = find_data(tripID,"Tempe")
     pressure_list = find_data(tripID,"Press")
     alt2tude_list = find_data(tripID,"Alt2t")
-    i = 0
-    while i < len(temperature_list):
-        if i in fix_on:
+    temperature_add = add_number(tripID,"Tempe")
+    for i in range(len(temperature_list)):
+        if i-temperature_add in fix_on:
             datalist.append({'sensorID':10, 'timestamp':timestamp_list[i],'data': [{'pressure':[pressure_list[i]],\
                                     'temperature':[temperature_list[i]],'height':[alt2tude_list[i]]}]})
-        i += 1
-    
+        else:
+            datalist.append({'sensorID':10,'data': [{'pressure':[pressure_list[i]],\
+                                    'temperature':[temperature_list[i]],'height':[alt2tude_list[i]]}]})
+            
+            
     return datalist
 
 def make_meta_list(tripID):
