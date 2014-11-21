@@ -119,3 +119,19 @@ img.displayed {
 .lijn_onderaan {
     border-top-style: solid;
 }
+#login_form {
+    top: 20%;
+    left: 30%;
+    right: 30%;
+    bottom: 20%;
+    font-size: 18px;
+}
+
+#f1 {
+    background-color: #ccc;
+    border-style: solid;
+    border-width: 1px;
+}
+.f1_label {
+    white-space: nowrap;
+}
