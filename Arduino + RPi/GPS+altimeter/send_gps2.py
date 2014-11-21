@@ -31,9 +31,9 @@ target.close()
 
 def find_time(tripID,st):
     if st == 'start':
-        return lijnen_lijst[4][:-1]
+        return lijnen_lijst[fix_on[0]+4][:-1]
     elif st == 'stop':
-        return lijnen_lijst[-20][:-1]
+        return lijnen_lijst[fix_on[-1]+4][:-1]
 
 def find_fix(tripID):
     fix_on[:] = []
@@ -101,28 +101,6 @@ def on_response(*args):
     global lrs
     print 'server message is',args
     lrs = args
-
-def send_GPS_lijst():
-    socketIO.on('server_message',on_response)
-    socketIO.emit('start',json.dumps(start),on_response)
-
-    socketIO.wait(0.2) #moet hier staan want anders werkt lrs niet
-    #tripID = lrs[0][u'_id']
-    startTime = find_time(tripID,'start')
-    endTime = find_time(tripID,'stop')
-    GPS_lijst = compose_GPS_coordinates(tripID)
-    fix_on = []
-    find_fix(tripID)
-    print "hier geraakt ie snel"
-
-    socketIO.emit('batch-tripdata',json.dumps([{'userID':userID,'groupID':groupID,'startTime':startTime,'endTime':endTime,\
-            'sensorData':[{'sensorID': 1, 'data': [{'type':'MultiPoint', 'coordinates':GPS_lijst, 'unit':'google'}]}]}]), on_response)
-
-    socketIO.wait(5)
-    print "done"
-
-
-
     
 def send_all():
     socketIO.on('server_message',on_response)
@@ -139,10 +117,9 @@ def send_all():
     endTime = find_time(tripID,'stop')   
     datalist = make_data_list(tripID)
     meta_dict = make_meta_list(tripID)
-
     socketIO.emit('batch-tripdata', json.dumps([{'userID':userID,'groupID':groupID,'startTime':startTime,'endTime':endTime,\
         'sensorData':datalist,'meta':meta_dict}]),on_response)
-    socketIO.wait(15)
+    socketIO.wait(10)
 
 def make_data_list(tripID):
     datalist = []
