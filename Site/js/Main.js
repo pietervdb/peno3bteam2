@@ -210,6 +210,17 @@ function main(){
                 thumbnail(AllTrips);
             }
         });
+        $("#tripinfo").slideUp({
+            duration:"slow",
+            complete: function () {
+                coordinates = "NONE";
+                $("#map-canvas").empty();
+                $("#timelapse").empty();
+                $("#heightsdiv").hide();
+                $(".tripdata").remove();
+                clearInterval(interval);
+            }
+        });
     });
 
     $("#close").click(function () {
@@ -233,15 +244,12 @@ function SetDates(){
     var filtermonth;
     var filteryear;
     if ($("#FilterDateOn").prop("checked")){
-        console.log("cc");
         filterday = $('input[name=day]', '#FormDateFromOn').val();
-        var filterdayend = parseInt(filterday) + 1;
-        filterdayend = filterdayend.toString();
+        var filterdayend = (parseInt(filterday) + 1).toString();
         filtermonth = $('input[name=month]', '#FormDateFromOn').val()-1;
         filteryear = $('input[name=year]', '#FormDateFromOn').val();
         FilterStartDate.setFullYear(filteryear, filtermonth, filterday);
         FilterEndDate.setFullYear(filteryear, filtermonth, filterdayend);
-        console.log(FilterStartDate, FilterEndDate);
     }
 
     else if ($("#FilterDateFrom").prop("checked") && $("#FilterDateTo").prop("checked") == false){
@@ -345,7 +353,6 @@ function thumbnail(json){
             C = [];
         }
         if (CONDITION(C.length, startTime)) {
-            console.log("a");
             l = l + 1;
 
             if (l==13) {
@@ -362,7 +369,6 @@ function thumbnail(json){
                 toAdd = toAdd + '<p class="thumbp">'+ month[startTime.getMonth()] + " " + startTime.getDate() + " " + startTime.getFullYear() +'</p>' + '</button></div>';
             }
             else{
-                console.log("aa");
                 toAdd = toAdd + '<p class="thumbp">'+ month[previousDate.getMonth()] + " " + previousDate.getDate() + " " + previousDate.getFullYear() +'</p>' + '</button></div>';
             }
 
