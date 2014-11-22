@@ -53,11 +53,7 @@ lapse.getter = (function() {
             if (C == null){
                 C = [];
             }
-<<<<<<< HEAD
-            if (C.length != mindata && FilterStartTime < currentDate && currentDate < FilterEndTime) {
-=======
             if (CONDITION(C.length,currentDate)) {
->>>>>>> 008c19224be31c9948d32e6a30fd81146f767c8a
                 var k = averagemax.length;
                 if (v.meta != null) {
                     averagemax.push([k, v.meta.averageSpeed*UNITMULTIPLIER, v.meta.maxSpeed*UNITMULTIPLIER]);

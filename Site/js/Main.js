@@ -192,13 +192,6 @@ function main(){
     //Herladen
     $(".refresh").click(function () {
 
-    //Herladen-Date
-    $(".refresh.date").click(function () {
-        FilterStartTime.setFullYear($("#filteryear").val(),$("#filtermonth").val()-1,$("#filterday").val());
-        $(".slider-dots").empty();
-        $("#thumbnails").empty();
-        $("#loadicon").show();
-
         spinner();
         var unitselection = $('input[name=unitradio]:checked', '#unitform').val().split(" ");
         UNITMULTIPLIER = unitselection[0];
