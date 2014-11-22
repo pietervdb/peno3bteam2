@@ -56,7 +56,7 @@ lapse.getter = (function() {
             if (CONDITION(C.length,currentDate)) {
                 var k = averagemax.length;
                 if (v.meta != null) {
-                    averagemax.push([k, v.meta.averageSpeed*UNITMULTIPLIER, v.meta.maxSpeed*UNITMULTIPLIER]);
+                    averagemax.push([k, (Math.round((v.meta.averageSpeed*UNITMULTIPLIER)*100))/100, (Math.round((v.meta.maxSpeed*UNITMULTIPLIER)*100))/100]);
                 }
                 else {
                     averagemax.push([k, 0, 0])
@@ -73,24 +73,24 @@ lapse.getter = (function() {
         return averagemax
     }
 
-    function ExtractTrip(json, trip){
+    function ExtractTrip(json, trip, time){
         $.each(json, function(i, v) {
             if (v._id == trip){
                 TripInfo = v;
-                ExtractData(TripInfo);
+                ExtractData(TripInfo, time);
                 return false
             }
         });
     }
 
-    function ExtractData(json){
+    function ExtractData(json, time){
         coordinates = [];
         temperature = [];
         speeddata = [['distance', 'Speed']];
-        var Start = new Date(json.startTime);
         var B = json.meta;
         var averageSpeed = (Math.round((B.averageSpeed*UNITMULTIPLIER)*100))/100;
         var maxSpeed = (Math.round((B.maxSpeed*UNITMULTIPLIER)*100))/100;
+        $("<p class='tripdata'>" + dateFormat(time)+"</p>").appendTo($("#dateinfo"));
 
         if (B.averageSpeed){
             $("<p class='tripdata'>").text(averageSpeed + " " + UNIT).appendTo($("#AVSPEED"));
@@ -119,7 +119,7 @@ lapse.getter = (function() {
                     else if (this.data[0].type == "Point") {
                         coordinates.push([this.data[0].coordinates[0], this.data[0].coordinates[1]]);
                         if (this.data[0].speed) {
-                            speeddata.push(["", this.data[0].speed[0] * UNITMULTIPLIER]);
+                            speeddata.push(["", (Math.round((this.data[0].speed[0]*UNITMULTIPLIER)*100))/100]);
                         }
                     }
                     break;
@@ -161,7 +161,7 @@ lapse.getter = (function() {
 
         //Starten van timelapse wanneer afbeeldingen geladen zijn
         if (timelapseid.children()[0]){
-            $("img").load(timelapse());
+            timelapseid.waitForImages(timelapse());
         }
     }
 

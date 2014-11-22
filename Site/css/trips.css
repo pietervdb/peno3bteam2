@@ -90,6 +90,10 @@ table {
     padding-left: 5px;
 }
 
+#dateinfo p{
+    display: inline;
+}
+
 .slider-nav {
     text-align: center;
     /*margin-top: 20px;*/
