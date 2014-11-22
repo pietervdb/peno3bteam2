@@ -48,10 +48,11 @@ lapse.getter = (function() {
         averagemax[0] = ['Trip', 'Average Speed', 'Maximum Speed'];
         $.each(json, function(i, v) {
             var C = v.sensorData;
+            var currentDate = new Date(v.startTime);
             if (C == null){
                 C = [];
             }
-            if (C.length != mindata) {
+            if (C.length != mindata && FilterStartTime < currentDate && currentDate < FilterEndTime) {
                 var k = averagemax.length;
                 if (v.meta != null) {
                     //if (v.meta.averageSpeed > 28){

@@ -185,7 +185,6 @@ function main(){
     //Herladen-Date
     $(".refresh.date").click(function () {
         FilterStartTime.setFullYear($("#filteryear").val(),$("#filtermonth").val()-1,$("#filterday").val());
-        console.log(FilterStartTime)
         $(".slider-dots").empty();
         $("#thumbnails").empty();
         $("#loadicon").show();
