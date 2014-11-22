@@ -17,8 +17,12 @@ var dashboard;
 var averagemax = "undefined";
 var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
 var mindata = 0;
-var FilterStartTime = new Date(70,0,1,1,0,0,0);
-var FilterEndTime = new Date(2015,0,1,1,0,0,0);
+var totalimages;
+var imagesloaded;
+var UNITMULTIPLIER = 1;
+var UNIT = "m/s";
+var FilterStartDate = new Date(70,0,1,1,0,0,0);
+var FilterEndDate = new Date(2015,0,1,1,0,0,0);
 
 //TODO add filters: eenheid snelheid, datum(vanaf, tot, maand, jaar), temperatuur, 
 //TODO datefilter
@@ -79,7 +83,6 @@ function main(){
 
         var nextSlideEndYear = nextSlide.children(":last").find("p").text().slice(-4);
         var nextSlideStartYear = nextSlide.children(":first").find("p").text().slice(-4);
-        console.log(nextSlideStartYear, nextSlideEndYear);
         var currentYear = $("#yearinfo").text();
         if (nextSlideEndYear != currentYear){
             $("#yearinfo").text("");
@@ -172,26 +175,41 @@ function main(){
         }
     });
 
-    //Herladen
-    $(".refresh").click(function () {
-        $(".slider-dots").empty();
-        $("#thumbnails").empty();
-        $("#loadicon").show();
-        spinner();
-        lapse.getter.ExtractAverageMax(AllTrips);
-        thumbnail(AllTrips);
+    $("#FilterDateOn").change(function(){
+        if (this.checked){
+            $("#FilterDateFrom,#FilterDateTo").removeAttr("checked");
+        }
     });
 
-    //Herladen-Date
-    $(".refresh.date").click(function () {
-        FilterStartTime.setFullYear($("#filteryear").val(),$("#filtermonth").val()-1,$("#filterday").val());
-        console.log(FilterStartTime)
-        $(".slider-dots").empty();
-        $("#thumbnails").empty();
-        $("#loadicon").show();
+    $("#FilterDateFrom").change(function(){
+        if (this.checked){
+            $("#FilterDateOn").removeAttr("checked");
+        }
+    });
+
+    $("#FilterDateTo").change(function(){
+        if (this.checked){
+            $("#FilterDateOn").removeAttr("checked");
+        }
+    });
+
+    //Herladen
+    $(".refresh").click(function () {
+
         spinner();
-        lapse.getter.ExtractAverageMax(AllTrips);
-        thumbnail(AllTrips);
+        var unitselection = $('input[name=unitradio]:checked', '#unitform').val().split(" ");
+        UNITMULTIPLIER = unitselection[0];
+        UNIT = unitselection[1];
+        SetDates();
+        //FilterStartDate.setFullYear($("#filteryear").val(),$("#filtermonth").val()-1,$("#filterday").val());
+        $("#loadicon").fadeIn({
+            complete:function(){
+                $(".slider-dots").empty();
+                $("#thumbnails").empty();
+                lapse.getter.ExtractAverageMax(AllTrips);
+                thumbnail(AllTrips);
+            }
+        });
     });
 
     $("#close").click(function () {
@@ -210,6 +228,57 @@ function main(){
     });
 }
 
+function SetDates(){
+    var filterday;
+    var filtermonth;
+    var filteryear;
+    if ($("#FilterDateOn").prop("checked")){
+        console.log("cc");
+        filterday = $('input[name=day]', '#FormDateFromOn').val();
+        var filterdayend = parseInt(filterday) + 1;
+        filterdayend = filterdayend.toString();
+        filtermonth = $('input[name=month]', '#FormDateFromOn').val()-1;
+        filteryear = $('input[name=year]', '#FormDateFromOn').val();
+        FilterStartDate.setFullYear(filteryear, filtermonth, filterday);
+        FilterEndDate.setFullYear(filteryear, filtermonth, filterdayend);
+        console.log(FilterStartDate, FilterEndDate);
+    }
+
+    else if ($("#FilterDateFrom").prop("checked") && $("#FilterDateTo").prop("checked") == false){
+        filterday = $('input[name=day]', '#FormDateFromOn').val();
+        filtermonth = $('input[name=month]', '#FormDateFromOn').val()-1;
+        filteryear = $('input[name=year]', '#FormDateFromOn').val();
+        FilterStartDate.setFullYear(filteryear, filtermonth, filterday);
+        FilterEndDate.setFullYear(2015,0,1);
+
+    }
+
+    else if ($("#FilterDateFrom").prop("checked") == false && $("#FilterDateTo").prop("checked")){
+        filterday = $('input[name=day]', '#FormDateTo').val();
+        filtermonth = $('input[name=month]', '#FormDateTo').val()-1;
+        filteryear = $('input[name=year]', '#FormDateTo').val();
+        FilterStartDate.setFullYear(1970, 0, 1);
+        FilterEndDate.setFullYear(filteryear, filtermonth, filterday);
+    }
+
+    else if ($("#FilterDateFrom").prop("checked") && $("#FilterDateTo").prop("checked")){
+        filterday = $('input[name=day]', '#FormDateFromOn').val();
+        filtermonth = $('input[name=month]', '#FormDateFromOn').val()-1;
+        filteryear = $('input[name=year]', '#FormDateFromOn').val();
+        FilterStartDate.setFullYear(filteryear, filtermonth, filterday);
+
+        filterday = $('input[name=day]', '#FormDateTo').val();
+        filtermonth = $('input[name=month]', '#FormDateTo').val()-1;
+        filteryear = $('input[name=year]', '#FormDateTo').val();
+        FilterEndDate.setFullYear(filteryear, filtermonth, filterday);
+    }
+
+    else {
+        FilterStartDate.setFullYear(1970, 0, 1);
+        FilterEndDate.setFullYear(2015,0,1);
+    }
+}
+
 //parameters uit URL halen
 function getUrlVars() {
     var vars = {};
@@ -217,6 +286,11 @@ function getUrlVars() {
         vars[key] = value;
     });
     return vars;
+}
+
+function CONDITION(sensors, date){
+    return sensors != mindata && FilterStartDate <= date && FilterEndDate >= date
+
 }
 
 function spinner(){
@@ -259,14 +333,21 @@ function thumbnail(json){
     var l = 12;
     var k = 0;
     var i;
+    var previousDate = Date();
+
     for (i = json.length-1; i>-1; i = i-1){
         var startTime = new Date(json[i].startTime);
         var C = json[i].sensorData;
+        if (startTime == 'Invalid Date'){
+            startTime = previousDate;
+        }
         if (C == null){
             C = [];
         }
-        if (C.length != mindata) {
+        if (CONDITION(C.length, startTime)) {
+            console.log("a");
             l = l + 1;
+
             if (l==13) {
                 $('<div class="Outer hidden">').attr("id", k+1).appendTo("#thumbnails");
                 $("<li>&bull;</li>").addClass("dot").appendTo($(".slider-dots"));
@@ -277,12 +358,16 @@ function thumbnail(json){
                 '<button class="thumbnail btn-default" type="button" id="' + json[i]._id + '" >' +
                 '<img src="foto/foto1.png" class="thumbimg">';
 
-            if (typeof json[i].startTime !== "undefined") {
-                toAdd = toAdd + '<p class="thumbp">'+ month[startTime.getMonth()] + " " + startTime.getDate() + " " + startTime.getFullYear() +'</p>';
+            if (startTime != "Invalid Date") {
+                toAdd = toAdd + '<p class="thumbp">'+ month[startTime.getMonth()] + " " + startTime.getDate() + " " + startTime.getFullYear() +'</p>' + '</button></div>';
+            }
+            else{
+                console.log("aa");
+                toAdd = toAdd + '<p class="thumbp">'+ month[previousDate.getMonth()] + " " + previousDate.getDate() + " " + previousDate.getFullYear() +'</p>' + '</button></div>';
             }
 
-            toAdd = toAdd + '</button></div>';
             $(toAdd).prependTo($("#" + k));
+            previousDate = startTime;
 
             $.each(C, function () {
                 if (this.sensorID == CAM) {
@@ -293,11 +378,10 @@ function thumbnail(json){
         }
     }
 
-    $(".slider-dots li:last-child").addClass("active-dot");
-    $(window).load(function(){
+    $("#thumbnails").waitForImages(function(){
         var firstlist = $("#1");
         var startyear;
-        var endyear
+        var endyear;
         firstlist.removeClass("hidden").addClass("active-list");
         endyear = firstlist.children(":last").find("p").text().slice(-4);
         startyear = firstlist.children(":first").find("p").text().slice(-4);
@@ -313,10 +397,15 @@ function thumbnail(json){
         else{
             $("#yearinfo").text(startyear + " - " + endyear);
         }
-        $("#loadicon").hide().data('spinner').stop();
-        console.log("a");
+        $("#loadicon").fadeOut({
+            complete: function(){
+                $("#loadicon").data('spinner').stop();
+            }
+        });
         equalHeight($(".thumbnail"));
     });
+
+    $(".slider-dots li:last-child").addClass("active-dot");
 
     $(".thumbnail").click(function () {
         var tripid = this.id;
@@ -336,6 +425,8 @@ function thumbnail(json){
         });
     });
 }
+
+
 
 //thumbnails zelfde grootte maken
 function equalHeight(group) {
@@ -365,7 +456,7 @@ function images(gegevens){
 
     //Starten van timelapse wanneer afbeeldingen geladen zijn
     if (typeof timelapseid.children()[0] !== "undefined"){
-        $("img").load(timelapse());
+        $(window).load(timelapse());
     }
 }
 
@@ -396,7 +487,6 @@ function timelapse() {
 function drawAverageMaxChart() {
 
     dataaveragemax = google.visualization.arrayToDataTable(averagemax);
-    console.log(dataaveragemax)
 
     dashboard = new google.visualization.Dashboard(document.getElementById('dashboard_div'));
 
@@ -409,10 +499,11 @@ function drawAverageMaxChart() {
             'backgroundColor': '#dcdcdc',
             'vAxis': {
                 viewWindowMode:'explicit',
-                viewWindow:{
-                    max:15,
-                    min:0
-                }},
+                //viewWindow:{
+                //    max:15,
+                //    min:0
+                //}
+            },
             'hAxis': {title:"Tripnumber"},
             'animation':{
                 'duration':'250'
@@ -472,9 +563,7 @@ function loadElev() {
     // Create a PathElevationRequest object using this array.
     // Ask for 512 samples along that path.
     if (coor.length > 512) {
-        console.log("to long");
         var toshortencoor = coor;
-        console.log(toshortencoor)
         while (toshortencoor.length > 512) {
             var shortcoor =[];
             for (var i=0; i < toshortencoor.length-1; i=i+2){
@@ -526,12 +615,12 @@ function plotElevation(results, status) {
     ELEVCHART.draw(data, options);
 }
 
-function drawHeights() {
-    $("#heightsdiv").removeClass("hidden");
-    var data = google.visualization.arrayToDataTable(heights);
+function drawSpeeds() {
+    $("#speeddiv").removeClass("hidden");
+    var data = google.visualization.arrayToDataTable(speeddata);
 
     var options = {
-        title: 'Elevation',
+        title: 'Speed',
         backgroundColor: '#dcdcdc',
         hAxis: {title:"Distance"},
         legend:{
@@ -539,7 +628,7 @@ function drawHeights() {
         }
     };
 
-    var chart = new google.visualization.AreaChart(document.getElementById('heightschart'));
+    var chart = new google.visualization.AreaChart(document.getElementById('speedchart'));
 
     chart.draw(data, options);
 }
