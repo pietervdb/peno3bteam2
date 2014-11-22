@@ -14,18 +14,15 @@ var coordinates;
 var coor;
 var dataaveragemax;
 var dashboard;
-var averagemax = "undefined";
+var averagemax = false;
 var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
 var mindata = 0;
-var totalimages;
-var imagesloaded;
 var UNITMULTIPLIER = 1;
 var UNIT = "m/s";
 var FilterStartDate = new Date(70,0,1,1,0,0,0);
 var FilterEndDate = new Date(2015,0,1,1,0,0,0);
 
-//TODO add filters: eenheid snelheid, datum(vanaf, tot, maand, jaar), temperatuur, 
-//TODO datefilter
+//TODO add filters: snelheid, temperatuur,
 
 //controleren of laatste letter in URL een "#" is
 if (groupID[groupID.length-1] == "#"){
@@ -37,13 +34,13 @@ groupURL = groupURLbase.concat(groupID);
 $(document).ready(function(){
     group = document.getElementById(groupID);
 
-    if (typeof groupID !== 'undefined' && group != null){
+    if (groupID && group != null){
         group.setAttribute("class", "active");
         groupHead = group.firstChild.innerHTML;
         $(".jumbotron > h1").text(groupHead);
     }
 
-    else if (typeof groupID !== 'undefined') {
+    else if (groupID) {
         $(".jumbotron > h1").text(groupID);
     }
 
@@ -194,13 +191,6 @@ function main(){
 
     //Herladen
     $(".refresh").click(function () {
-
-    //Herladen-Date
-    $(".refresh.date").click(function () {
-        FilterStartTime.setFullYear($("#filteryear").val(),$("#filtermonth").val()-1,$("#filterday").val());
-        $(".slider-dots").empty();
-        $("#thumbnails").empty();
-        $("#loadicon").show();
 
         spinner();
         var unitselection = $('input[name=unitradio]:checked', '#unitform').val().split(" ");
@@ -467,7 +457,7 @@ function images(gegevens){
     });
 
     //Starten van timelapse wanneer afbeeldingen geladen zijn
-    if (typeof timelapseid.children()[0] !== "undefined"){
+    if (timelapseid.children()[0]){
         $(window).load(timelapse());
     }
 }

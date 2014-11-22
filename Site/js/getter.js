@@ -53,8 +53,6 @@ lapse.getter = (function() {
             if (C == null){
                 C = [];
             }
-
-            if (C.length != mindata && FilterStartTime < currentDate && currentDate < FilterEndTime) {
             if (CONDITION(C.length,currentDate)) {
                 var k = averagemax.length;
                 if (v.meta != null) {
@@ -80,6 +78,7 @@ lapse.getter = (function() {
         return averagemax
     }
 
+
     function ExtractTrip(json, trip){
         $.each(json, function(i, v) {
             if (v._id == trip){
@@ -91,25 +90,23 @@ lapse.getter = (function() {
     }
 
     function ExtractData(json){
-        console.log(json);
         coordinates = [];
         temperature = [];
         speeddata = [['distance', 'Speed']];
         var Start = new Date(json.startTime);
-        console.log(Start);
-        console.log(month[Start.getMonth()]);
         var B = json.meta;
         var averageSpeed = (Math.round((B.averageSpeed*UNITMULTIPLIER)*100))/100;
+        var maxSpeed = (Math.round((B.maxSpeed*UNITMULTIPLIER)*100))/100;
 
-        if (typeof B.averageSpeed !== "undefined"){
-            $("<p class='tripdata'>").text(averageSpeed + UNIT).appendTo($("#AVSPEED"));
+        if (B.averageSpeed){
+            $("<p class='tripdata'>").text(averageSpeed + " " + UNIT).appendTo($("#AVSPEED"));
         }
         else {
             $("<p class='tripdata'>").text("/").appendTo($("#AVSPEED"));
         }
 
-        if (typeof B.maxSpeed !== "undefined"){
-            $("<p class='tripdata'>").text(B.maxSpeed*UNITMULTIPLIER + UNIT).appendTo($("#MAXSPEED"));
+        if (B.maxSpeed){
+            $("<p class='tripdata'>").text(maxSpeed*UNITMULTIPLIER + " " + UNIT).appendTo($("#MAXSPEED"));
         }
         else{
             $("<p class='tripdata'>").text("/").appendTo($("#MAXSPEED"));
@@ -127,7 +124,9 @@ lapse.getter = (function() {
                     }
                     else if (this.data[0].type == "Point") {
                         coordinates.push([this.data[0].coordinates[0], this.data[0].coordinates[1]]);
-                        speeddata.push(["", this.data[0].speed[0]*UNITMULTIPLIER]);
+                        if (this.data[0].speed) {
+                            speeddata.push(["", this.data[0].speed[0] * UNITMULTIPLIER]);
+                        }
                     }
                     break;
 
@@ -167,7 +166,7 @@ lapse.getter = (function() {
         //map();
 
         //Starten van timelapse wanneer afbeeldingen geladen zijn
-        if (typeof timelapseid.children()[0] !== "undefined"){
+        if (timelapseid.children()[0]){
             $("img").load(timelapse());
         }
     }
