@@ -243,7 +243,7 @@ function SetDates(){
     var filteryear;
     if ($("#FilterDateOn").prop("checked")){
         filterday = $('input[name=day]', '#FormDateFromOn').val();
-        var filterdayend = (parseInt(filterday) + 1).toString();
+        var filterdayend = parseInt(filterday) + 1;
         filtermonth = $('input[name=month]', '#FormDateFromOn').val()-1;
         filteryear = $('input[name=year]', '#FormDateFromOn').val();
         FilterStartDate.setFullYear(filteryear, filtermonth, filterday);
@@ -364,6 +364,7 @@ function thumbnail(json){
         }
         if (CONDITION(C.length, startTime)) {
             l = l + 1;
+            var tripid = json[i]._id;
 
             if (l==13) {
                 $('<div class="Outer hidden">').attr("id", k+1).appendTo("#thumbnails");
@@ -372,17 +373,18 @@ function thumbnail(json){
                 k = k + 1;
             }
             var toAdd = '<div class="col-xs-3 col-sm-2 col-md-1 col-lg-1 thumbtn col-centered">' +
-                '<button class="thumbnail btn-default" type="button" id="' + json[i]._id + '" >' +
-                '<img src="foto/foto1.png" class="thumbimg">';
+                '<button class="thumbnail btn-default" type="button" id="' +tripid + '">' +
+                '<img src="foto/foto1.png" class="thumbimg">' +
+                '<p class="thumbp">'+
+                month[startTime.getMonth()] + " " + startTime.getDate() + " " + startTime.getFullYear() +
+                '</p></button></div>';
+
 
             if (startTime != "Invalid Date") {
-                toAdd = toAdd + '<p class="thumbp">'+ month[startTime.getMonth()] + " " + startTime.getDate() + " " + startTime.getFullYear() +'</p>' + '</button></div>';
-            }
-            else{
-                toAdd = toAdd + '<p class="thumbp">'+ month[previousDate.getMonth()] + " " + previousDate.getDate() + " " + previousDate.getFullYear() +'</p>' + '</button></div>';
             }
 
             $(toAdd).prependTo($("#" + k));
+            $("#"+tripid).data("TIME", startTime);
             previousDate = startTime;
 
             $.each(C, function () {
@@ -425,6 +427,7 @@ function thumbnail(json){
 
     $(".thumbnail").click(function () {
         var tripid = this.id;
+        var time = $(this).data("TIME");
         $(".thumbnail.active").removeClass("active");
         $(this).addClass("active");
         $("#tripinfo").slideUp({
@@ -436,7 +439,7 @@ function thumbnail(json){
                 $("#heightsdiv").hide();
                 $(".tripdata").remove();
                 clearInterval(interval);
-                lapse.getter.ExtractTrip(json,tripid);
+                lapse.getter.ExtractTrip(json,tripid, time);
             }
         });
     });
@@ -514,11 +517,7 @@ function drawAverageMaxChart() {
 //            'title': 'Average Speed',
             'backgroundColor': '#dcdcdc',
             'vAxis': {
-                viewWindowMode:'explicit',
-                //viewWindow:{
-                //    max:15,
-                //    min:0
-                //}
+                viewWindowMode:'explicit'
             },
             'hAxis': {title:"Tripnumber"},
             'animation':{
@@ -579,17 +578,17 @@ function loadElev() {
     // Create a PathElevationRequest object using this array.
     // Ask for 512 samples along that path.
     if (coor.length > 512) {
-        var toshortencoor = coor;
-        while (toshortencoor.length > 512) {
+        var a = coor;
+        while (a.length > 512) {
             var shortcoor =[];
-            for (var i=0; i < toshortencoor.length-1; i=i+2){
-                shortcoor.push(toshortencoor[i]);
+            for (var i=0; i < a.length-1; i=i+2){
+                shortcoor.push(a[i]);
                }
-            shortcoor.push(toshortencoor[toshortencoor.length-1]);
-            toshortencoor = shortcoor;
+            shortcoor.push(a[a.length-1]);
+            a = shortcoor;
         }
         var pathRequest = {
-                'path': shortcoor,
+                'path': a,
                 'samples': 256
         };
     }
