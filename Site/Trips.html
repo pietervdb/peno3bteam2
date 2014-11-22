@@ -105,6 +105,7 @@
                 </form>
             </ul>
         </div>
+        Filters:
         <div class="dropdown" style="display: inline;">
             <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
                 Date
@@ -151,6 +152,23 @@
                     <!--<span class="glyphicon glyphicon-refresh"></span>-->
                     <!--</button>-->
                     <!--</div>-->
+                </form>
+            </ul>
+        </div>
+        <div class="dropdown" style="display: inline;">
+            <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                Speed
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <li class="dropdown-header"></li>
+                <div class="filter2"> in m/s </div>
+                <form class="filter2" role="form" id="minmaxform">
+                    From
+                    <input class="filter2" type="number" id="minspeed" name="minspeed" min="0" max="200">
+                    <br>
+                    To
+                    <input class="filter2" type="number" id="maxspeed" name="maxspeed" min="0" max="200">
                 </form>
             </ul>
         </div>

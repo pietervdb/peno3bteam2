@@ -21,6 +21,8 @@ var UNITMULTIPLIER = 1;
 var UNIT = "m/s";
 var FilterStartDate = new Date(70,0,1,1,0,0,0);
 var FilterEndDate = new Date(2015,0,1,1,0,0,0);
+var FilterMinSpeed = 0;
+var FilterMaxSpeed = 200;
 
 //TODO add filters: snelheid, temperatuur,
 
@@ -282,6 +284,18 @@ function SetDates(){
         FilterEndDate.setFullYear(2015,0,1);
     }
 }
+
+function SetSpeed(){
+    var filterminspeed;
+    var filtermaxspeed;
+    filtermaxspeed = $('input[name=maxspeed]', '#minspeed').val();
+    filtermaxspeed = $('input[name=maxspeed]', '#maxspeed').val();
+    FilterMinSpeed = filterminspeed;
+    FilterMaxSpeed = filtermaxspeed;
+    console.log(FilterMinSpeed);
+    console.log(FilterMaxSpeed);
+    }
+
 
 //parameters uit URL halen
 function getUrlVars() {
