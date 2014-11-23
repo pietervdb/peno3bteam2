@@ -7,7 +7,6 @@ import os
 global lrs
 global fix_on
 
-
 start = {'purpose':'batch-sender','groupID':'CWB2','userID':'r0369676'}
 socketIO = SocketIO('dali.cs.kuleuven.be',8080)
 
@@ -106,8 +105,6 @@ def send_all():
     socketIO.on('server_message',on_response)
     socketIO.emit('start',json.dumps(start),on_response)
     socketIO.wait(0.5)
-    #print "lrs is",lrs
-    #echt_tripID = lrs[0][u'_id']
     target = open('GPSdata/'+tripID+'.txt')
     with target as f:
         lijnen_lijst = f.readlines()
