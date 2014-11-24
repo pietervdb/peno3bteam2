@@ -1,21 +1,21 @@
 import os
-import RPi.GPIO as GPIO
-import time
 import picamera
 
-current_folder = ""
+foldername = ''
+current_photo = 0
 
-def make_photo_dir(time):
+def make_photo_dir(tripnumber):
     "makes dir where pictures will be stored"
-    foldername = "fotos/"+time
-    #foldername = "/home/pi/Desktop/fotos/"+time
+    foldername = 'Data/Photos/'+tripnumber
+    #foldername = "/home/pi/Desktop/fotos/"+tripnumber
     os.makedirs(foldername)
-    current_folder = "fotos/"+time+"/"
-    pic_number = 0
+    current_photo = 0
 
-def snap(time, number):
+def snap():
+    "takes picture"
     with picamera.PiCamera() as camera:
-        camera.capture(current_folder+str(number)+'.jpg')
+        camera.capture(foldername+'/'+str(current_photo)+'.jpg')
+    current_photo += 1
     
     
 

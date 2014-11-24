@@ -1,8 +1,9 @@
 from photography import *
 from saving import *
 from sending import *
+from help_functions import *
 
-
+import RPi.GPIO as GPIO
 import serial
 import time
 
@@ -18,6 +19,9 @@ last_value = 0
 on = False
 time_last = time.time()
 timer_current = time.time()
+tripnumber = '0'
+queue = []
+
 while True:
     timer_current = time.time()
 
@@ -26,48 +30,26 @@ while True:
             on = False
             GPIO.output(11,True)
             GPIO.output(8,False)
-            send_all()
+            sent = False
+            queue.append(tripnumber)
+            time.sleep(1)
+            
+            while not sent and GPIO.input(7) != 1:
+                if connected():
+                    send_queue(queue)  #sends the queue
+                    sent = True
+                    
         else:
             on = True
             GPIO.output(11,False)
             GPIO.output(8, True)
-            make_photo_dir(this_is_time())
-        time.sleep(1)
-
-    if on and (timer_current - timer_last > 5):
-        
-    
-
-        
-        
+            tripnumber = str(int(tripnumber)+1)
+            make_photo_dir(tripnumber)  #makes new directory
+            snap()
+            save_arduino(tripnumber)
         
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-        
-    
+    if on and (timer_current - timer_last > 10):
+        snap()  #takes picture
+        save_arduino(tripnumber)  #saves arduino data
+        timer_last = time.time()

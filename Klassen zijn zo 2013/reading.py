@@ -1,29 +1,5 @@
-import base64
-import json
-from socketIO_client import SocketIO
-
-
-domain = 'dali.cs.kuleuven.be'
-port = 8080
-start = {'purpose':'batch-sender','groupID':'CWB2','userID':'r0369676'}
-socketIO = SocketIO(domain,port)
-userID = "r0369676"
-groupID = "CWB2"
-startTime = ''
-endTime = ''
 lines_list = []
 fix_on = []
-
-def connected():
-    try:
-        _ = requests.get(url='http://'+domain+':'+str(port)+'/', timeout=5)
-        return True
-    except requests.ConnectionError:
-        return False
-
-def send_queue(queue):
-    for trip in queue:
-        send_data(trip)
 
 def find_time(st):
     if st == 'start':
@@ -88,16 +64,3 @@ def compose_GPS_coordinates():
         data_list.append([x[i],y[i]])
 
     return data_list
-
-
-
-
-
-
-
-
-
-def send_data(tripnumber):
-    pass
-    
-    

@@ -131,12 +131,13 @@ def make_data_list(tripID):
     temperature_list = find_data(tripID,"Tempe")
     pressure_list = find_data(tripID,"Press")
     alt2tude_list = find_data(tripID,"Alt2t")
-    timestamp_list = find_data(tripID,'Date/')
-
+    #timestamp_list = find_data(tripID,'Date/')
+    time_point = 0
     for i in range(len(temperature_list)):
         if i*24 in fix_on:
-            datalist.append({'sensorID':10, 'timestamp':timestamp_list[i],'data': [{'pressure':[pressure_list[i]],\
+            datalist.append({'sensorID':10, 'timestamp':timestamp_gps_list[time_point],'data': [{'pressure':[pressure_list[i]],\
                                     'temperature':[temperature_list[i]],'height':[alt2tude_list[i]]}]})
+            time_point += 1
 
         else:
             datalist.append({'sensorID':10,'data': [{'pressure':[pressure_list[i]],\
