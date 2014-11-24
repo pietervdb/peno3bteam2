@@ -39,7 +39,7 @@ def send_photos(foldername, total_photos):
 
     i = 0
     while i < total_photos:
-        file = open(foldername+"/foto"+str(i+1)+".jpg", "rb").read().encode("base64") 
+        file = open(foldername+"/foto"+str(i+1)+".jpg", "rb").read().encode("base64")
         PHOTODATA = json.dumps({"imageName" : "foto"+str(i+1)+".jpg", "tripID" : str(tripID), "userID" : "r0369676", "raw" : file}) 
         url = "http://dali.cs.kuleuven.be:8080/qbike/upload"
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'} 

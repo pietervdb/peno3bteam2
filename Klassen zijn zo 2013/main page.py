@@ -36,8 +36,11 @@ while True:
             
             while not sent and GPIO.input(7) != 1:
                 if connected():
+                    GPIO.output(8,True) #do not disconnect-color
                     send_queue(queue)  #sends the queue
+                    GPIO.output(8,False)
                     sent = True
+                    queue = []
                     
         else:
             on = True
