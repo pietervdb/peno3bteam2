@@ -50,10 +50,14 @@ lapse.getter = (function() {
         $.each(json, function(i, v) {
             var C = v.sensorData;
             var currentDate = new Date(v.startTime);
+            var currentAverageSpeed = (Math.round((v.meta.averageSpeed*UNITMULTIPLIER)*100))/100;
+            if (currentAverageSpeed==null){
+                currentAverageSpeed=0;
+            }
             if (C == null){
                 C = [];
             }
-            if (CONDITION(C.length,currentDate)) {
+            if (CONDITION(C.length,currentDate,currentAverageSpeed)) {
                 var k = averagemax.length;
                 if (v.meta != null) {
                     averagemax.push([k, (Math.round((v.meta.averageSpeed*UNITMULTIPLIER)*100))/100, (Math.round((v.meta.maxSpeed*UNITMULTIPLIER)*100))/100]);

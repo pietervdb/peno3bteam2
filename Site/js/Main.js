@@ -24,7 +24,7 @@ var FilterEndDate = new Date(2015,0,1,1,0,0,0);
 var FilterMinSpeed = 0;
 var FilterMaxSpeed = 200;
 
-//TODO add filters: snelheid, temperatuur,
+//TODO add filters: snelheid
 
 //controleren of laatste letter in URL een "#" is
 if (groupID[groupID.length-1] == "#"){
@@ -202,6 +202,7 @@ function main(){
         UNITMULTIPLIER = unitselection[0];
         UNIT = unitselection[1];
         SetDates();
+        SetSpeed();
         //FilterStartDate.setFullYear($("#filteryear").val(),$("#filtermonth").val()-1,$("#filterday").val());
         $("#loadicon").fadeIn({
             complete:function(){
@@ -222,6 +223,7 @@ function main(){
                 clearInterval(interval);
             }
         });
+
     });
 
     $("#close").click(function () {
@@ -291,12 +293,10 @@ function SetDates(){
 function SetSpeed(){
     var filterminspeed;
     var filtermaxspeed;
-    filtermaxspeed = $('input[name=maxspeed]', '#minspeed').val();
+    filterminspeed = $('input[name=maxspeed]', '#minspeed').val();
     filtermaxspeed = $('input[name=maxspeed]', '#maxspeed').val();
     FilterMinSpeed = filterminspeed;
     FilterMaxSpeed = filtermaxspeed;
-    console.log(FilterMinSpeed);
-    console.log(FilterMaxSpeed);
     }
 
 
@@ -309,8 +309,8 @@ function getUrlVars() {
     return vars;
 }
 
-function CONDITION(sensors, date){
-    return sensors != mindata && FilterStartDate <= date && FilterEndDate >= date
+function CONDITION(sensors, date, speed){
+    return sensors != mindata && FilterStartDate <= date && FilterEndDate >= date && speed<FilterMaxSpeed && speed>FilterMinSpeed
 
 }
 
@@ -359,13 +359,17 @@ function thumbnail(json){
     for (i = json.length-1; i>-1; i = i-1){
         var startTime = new Date(json[i].startTime);
         var C = json[i].sensorData;
+        var currentAverageSpeed = (Math.round((json[i].meta.averageSpeed*UNITMULTIPLIER)*100))/100;
         if (startTime == 'Invalid Date'){
             startTime = previousDate;
+        }
+        if (currentAverageSpeed==null){
+            currentAverageSpeed=0;
         }
         if (C == null){
             C = [];
         }
-        if (CONDITION(C.length, startTime)) {
+        if (CONDITION(C.length, startTime,currentAverageSpeed)) {
             l = l + 1;
             var tripid = json[i]._id;
 
