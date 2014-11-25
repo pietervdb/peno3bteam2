@@ -230,6 +230,8 @@ function main(){
             duration:"slow",
             complete: function () {
                 coordinates = "NONE";
+                $("#timelapse-pause").addClass("hidden");
+                $("#timelapse-play").removeClass("hidden");
                 $("#map-canvas").empty();
                 $("#timelapse").empty();
                 $("#visual-container .visual").hide();
@@ -237,6 +239,18 @@ function main(){
                 clearInterval(interval);
             }
         });
+    });
+
+    $("#timelapse-play").click(function(){
+        $("#timelapse-pause").removeClass("hidden");
+        $(this).addClass("hidden");
+        timelapse()
+    });
+
+    $("#timelapse-pause").click(function(){
+        $("#timelapse-play").removeClass("hidden");
+        $(this).addClass("hidden");
+        clearInterval(interval);
     });
 }
 
@@ -377,7 +391,7 @@ function thumbnail(json){
             }
             var toAdd = '<div class="col-xs-3 col-sm-2 col-md-1 col-lg-1 thumbtn col-centered">' +
                 '<button class="thumbnail btn-default" type="button" id="' +tripid + '" value="'+i+'">' +
-                '<img src="foto/foto1.png" class="thumbimg">' +
+                '<img src="foto/logozondernaam.png" class="thumbimg">' +
                 '<p class="thumbp">'+
                 month[startTime.getMonth()] + " " + startTime.getDate() + " " + startTime.getFullYear() +
                 '</p></button></div>';
@@ -438,6 +452,8 @@ function thumbnail(json){
             duration:"slow",
             complete: function () {
                 coordinates = "NONE";
+                $("#timelapse-pause").addClass("hidden");
+                $("#timelapse-play").removeClass("hidden");
                 $("#map-canvas").empty();
                 $("#timelapse").empty();
                 $("#visual-container .visual").hide();
@@ -486,7 +502,7 @@ function images(gegevens){
 //functie voor timelapse
 function timelapse() {
 
-    interval = setInterval( showIMG, 100);
+    interval = setInterval( showIMG, 500);
     //var h = $("#left-column").height();
     //$("#map-canvas").height(h);
 
@@ -616,7 +632,7 @@ function plotElevation(results, status) {
     var elevations = results;
 
     var options = {
-        title: 'Elevation',
+        //title: 'Elevation',
         backgroundColor: '#dcdcdc',
         hAxis: {title:"Distance"},
         legend: 'none',
@@ -639,7 +655,7 @@ function drawSpeeds() {
     var data = google.visualization.arrayToDataTable(speeddata);
 
     var options = {
-        title: 'Speed',
+        //title: 'Speed',
         backgroundColor: '#dcdcdc',
         hAxis: {title:"Distance"},
         legend:{
@@ -757,26 +773,30 @@ function map() {
     };
     var map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
-    var contentString = 'hello';
+
     for (var i=1; i<coor.length-1; i++){
+        console.log(ToolTipData.Images[i]);
+        var text = '<p>Speed: ' + ToolTipData.Speed[i] + '</p>' +
+                ToolTipData.Images[i];
 
         var markerimg = new google.maps.Circle({
             position: coor[i],
             center: coor[i],
             map: map,
-            radius: 2.5,
+            radius: 4,
             strokeColor: '#428bca',
             strokeOpacity: 0.8,
             strokeWeight: 2,
             fillColor: '#428bcb',
-            fillOpacity: 0.35
+            fillOpacity: 0.35,
+            customData: text
         });
 
         var infowindow = new google.maps.InfoWindow({
         });
         //Timestamp en image toevoegen aan coordinaten om juiste image op te roepen.
         google.maps.event.addListener(markerimg, 'click', function () {
-            infowindow.setContent(contentString);
+            infowindow.setContent(this.customData);
             infowindow.open(map, this);
         });
 
@@ -785,28 +805,33 @@ function map() {
         //});
     }
 
+    var textstart = '<p>Speed: ' + ToolTipData.Speed[0] + '</p>' +
+        ToolTipData.Images[0];
+    var textend = '<p>Speed: ' + ToolTipData.Speed[-1] + '</p>' +
+        ToolTipData.Images[ToolTipData.Images.length-1];
 
     var markerstart = new google.maps.Marker({
         position: coor[0],
         map: map,
-        tilte: "hello",
+        customData: textstart
     });
 
     var markerend = new google.maps.Marker({
         position: coor[coor.length-1],
-        map: map
+        map: map,
+        customData: textend
     });
 
-    var contentString = '<p>Hello</p>';
     var infowindow = new google.maps.InfoWindow({
-        content: contentString
     });
 
     google.maps.event.addListener(markerstart, 'click', function() {
+        infowindow.setContent(this.customData);
         infowindow.open(map,markerstart);
     });
 
     google.maps.event.addListener(markerend, 'click', function() {
+        infowindow.setContent(this.customData);
         infowindow.open(map,markerend);
     });
 
