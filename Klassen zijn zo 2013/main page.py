@@ -49,10 +49,10 @@ while True:
             tripnumber = str(int(tripnumber)+1)
             make_photo_dir(tripnumber)  #makes new directory
             snap()
-            save_arduino(tripnumber)
+            save_arduino(tripnumber,True)
         
 
     if on and (timer_current - timer_last > 10):
         snap()  #takes picture
-        save_arduino(tripnumber)  #saves arduino data
+        save_arduino(tripnumber,False)  #saves arduino data
         timer_last = time.time()

@@ -7,14 +7,17 @@ whitelist = ["Qua","Loc","Spe","Ang","Alt","Sat","Pre","Tem"]
 first = ''
 second = ''
 
-def save_arduino(tripnumber):
+def save_arduino(tripnumber,first_time):
     textfile = 'Data/'+tripnumber+'.txt'
     #textfile = '/home/pi/Desktop/'+tripnumber+'.txt'
     target = open(textfile,'a')
-    
+    stop = False
+    last = ""
     while not stop:
         line = arduino.readline()
-        
+        if not first_time and line[:3] == "Fix":
+            target.write("\n")
+            
         if line[:3] == "Fix":
             if line[4:7] == "[1]":
                 first = "Fix:Y"
@@ -32,12 +35,13 @@ def save_arduino(tripnumber):
             [intro, data] = split_data(line)
             first = intro + "\n"
             second = data + "\n"
-
-        target.write(first)
-        target.write(second)
+        if last != first:
+            target.write(first)
+            target.write(second)
+        last = first
         
         if line[0] == "T":
-            target.write("End\n")
+            target.write("End")
             target.close()
             stop = True
             
