@@ -3,6 +3,7 @@ var AllTrips;
 var TripInfo = 'NONE';
 var averagemax;
 var coordinates;
+var ToolTipData;
 var heights;
 var speeddata;
 var temperature;
@@ -28,6 +29,20 @@ var month = [
 
 lapse.getter = (function() {
 
+    function sortByProperty(property) {
+        'use strict';
+        return function (a, b) {
+            var sortStatus = 0;
+            if (a[property] < b[property]) {
+                sortStatus = -1;
+            } else if (a[property] > b[property]) {
+                sortStatus = 1;
+            }
+
+            return sortStatus;
+        };
+    }
+
     function GroupData(status, URL){
         if (status == 'NO DATA'){
             return lapse.getter.AJAX(URL, GroupData);
@@ -37,6 +52,8 @@ lapse.getter = (function() {
                 return NODATA()
             }
             else {
+                status.sort(sortByProperty('startTime'));
+                console.log(status);
                 AllTrips = status;
                 ExtractAverageMax(AllTrips);
                 thumbnail(AllTrips);
@@ -48,12 +65,12 @@ lapse.getter = (function() {
         averagemax = [];
         averagemax[0] = ['Trip', 'Average Speed', 'Maximum Speed'];
         $.each(json, function(i, v) {
-            var C = v.sensorData;
             var currentDate = new Date(v.startTime);
+            var C = v.sensorData;
             if (C == null){
                 C = [];
             }
-            if (CONDITION(C.length,currentDate)) {
+            if (CONDITION(C.length, currentDate)) {
                 var k = averagemax.length;
                 if (v.meta != null) {
                     averagemax.push([k, (Math.round((v.meta.averageSpeed*UNITMULTIPLIER)*100))/100, (Math.round((v.meta.maxSpeed*UNITMULTIPLIER)*100))/100]);
@@ -89,6 +106,7 @@ lapse.getter = (function() {
     function ExtractData(json, time){
         coordinates = [];
         temperature = [];
+        ToolTipData = {Speed:[], Images:[]};
         speeddata = [['distance', 'Speed']];
         var B = json.meta;
         var averageSpeed = (Math.round((B.averageSpeed*UNITMULTIPLIER)*100))/100;
@@ -122,7 +140,9 @@ lapse.getter = (function() {
                     else if (this.data[0].type == "Point") {
                         coordinates.push([this.data[0].coordinates[0], this.data[0].coordinates[1]]);
                         if (this.data[0].speed) {
-                            speeddata.push(["", (Math.round((this.data[0].speed[0]*UNITMULTIPLIER)*100))/100]);
+                            var sp = (Math.round((this.data[0].speed[0]*UNITMULTIPLIER)*100))/100;
+                            speeddata.push(["", sp]);
+                            ToolTipData.Speed.push(sp);
                         }
                     }
                     break;
@@ -132,8 +152,11 @@ lapse.getter = (function() {
                     break;
 
                 case CAM: //images
-                    timelapseid.append("<img>");
-                    timelapseid.children("img:last").attr("src", imageURL.concat(this.data[0])).attr("class", "hidden");
+                    var str = '<img src="' + imageURL.concat(this.data[0]) + '">';
+                    ToolTipData.Images.push(str);
+                    $(str).appendTo(timelapseid);
+                    //timelapseid.append("<img>");
+                    //timelapseid.children("img:last").attr("src", imageURL.concat(this.data[0])).attr("class", "hidden");
                     break;
             }
 

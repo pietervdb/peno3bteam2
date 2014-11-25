@@ -8,6 +8,11 @@ img {
     height: 100%;
 }
 
+#timelapse img {
+    /*max-height: 255px !important;*/
+    /*width: 480px !important;*/
+}
+
 li {
     list-style-type: none;
     display:inline;
