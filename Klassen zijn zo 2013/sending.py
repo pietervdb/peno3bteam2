@@ -47,8 +47,7 @@ def send_data(tripnumber):
     send_pictures(tripID,tripnumber)
     
 def send_pictures(tripID,tripnumber):
-    photos = os.listdir('Data/Photos/'+tripnumber)
-    resize_pictures(tripnumber,photos)
+    photos = resize_pictures(tripnumber)
     photo_lists = split_in(photos,20)
     i = 0
     for photo_list in photo_lists:
@@ -76,18 +75,18 @@ def split_in(list_complete, number):
         split_list.append(list_complete[i:i+number])
     return split_list
 
-def resize_pictures(tripnumber,photos):
+def resize_pictures(tripnumber):
+    photos = os.listdir('Data/Photos/'+tripnumber)
     max_size = 600
     
     for photo in photos:
         img = Image.open('Data/Photos/'+tripnumber+'/'+photo)
-        width = img.size[0]
-        length = img.size[1]
-        width_length = [width, length]
+        width_length = [img.size[0], img.size[1]]
         biggest = 0
         smallest = 1
-        if length > width:
+        if img.size[1] > img.size[0]:
             biggest = 1
+            smallest = 0
             
         if img.size[biggest]>max_size:
             
@@ -100,14 +99,5 @@ def resize_pictures(tripnumber,photos):
                 
             #img.save('Data/Photos/'+tripnumber+'/'+photo[:-4]+".jpg")
             img.save('Data/Photos/'+tripnumber+'/'+photo[:-4]+".jpg","JPEG")
-    
-
-
-
-
-
-
-
-
-
-
+            
+    return photos
