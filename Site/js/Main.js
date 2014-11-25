@@ -230,6 +230,8 @@ function main(){
             duration:"slow",
             complete: function () {
                 coordinates = "NONE";
+                $("#timelapse-pause").addClass("hidden");
+                $("#timelapse-play").removeClass("hidden");
                 $("#map-canvas").empty();
                 $("#timelapse").empty();
                 $("#visual-container .visual").hide();
@@ -237,6 +239,18 @@ function main(){
                 clearInterval(interval);
             }
         });
+    });
+
+    $("#timelapse-play").click(function(){
+        $("#timelapse-pause").removeClass("hidden");
+        $(this).addClass("hidden");
+        timelapse()
+    });
+
+    $("#timelapse-pause").click(function(){
+        $("#timelapse-play").removeClass("hidden");
+        $(this).addClass("hidden");
+        clearInterval(interval);
     });
 }
 
@@ -438,6 +452,8 @@ function thumbnail(json){
             duration:"slow",
             complete: function () {
                 coordinates = "NONE";
+                $("#timelapse-pause").addClass("hidden");
+                $("#timelapse-play").removeClass("hidden");
                 $("#map-canvas").empty();
                 $("#timelapse").empty();
                 $("#visual-container .visual").hide();
@@ -616,7 +632,7 @@ function plotElevation(results, status) {
     var elevations = results;
 
     var options = {
-        title: 'Elevation',
+        //title: 'Elevation',
         backgroundColor: '#dcdcdc',
         hAxis: {title:"Distance"},
         legend: 'none',
@@ -639,7 +655,7 @@ function drawSpeeds() {
     var data = google.visualization.arrayToDataTable(speeddata);
 
     var options = {
-        title: 'Speed',
+        //title: 'Speed',
         backgroundColor: '#dcdcdc',
         hAxis: {title:"Distance"},
         legend:{
@@ -761,7 +777,7 @@ function map() {
     for (var i=1; i<coor.length-1; i++){
         console.log(ToolTipData.Images[i]);
         var text = '<p>Speed: ' + ToolTipData.Speed[i] + '</p>' +
-                ToolTipData.Images[i] + '<p>hello</p>';
+                ToolTipData.Images[i];
 
         var markerimg = new google.maps.Circle({
             position: coor[i],
@@ -790,9 +806,9 @@ function map() {
     }
 
     var textstart = '<p>Speed: ' + ToolTipData.Speed[0] + '</p>' +
-        ToolTipData.Images[0] + '<p>hello</p>';
+        ToolTipData.Images[0];
     var textend = '<p>Speed: ' + ToolTipData.Speed[-1] + '</p>' +
-        ToolTipData.Images[i] + '<p>hello</p>';
+        ToolTipData.Images[ToolTipData.Images.length-1];
 
     var markerstart = new google.maps.Marker({
         position: coor[0],

@@ -153,8 +153,9 @@ lapse.getter = (function() {
 
                 case CAM: //images
                     var str = '<img src="' + imageURL.concat(this.data[0]) + '">';
+                    var strhidden = '<img class="hidden" src="' + imageURL.concat(this.data[0]) + '">';
                     ToolTipData.Images.push(str);
-                    $(str).appendTo(timelapseid);
+                    $(strhidden).appendTo(timelapseid);
                     //timelapseid.append("<img>");
                     //timelapseid.children("img:last").attr("src", imageURL.concat(this.data[0])).attr("class", "hidden");
                     break;
@@ -185,7 +186,7 @@ lapse.getter = (function() {
                 if (timelapseid.children()[0]){
                     timelapseid.waitForImages(function(){
                         $("#timelapse-canvas").show();
-                        timelapse()
+                        //timelapse()
                     })
                 }
             }

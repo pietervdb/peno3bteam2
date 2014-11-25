@@ -174,7 +174,7 @@ table {
 }
 
 #map-canvas {
-    min-height:320px;
+    min-height:400px;
     margin: 0;
     padding: 0;
 }
