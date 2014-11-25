@@ -74,13 +74,16 @@ lapse.getter = (function() {
     }
 
     function ExtractTrip(json, trip, time){
-        $.each(json, function(i, v) {
-            if (v._id == trip){
-                TripInfo = v;
-                ExtractData(TripInfo, time);
-                return false
-            }
-        });
+        //$.each(json, function(i, v) {
+        //    if (v._id == trip){
+        //        TripInfo = v;
+        //        ExtractData(TripInfo, time);
+        //        return false
+        //    }
+        //});
+        TripInfo = json[trip];
+        ExtractData(TripInfo,time);
+        return false
     }
 
     function ExtractData(json, time){
@@ -136,14 +139,14 @@ lapse.getter = (function() {
 
         });
 
-        if ( timelapseid.children().length == 0){
-            $("#left-column").hide();
-            $("#right-column").attr("class", "col-md-12 col-lg-12");
-        }
-        else {
-            $("#left-column").show();
-            $("#right-column").attr("class", "col-md-6 col-lg-6");
-        }
+        //if ( timelapseid.children().length == 0){
+        //    $("#left-column").hide();
+        //    $("#right-column").attr("class", "col-md-12 col-lg-12");
+        //}
+        //else {
+        //    $("#left-column").show();
+        //    $("#right-column").attr("class", "col-md-6 col-lg-6");
+        //}
 
         $("#tripinfo").slideDown({
             duration:"slow",
@@ -152,17 +155,18 @@ lapse.getter = (function() {
                 $('html, body').animate({ scrollTop:  $("#tripinfo").offset().top - 50 }, 0);
             },
             complete: function() {
-                //$("html, body").stop();
                 map();
                 drawSpeeds();
                 timelapseid.children(":first").removeClass("hidden").addClass("active-img");
-            }});
-        //map();
-
-        //Starten van timelapse wanneer afbeeldingen geladen zijn
-        if (timelapseid.children()[0]){
-            timelapseid.waitForImages(timelapse());
-        }
+                //Starten van timelapse wanneer afbeeldingen geladen zijn
+                if (timelapseid.children()[0]){
+                    timelapseid.waitForImages(function(){
+                        $("#timelapse-canvas").show();
+                        timelapse()
+                    })
+                }
+            }
+        });
     }
 
     function AJAX(URL, callback) {
