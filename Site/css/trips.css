@@ -29,6 +29,11 @@ table {
     border-spacing: 5px;
 }
 
+/*.row .row {*/
+    /*margin-left: 0;*/
+    /*margin-right: 0;*/
+/*}*/
+
 .row-centered {
     text-align:center;
 }
@@ -92,6 +97,16 @@ table {
 
 #dateinfo p{
     display: inline;
+    margin-left: 15px;
+}
+
+#tripinfo h3{
+    margin-left: 15px;
+    margin-right: 15px;
+    color: #428bca;
+    opacity: 0.75;
+    border-bottom: 2px solid ;
+    margin-bottom: 2px;
 }
 
 .slider-nav {
@@ -99,11 +114,11 @@ table {
     /*margin-top: 20px;*/
 }
 
-#arrows {
-    margin: 10px 15px 10px 15px;
-}
+/*#arrows {*/
+    /*margin: 10px 15px 10px 15px;*/
+/*}*/
 
-.arrow-prev {
+#arrow-prev {
     margin-right: 45px;
     display: inline-block;
     vertical-align: top;
@@ -111,7 +126,7 @@ table {
     color: lightsteelblue;
 }
 
-.arrow-next {
+#arrow-next {
     margin-left: 45px;
     display: inline-block;
     vertical-align: top;
@@ -119,21 +134,21 @@ table {
     color: lightsteelblue;
 }
 
-.slider-dots {
+#slider-dots {
     list-style: none;
     display: inline-block;
     padding-left: 0;
     margin-bottom: 0;
 }
 
-.slider-dots li {
+#slider-dots li {
     color: lightsteelblue;
     display: inline;
     font-size: 30px;
     margin-right: 5px;
 }
 
-.slider-dots li.active-dot {
+#slider-dots li.active-dot {
     color: midnightblue;
 }
 
