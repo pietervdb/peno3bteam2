@@ -1,32 +1,37 @@
 lines_list = []
 fix_on = []
-file_list = []
+step = 24
 
 def read(tripnumber):
+    "reads the file and finds fixes (preparation for data operations)"
     global lines_list
-    global file_list
+    
     target = open('Data/'+tripnumber+'.txt','r')
     with target as textfile:
         lines_list = textfile.readlines()
     target.close()
+    
     find_fix()
 
 def find_fix():
+    "finds GPS fixes"
     global fix_on
     fix_on = []
     i = 0
     while i < len(lines_list):
         if lines_list[i][0:5] == "Fix:Y":
             fix_on.append(i)
-        i += 24
+        i += step
     
 def find_time(st):
+    "finds start/stop time"
     if st == 'start':
         return lines_list[fix_on[0]+4][:-1]
     elif st == 'stop':
         return lines_list[fix_on[-1]+4][:-1]
 
 def data_position(first_five):
+    "finds first occurence of given data"
     i = 0
     while True:
         if lines_list[i][0:5] == first_five:
@@ -58,11 +63,11 @@ def find_data(first_five):
     if first_five == "Date/":
         while i < len(lines_list):
             data_list.append(lines_list[i][:-1])
-            i += 24
+            i += step
     else:
         while i < len(lines_list):
             data_list.append(float(lines_list[i][:-1]))
-            i += 24
+            i += step
         
     return data_list
 
@@ -83,8 +88,9 @@ def make_data_list():
     timestamp_gps_list = find_gps_data('Date/')
     speed_list = find_gps_data('Speed')
     for i in range(len(gps_coordinates)):
-        datalist.append({'sensorID':1,'timestamp':timestamp_gps_list[i],'data': [{'type':'Point', 'coordinates':gps_coordinates[i],\
-                                                 'unit':'google','speed':[speed_list[i]]}]})
+        datalist.append({'sensorID':1,'timestamp':timestamp_gps_list[i],'data': [{'type':'Point',\
+                                    'coordinates':gps_coordinates[i],'unit':'google','speed':[speed_list[i]]}]})
+
     #barometer
     temperature_list = find_data("Tempe")
     pressure_list = find_data("Press")
@@ -92,7 +98,7 @@ def make_data_list():
     
     time_point = 0
     for i in range(len(temperature_list)):
-        if i*24 in fix_on:
+        if i*step in fix_on:
             datalist.append({'sensorID':10, 'timestamp':timestamp_gps_list[time_point],'data': [{'pressure':[pressure_list[i]],\
                                     'temperature':[temperature_list[i]],'height':[alt2tude_list[i]]}]})
             time_point += 1
@@ -100,12 +106,6 @@ def make_data_list():
         else:
             datalist.append({'sensorID':10,'data': [{'pressure':[pressure_list[i]],\
                                     'temperature':[temperature_list[i]],'height':[alt2tude_list[i]]}]})
-            
-    #photos
-    
-            
-
-
 
     return datalist
 

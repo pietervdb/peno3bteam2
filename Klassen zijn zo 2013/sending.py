@@ -1,10 +1,9 @@
 import base64
 import json
-import os
 import requests
+import os
 from socketIO_client import SocketIO
 from reading import *
-from PIL import Image
 
 domain = 'dali.cs.kuleuven.be'
 port = 8080
@@ -13,8 +12,10 @@ socketIO = SocketIO(domain,port)
 userID = "r0369676"
 groupID = "CWB2"
 answer = 0
+tripID = ''
 
 def connected():
+    "checks whether the pi is connected tot the internet"
     try:
         _ = requests.get(url='http://'+domain+':'+str(port)+'/', timeout=5)
         return True
@@ -27,35 +28,40 @@ def on_response(*args):
     answer = args
 
 def send_queue(queue):
+    "send a queue of trips"
     for trip in queue:
         send_data(trip)
 
 def send_data(tripnumber):
+    "send the trips' data"
+    global tripID
     socketIO.on('server_message',on_response)
     socketIO.emit('start',json.dumps(start),on_response)
+    
     read(tripnumber)
     start_time = find_time('start')
     end_time = find_time('stop')
     datalist = make_data_list()
     meta_dict = make_meta_dict()
+    
     socketIO.emit('batch-tripdata', json.dumps([{'userID':userID,\
                     'groupID':groupID,'startTime':start_time,\
                     'endTime':end_time,'sensorData':datalist,\
                     'meta':meta_dict}]),on_response)
     socketIO.wait(5)
-    tripID = str(answer[0][u'_id'])
-    send_pictures(tripID,tripnumber)
     
-def send_pictures(tripID,tripnumber):
-    photos = resize_pictures(tripnumber)
-    photo_lists = split_in(photos,20)
+    tripID = str(answer[0][u'_id'])
+    send_pictures(tripnumber)
+    
+def send_pictures(tripnumber):
+    photo_lists = split_in(tripnumber,20)   #more/less? test!
     i = 0
     for photo_list in photo_lists:
-        socketIO.emit('endBikeTrip',json.dumps({"_id":tripID}),on_response)
+##        socketIO.emit('endBikeTrip',json.dumps({"_id":tripID}),on_response) #is this required? also check socketIO.wait(x)
 ##        socketIO.wait(2)
         socketIO.on('server_message',on_response)
         socketIO.emit('start',json.dumps(start),on_response)
-        socketIO.wait(2)
+##        socketIO.wait(2)
         for photo in photo_list:
             file = open('Data/Photos/'+tripnumber+'/'+photo,"rb").read().encode("base64")
             photodata = json.dumps({"imageName" : "foto"+str(i+1)+".jpg", "tripID" : tripID, "userID" : "r0369676", "raw" : file})
@@ -67,37 +73,19 @@ def send_pictures(tripID,tripnumber):
             print "image",i
             i += 1
 
-def split_in(list_complete, number):
+def split_in(tripnumber,number=10):
     "split in sublists for sending purposes"
+    list_sorted = sort_photos(os.listdir('Data/Photos/'+tripnumber))
     split_list = []
-    for i in range(0,len(list_complete), number):
-        split_list.append(list_complete[i:i+number])
+    for i in range(0,len(list_sorted), number):
+        split_list.append(list_sorted[i:i+number])
     return split_list
-###############REMOVE FOR ACTUAL USE#####################
-def resize_pictures(tripnumber):
-    photos = os.listdir('Data/Photos/'+tripnumber)
-    max_size = 200
-    
-    for photo in photos:
-        img = Image.open('Data/Photos/'+tripnumber+'/'+photo)
-##        width_length = [img.size[0], img.size[1]]
-##        biggest = 0
-##        smallest = 1
-##        if img.size[1] > img.size[0]:
-##            biggest = 1
-##            smallest = 0
-##            
-##        if img.size[biggest]>max_size:
-##            
-##            percentage = (max_size/float(img.size[biggest]))
-##            smallestsize = int((float(img.size[smallest])*float(percentage)))
-##            if biggest == 0:
-##                img = img.resize((max_size,smallestsize), Image.ANTIALIAS)
-##            else:
-##                img = img.resize((smallestsize,max_size), Image.ANTIALIAS)
-        img = img.resize((600,338), Image.ANTIALIAS)    
-            #img.save('Data/Photos/'+tripnumber+'/'+photo[:-4]+".jpg")
-        img.save('Data/Photos/'+tripnumber+'/'+photo[:-4]+".jpg","JPEG")
-            
-    return photos
-###################UNTIL HERE#################################
+
+def sort_photos(photolist):
+    "sorteert de foto's: ze moeten a) juist genoemd en b) jpg zijn"
+    sorted_list = []
+    i = 0
+    while i < len(photolist):
+        sorted_list.append(str(i)+".jpg")
+        i += 1
+    return sorted_list
