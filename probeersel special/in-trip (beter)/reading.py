@@ -3,7 +3,7 @@ fix_on = []
 step = 24
 
 def read(tripnumber):
-    "reads the file and finds fixes (preparation for data operations)"
+    'reads the file and finds fixes (preparation for data operations)'
     global lines_list
     
     target = open('Data/'+tripnumber+'.txt','r')
@@ -14,24 +14,24 @@ def read(tripnumber):
     find_fix()
 
 def find_fix():
-    "finds GPS fixes"
+    'finds GPS fixes'
     global fix_on
     fix_on = []
     i = 0
     while i < len(lines_list):
-        if lines_list[i][0:5] == "Fix:Y":
+        if lines_list[i][0:5] == 'Fix:Y':
             fix_on.append(i)
         i += step
     
 def find_time(st):
-    "finds start/stop time"
+    'finds start/stop time'
     if st == 'start':
         return lines_list[fix_on[0]+4][:-1]
     elif st == 'stop':
         return lines_list[fix_on[-1]+4][:-1]
 
 def data_position(first_five):
-    "finds first occurence of given data"
+    'finds first occurence of given data'
     i = 0
     while True:
         if lines_list[i][0:5] == first_five:
@@ -41,11 +41,11 @@ def data_position(first_five):
     return solution
 
 def find_gps_data(first_five):
-    "data that is dependent on a fix"
+    'data that is dependent on a fix'
     position = data_position(first_five)
     data_list = []
 
-    if first_five == "Date/":
+    if first_five == 'Date/':
         for i in fix_on:
             data_list.append(lines_list[i+position][:-1])
     else:
@@ -55,12 +55,12 @@ def find_gps_data(first_five):
     return data_list
 
 def find_data(first_five):
-    "data that is independent of a fix"
+    'data that is independent of a fix'
     position = data_position(first_five)
     data_list = []
     i = position
     
-    if first_five == "Date/":
+    if first_five == 'Date/':
         while i < len(lines_list):
             data_list.append(lines_list[i][:-1])
             i += step
@@ -92,9 +92,9 @@ def make_data_list():
                                     'coordinates':gps_coordinates[i],'unit':'google','speed':[speed_list[i]]}]})
 
     #barometer
-    temperature_list = find_data("Tempe")
-    pressure_list = find_data("Press")
-    alt2tude_list = find_data("Alt2t")
+    temperature_list = find_data('Tempe')
+    pressure_list = find_data('Press')
+    alt2tude_list = find_data('Alt2t')
     
     time_point = 0
     for i in range(len(temperature_list)):
@@ -110,15 +110,15 @@ def make_data_list():
     return datalist
 
 def make_meta_dict():
-    speed_list = find_gps_data("Speed")
-    temp_list = find_data("Tempe")
+    speed_list = find_gps_data('Speed')
+    temp_list = find_data('Tempe')
     
-    average_speed = sum(speed_list)/len(speed_list)
+    average_speed = round(sum(speed_list)/len(speed_list),2)
     max_speed = max(speed_list)
 
     min_temp = min(temp_list)
-    avg_temp = sum(temp_list)/len(temp_list)
+    avg_temp = round(sum(temp_list)/len(temp_list),2)
     max_temp = max(temp_list)
     
-    meta_dict = {"averageSpeed":average_speed,"maxSpeed":max_speed,"other":[{"temperature":[min_temp,avg_temp,max_temp]}]}
+    meta_dict = {'averageSpeed':average_speed,'maxSpeed':max_speed,'other':[{'temperature':[min_temp,avg_temp,max_temp]}]}
     return meta_dict
