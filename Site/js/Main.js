@@ -36,7 +36,7 @@ groupURL = groupURLbase.concat(groupID);
 
 //Wat doen bij laden van pagina
 $(document).ready(function(){
-    $('[data-toggle="tooltip"]').tooltip()
+
     group = document.getElementById(groupID);
     var $jumbotext = $("#jumbo").children("h1");
 
@@ -422,7 +422,7 @@ function thumbnail(json){
                 k = k + 1;
             }
             var toAdd = '<div class="col-xs-3 col-sm-2 col-md-1 col-lg-1 thumbtn col-centered">' +
-                '<button class="thumbnail btn-default btn" data-toggle="tooltip" data-placement="top" title="1" type="button" id="' +tripid + '" value="'+i+'">' +
+                '<button class="thumbnail btn-default" type="button" data-toggle="tooltip" data-original-title="1" data-placement="top" id="' +tripid + '" value="'+i+'">' +
                 '<img src="foto/logozondernaam.png" class="thumbimg">' +
                 '<p class="thumbp">'+
                 month[startTime.getMonth()] + " " + startTime.getDate() + " " + startTime.getFullYear() +
@@ -470,6 +470,9 @@ function thumbnail(json){
             }
         });
         equalHeight($("#thumbnails .thumbnail"));
+        $('[data-toggle="tooltip"]').tooltip({
+            placement: "top"
+        });
     });
 
     $("#slider-dots li:last-child").addClass("active-dot");
@@ -560,7 +563,7 @@ function drawAverageMaxChart() {
             'vAxis': {
                 viewWindowMode:'explicit'
             },
-            'hAxis': {title:"Tripnumber"},
+            //'hAxis': {title:"Tripnumber"},
             'animation':{
                 'duration':'250'
             }
@@ -655,13 +658,22 @@ function plotElevation(results, status) {
     var options = {
         //title: 'Elevation',
         backgroundColor: '#dcdcdc',
-        hAxis: {title:"Distance"},
-        legend: 'none',
-        titleY: 'Elevation (m)',
-        seriesType: "area",
+        hAxis: {gridlines:{color:'#FF0000'}},
+        //legend: 'none',
+        //titleY: 'Elevation (m)',
+        seriesType: "line",
+        curveType: 'function',
         series: {1: {
-            type: "line"
-        }}
+            //type: "line",
+            targetAxisIndex: 1
+        }},
+        vAxes: [
+            {title: 'Elevation [m]',
+                titleTextStyle: {color: '#0000FF'}},
+            {title: 'Speed [' + UNIT + ']',
+                titleTextStyle: {color: '#FF0000'}}
+        ]
+
     };
 
     var data = new google.visualization.DataTable();
@@ -672,11 +684,7 @@ function plotElevation(results, status) {
 
 
     for (var i = 0; i < results.length; i++) {
-        data.addRow(['', Math.round(elevations[i].elevation * 100) / 100, null]);
-    }
-
-    for (var i=0; i < speeddataDual.length; i++){
-        data.setValue(i,2, speeddataDual[i]);
+        data.addRow(['', Math.round(elevations[i].elevation * 100) / 100, speeddataDual[i]]);
     }
 
     // Draw the chart using the data within its DIV.
@@ -804,8 +812,6 @@ function map() {
         loadElev();
     }
 
-    var totalcoor = coor.length-1;
-
     var mapOptions = {
         scrollwheel: true,
         styles: mapstyle
@@ -814,8 +820,21 @@ function map() {
         mapOptions);
 
     for (var i=1; i<coor.length-1; i++){
-        var text = '<p>Speed: ' + ToolTipData.Speed[i] + '</p>' +
-            ToolTipData.Images[i];
+
+        var text = '<div>';
+
+        if (ToolTipData.Speed[i]) {
+            text += '<p>Speed: ' + ToolTipData.Speed[i] + '</p>';
+        }
+        if (ToolTipData.Temp[i]){
+            text += '<p>Temperature: ' + ToolTipData.Temp[i] + '</p>';
+        }
+        if (ToolTipData.Images[i]){
+            text += ToolTipData.Images[i];
+
+        }
+
+        text += '</div>';
 
         var markerimg = new google.maps.Circle({
             position: coor[i],
@@ -832,6 +851,7 @@ function map() {
         });
 
         var infowindow = new google.maps.InfoWindow({
+            maxWidth: '100%'
         });
         google.maps.event.addListener(markerimg, 'click', function () {
             infowindow.setContent(this.customData);
@@ -839,10 +859,7 @@ function map() {
         });
 
         google.maps.event.addListener(markerimg, 'mouseover', function(){
-            var elevpoint = Math.round((this.customPoint / totalcoor)*511);
-            console.log(elevpoint);
-            speedchart.setSelection([{column:1, row:this.customPoint}]);
-            ELEVCHART.setSelection([{column:1, row:elevpoint}])
+            ELEVCHART.setSelection([{row:this.customPoint}])
         });
 
     }
@@ -869,8 +886,7 @@ function map() {
     });
 
     google.maps.event.addListener(markerstart, 'mouseover', function(){
-        speedchart.setSelection([{column:1, row:0}]);
-        ELEVCHART.setSelection([{column:1, row:0}])
+        ELEVCHART.setSelection([{row:0}])
     });
 
     var markerendicon = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=B|FF0000|000000");
@@ -888,8 +904,7 @@ function map() {
     });
 
     google.maps.event.addListener(markerend, 'mouseover', function(){
-        speedchart.setSelection([{column:1, row:this.customPoint}]);
-        ELEVCHART.setSelection([{column:1, row:511}])
+        ELEVCHART.setSelection([{row:coor.length-1}])
     });
 
     var bikePath = new google.maps.Polyline({

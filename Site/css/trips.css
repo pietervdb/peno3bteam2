@@ -1,7 +1,12 @@
 body {
     background-color: ghostwhite;
     padding-top: 65px; /*bij fixed nav-bar*/
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
+
+html { height: 100% }
 
 img {
     width: 100%;
@@ -168,15 +173,18 @@ table {
 }
 
 #right-column {
-    background-color: lightgray;
+    /*background-color: lightgray;*/
     position: relative;
-    padding: 0 2px 0 2px;
+    padding: 0 17px 0 2px;
+    /*margin-right: 15px;*/
 }
 
 #map-canvas {
-    min-height:400px;
-    margin: 0;
-    padding: 0;
+    /*width: 100%;*/
+    min-height: 400px;
+    /*margin-left: 15px;*/
+    /*margin-right: -15px;*/
+    /*padding-left: 0;*/
 }
 
 #map-canvas.fullscreen {
@@ -241,6 +249,10 @@ div#footer{
 }
 
 #left-column{
-    padding: 0 2px 0 2px !important;
+    padding: 0 2px 0 17px !important;
+}
+
+#left-column h3{
+    margin-top: 0;
 }
 

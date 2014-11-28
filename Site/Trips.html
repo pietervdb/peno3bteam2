@@ -31,7 +31,7 @@
           HREF="/site/foto/favicon.ico">
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
 <div class="row">
     <!--Navigatiebalk-->
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
@@ -259,45 +259,49 @@
                 </div>
             </div>
         </div>
-        <!--<div class="col-md-6 col-lg-6" id="left-column">-->
         <div id="visual-container">
-            <div id="timelapse-canvas" class="visual" style="display:none">
-                    <h3>Timelapse
-                    <button id="timelapse-play" class="btn btn-link" type="submit"><i class="glyphicon glyphicon-play"></i></button>
-                    <button id="timelapse-pause" class="btn btn-link hidden" type="submit"><i class="glyphicon glyphicon-pause"></i></button>
-                    </h3>
-                <div id="timelapse">
+            <div class="row">
+                <div class="col-md-6 col-lg-6" id="left-column">
+
+                    <div id="timelapse-canvas" class="visual" style="display:none">
+                        <h3>Timelapse
+                            <button id="timelapse-play" class="btn btn-link" type="submit"><i class="glyphicon glyphicon-play"></i></button>
+                            <button id="timelapse-pause" class="btn btn-link hidden" type="submit"><i class="glyphicon glyphicon-pause"></i></button>
+                        </h3>
+                        <div id="timelapse">
+                        </div>
+                    </div>
                 </div>
+                <!--</div>-->
+                <div class="col-md-6 col-lg-6" id="right-column">
+                    <div id="map-canvas">
+                    </div>
+                </div>
+                </div>
+                <div id="heights-canvas" class="visual" style="display:none;">
+                    <!--<h3>Elevation</h3>-->
+                    <div id="heightschart" style="width: auto; height: 150px;"></div>
+                </div>
+                <div id="speed-canvas" class="hidden visual" style="display: none;">
+                    <!--<h3>Speed</h3>-->
+                    <div id="speedchart" style="width: auto; height: 150px;"></div>
+                </div>
+                <!--</div>-->
             </div>
-            <!--</div>-->
-            <!--<div class="col-md-6 col-lg-6" id="right-column">-->
-            <h3 id="map-canvas-title">Map</h3>
-            <div id="map-canvas">
-            </div>
-            <div id="heights-canvas" class="visual" style="display:none;">
-                <h3>Elevation</h3>
-                <div id="heightschart" style="width: auto; height: 150px;"></div>
-            </div>
-            <div id="speed-canvas" class="hidden visual" style="display: none;">
-                <h3>Speed</h3>
-                <div id="speedchart" style="width: auto; height: 150px;"></div>
-            </div>
-            <!--</div>-->
         </div>
     </div>
-</div>
-<div id="footer">
-    <table style="width:100%">
-        <tr>
-            <td align="center" class="lijn_onderaan">
-                <font color="green">Bike-Lapse</font>
-            </td>
-            <td class="lijn_onderaan">
-                <a href="About.html"><font color="green">About</font></a>
-            </td>
-        </tr>
-    </table>
-</div>
+    <div id="footer">
+        <table style="width:100%">
+            <tr>
+                <td align="center" class="lijn_onderaan">
+                    <font color="green">Bike-Lapse</font>
+                </td>
+                <td class="lijn_onderaan">
+                    <a href="About.html"><font color="green">About</font></a>
+                </td>
+            </tr>
+        </table>
+    </div>
 </div>
 
 </body>

@@ -10,7 +10,7 @@ var speeddataDual;
 var temperature;
 var image;
 var GPS = 1;
-var THERMO = 3;
+var THERMO = 10;
 var CAM = 8;
 var month = [
     "Jan",
@@ -107,7 +107,7 @@ lapse.getter = (function() {
     function ExtractData(json, time){
         coordinates = [];
         temperature = [];
-        ToolTipData = {Speed:[], Images:[]};
+        ToolTipData = {Speed:[], Images:[], Temp:[]};
         speeddata = [['distance', 'Speed']];
         speeddataDual = [];
         var B = json.meta;
@@ -151,7 +151,9 @@ lapse.getter = (function() {
                     break;
 
                 case THERMO: //temperatuur
-                    temperature.push([this.data[0].value]);
+                    console.log(this.data[0].temperature[0]);
+                    temperature.push([this.data[0].temperature[0]]);
+                    ToolTipData.Temp.push(this.data[0].temperature[0]);
                     break;
 
                 case CAM: //images
@@ -206,6 +208,7 @@ lapse.getter = (function() {
             // tell jQuery we're expecting JSONP
             dataType: "jsonp",
 
+            error: function() {NODATA()},
             // work with the response
             success: function( response ) {
                 return callback(response, URL); // server response
