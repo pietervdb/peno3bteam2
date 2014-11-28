@@ -51,7 +51,6 @@ def send_pictures(tripID,tripnumber):
     photo_lists = split_in(photos,20)
     i = 0
     for photo_list in photo_lists:
-##        print "start list"
         socketIO.emit('endBikeTrip',json.dumps({"_id":tripID}),on_response)
 ##        socketIO.wait(2)
         socketIO.on('server_message',on_response)
@@ -74,30 +73,31 @@ def split_in(list_complete, number):
     for i in range(0,len(list_complete), number):
         split_list.append(list_complete[i:i+number])
     return split_list
-
+###############REMOVE FOR ACTUAL USE#####################
 def resize_pictures(tripnumber):
     photos = os.listdir('Data/Photos/'+tripnumber)
-    max_size = 600
+    max_size = 200
     
     for photo in photos:
         img = Image.open('Data/Photos/'+tripnumber+'/'+photo)
-        width_length = [img.size[0], img.size[1]]
-        biggest = 0
-        smallest = 1
-        if img.size[1] > img.size[0]:
-            biggest = 1
-            smallest = 0
-            
-        if img.size[biggest]>max_size:
-            
-            percentage = (max_size/float(img.size[biggest]))
-            smallestsize = int((float(img.size[smallest])*float(percentage)))
-            if biggest == 0:
-                img = img.resize((600,smallestsize), Image.ANTIALIAS)
-            else:
-                img = img.resize((smallestsize,600), Image.ANTIALIAS)
-                
+##        width_length = [img.size[0], img.size[1]]
+##        biggest = 0
+##        smallest = 1
+##        if img.size[1] > img.size[0]:
+##            biggest = 1
+##            smallest = 0
+##            
+##        if img.size[biggest]>max_size:
+##            
+##            percentage = (max_size/float(img.size[biggest]))
+##            smallestsize = int((float(img.size[smallest])*float(percentage)))
+##            if biggest == 0:
+##                img = img.resize((max_size,smallestsize), Image.ANTIALIAS)
+##            else:
+##                img = img.resize((smallestsize,max_size), Image.ANTIALIAS)
+        img = img.resize((600,338), Image.ANTIALIAS)    
             #img.save('Data/Photos/'+tripnumber+'/'+photo[:-4]+".jpg")
-            img.save('Data/Photos/'+tripnumber+'/'+photo[:-4]+".jpg","JPEG")
+        img.save('Data/Photos/'+tripnumber+'/'+photo[:-4]+".jpg","JPEG")
             
     return photos
+###################UNTIL HERE#################################
