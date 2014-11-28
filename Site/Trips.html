@@ -27,7 +27,8 @@
     <script src="js/getter.js" type="text/javascript"></script>
     <script src="js/Main.js" type="text/javascript"></script>
     <!--<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDCRwgWbgGGM5zVCUJFJDIE3qSIYs1pATU&callback=mapsloaded"></script>-->
-
+    <LINK REL="SHORTCUT ICON"
+          HREF="/site/foto/favicon.ico">
 </head>
 <body>
 <div class="container">
@@ -66,7 +67,7 @@
                     <li id="cwa2"><a href="Trips.html?group=cwa2">A2</a></li>
                     <li id="cwa3"><a href="Trips.html?group=cwa3">A3</a></li>
                     <li id="CWB1"><a href="Trips.html?group=cwb1">B1</a></li>
-                    <li id="CWB2"><a href="Trips.html?group=CWB2">B2</a></li>
+                    <li id="cw1b2"><a href="Trips.html?group=cw1b2">B2</a></li>
                     <li id="CWB3"><a href="Trips.html?group=cwb3">B3</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
@@ -149,6 +150,28 @@
             </form>
         </ul>
     </div>
+    <div class="dropdown" style="display: inline;">
+        <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+            Speed
+            <span class="caret"></span>
+        </button>
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+            <form class="filter" role="form" id="unitform">
+                <div class="radio">
+                    <label><input type="radio" name="unitradio" checked="true" value="0">m/s</label>
+                </div>
+                <div class="radio">
+                    <label><input type="radio" name="unitradio" value="0">km/u</label>
+                </div>
+            </form>
+            <form class="filter" role="form" id="unitform">
+                From
+                <input class="" type="number" name="minspeed" min="0" max="200" value="0" required>
+                To
+                <input class="" type="number" name="maxspeed" min="0" max="200" value="200" required>
+            </form>
+        </ul>
+    </div>
     <div id="refresh" style="display: inline;">
         <button class="btn btn-link" type="button">
             <span class="glyphicon glyphicon-refresh"></span>
@@ -197,15 +220,31 @@
 
     <div class="" id="tripinfo" style="display:none;">
         <div class="row">
-            <div class="col-md-6">
-                <div id="dateinfo">
-                    <p>Date:</p>
-                </div>
+            <div class="col-md-11">
+                <form id="ShowCharts" class="form-inline" role="form">
+                    <div class="checkbox">
+                        <label><input id="ShowTimelapse" type="checkbox" checked>Timelapse</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input id="ShowMap" type="checkbox" checked>Map</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input id="ShowElev" type="checkbox" checked>Elevation</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input id="ShowSpeed" type="checkbox" checked>Speed</label>
+                    </div>
+                </form>
             </div>
-            <div class="col-md-6 text-right">
+            <div class="col-md-1 text-right">
                 <div id="close" style="display: inline;">
                     <button class="btn btn-link" type="button">
                         <span class="glyphicon glyphicon-remove"></span></button>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div id="dateinfo">
+                    <p>Date:</p>
                 </div>
             </div>
             <div class="">
@@ -232,14 +271,14 @@
             </div>
             <!--</div>-->
             <!--<div class="col-md-6 col-lg-6" id="right-column">-->
-            <h3>Map</h3>
+            <h3 id="map-canvas-title">Map</h3>
             <div id="map-canvas">
             </div>
             <div id="heights-canvas" class="visual" style="display:none;">
                 <h3>Elevation</h3>
                 <div id="heightschart" style="width: auto; height: 150px;"></div>
             </div>
-            <div id="speed-canvas" class="visual" style="display: none;">
+            <div id="speed-canvas" class="hidden visual" style="display: none;">
                 <h3>Speed</h3>
                 <div id="speedchart" style="width: auto; height: 150px;"></div>
             </div>

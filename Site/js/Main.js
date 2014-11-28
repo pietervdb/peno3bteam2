@@ -14,6 +14,8 @@ var coordinates;
 var coor;
 var dataaveragemax;
 var dashboard;
+var speedchart;
+var ELEVCHART;
 var averagemax = false;
 var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
 var mindata = 0;
@@ -24,7 +26,7 @@ var FilterEndDate = new Date(2015,0,1,1,0,0,0);
 var FilterMinSpeed = 0;
 var FilterMaxSpeed = 200;
 
-//TODO add filters: snelheid, temperatuur,
+//TODO add filters: snelheid
 
 //controleren of laatste letter in URL een "#" is
 if (groupID[groupID.length-1] == "#"){
@@ -34,6 +36,7 @@ groupURL = groupURLbase.concat(groupID);
 
 //Wat doen bij laden van pagina
 $(document).ready(function(){
+    $('[data-toggle="tooltip"]').tooltip()
     group = document.getElementById(groupID);
     var $jumbotext = $("#jumbo").children("h1");
 
@@ -202,6 +205,7 @@ function main(){
         UNITMULTIPLIER = unitselection[0];
         UNIT = unitselection[1];
         SetDates();
+        SetSpeed();
         //FilterStartDate.setFullYear($("#filteryear").val(),$("#filtermonth").val()-1,$("#filterday").val());
         $("#loadicon").fadeIn({
             complete:function(){
@@ -213,15 +217,9 @@ function main(){
         });
         $("#tripinfo").slideUp({
             duration:"slow",
-            complete: function () {
-                coordinates = "NONE";
-                $("#map-canvas").empty();
-                $("#timelapse").empty();
-                $("#visual-container .visual").hide();
-                $("#tripinfo.tripdata").remove();
-                clearInterval(interval);
-            }
+            complete: deleteTripInfo()
         });
+
     });
 
     $("#close").click(function () {
@@ -229,14 +227,7 @@ function main(){
         $("#tripinfo").slideUp({
             duration:"slow",
             complete: function () {
-                coordinates = "NONE";
-                $("#timelapse-pause").addClass("hidden");
-                $("#timelapse-play").removeClass("hidden");
-                $("#map-canvas").empty();
-                $("#timelapse").empty();
-                $("#visual-container .visual").hide();
-                $("#tripinfo .tripdata").remove();
-                clearInterval(interval);
+                deleteTripInfo()
             }
         });
     });
@@ -252,6 +243,45 @@ function main(){
         $(this).addClass("hidden");
         clearInterval(interval);
     });
+
+    $("#ShowCharts").find(":input").change(function(){
+        switch (this.id){
+            case "ShowTimelapse":
+                if (this.checked){
+                    $("#timelapse-canvas").show();
+                }
+                else{
+                    $("#timelapse-canvas").hide()};
+                break;
+            case "ShowMap":
+                if (this.checked){
+                    $("#map-canvas-title").show();
+                    $("#map-canvas").show();
+                }
+                else{
+                    $("#map-canvas-title").hide();
+                    $("#map-canvas").hide()};
+                break;
+                //$("#map-canvas-title").toggle();
+                //$("#map-canvas").toggle();
+                //google.maps.event.trigger(map, "resize");
+                //break;
+            case "ShowElev":
+                if (this.checked){
+                    $("#heights-canvas").show();
+                }
+                else{
+                    $("#heights-canvas").hide()};
+                break;
+            case "ShowSpeed":
+                if (this.checked){
+                    $("#speed-canvas").show();
+                }
+                else{
+                    $("#speed-canvas").hide()};
+                break;
+        }
+    })
 }
 
 function SetDates(){
@@ -305,12 +335,10 @@ function SetDates(){
 function SetSpeed(){
     var filterminspeed;
     var filtermaxspeed;
-    filtermaxspeed = $('input[name=maxspeed]', '#minspeed').val();
+    filterminspeed = $('input[name=maxspeed]', '#minspeed').val();
     filtermaxspeed = $('input[name=maxspeed]', '#maxspeed').val();
     FilterMinSpeed = filterminspeed;
     FilterMaxSpeed = filtermaxspeed;
-    console.log(FilterMinSpeed);
-    console.log(FilterMaxSpeed);
     }
 
 
@@ -373,8 +401,12 @@ function thumbnail(json){
     for (i = json.length-1; i>-1; i = i-1){
         var startTime = new Date(json[i].startTime);
         var C = json[i].sensorData;
+        var currentAverageSpeed = (Math.round((json[i].meta.averageSpeed*UNITMULTIPLIER)*100))/100;
         if (startTime == 'Invalid Date'){
             startTime = previousDate;
+        }
+        if (currentAverageSpeed==null){
+            currentAverageSpeed=0;
         }
         if (C == null){
             C = [];
@@ -390,7 +422,7 @@ function thumbnail(json){
                 k = k + 1;
             }
             var toAdd = '<div class="col-xs-3 col-sm-2 col-md-1 col-lg-1 thumbtn col-centered">' +
-                '<button class="thumbnail btn-default" type="button" id="' +tripid + '" value="'+i+'">' +
+                '<button class="thumbnail btn-default btn" data-toggle="tooltip" data-placement="top" title="1" type="button" id="' +tripid + '" value="'+i+'">' +
                 '<img src="foto/logozondernaam.png" class="thumbimg">' +
                 '<p class="thumbp">'+
                 month[startTime.getMonth()] + " " + startTime.getDate() + " " + startTime.getFullYear() +
@@ -450,7 +482,7 @@ function thumbnail(json){
         $(this).addClass("active");
         $("#tripinfo").slideUp({
             duration:"slow",
-            complete: function () {
+            complete: function(){
                 coordinates = "NONE";
                 $("#timelapse-pause").addClass("hidden");
                 $("#timelapse-play").removeClass("hidden");
@@ -465,7 +497,16 @@ function thumbnail(json){
     });
 }
 
-
+function deleteTripInfo() {
+    coordinates = "NONE";
+    $("#timelapse-pause").addClass("hidden");
+    $("#timelapse-play").removeClass("hidden");
+    $("#map-canvas").empty();
+    $("#timelapse").empty();
+    $("#visual-container .visual").hide();
+    $("#tripinfo .tripdata").remove();
+    clearInterval(interval);
+}
 
 //thumbnails zelfde grootte maken
 function equalHeight(group) {
@@ -477,26 +518,6 @@ function equalHeight(group) {
         }
     });
     group.each(function() { $(this).height(tallest); });
-}
-
-//Laden van foto's voor timelapse
-function images(gegevens){
-    var C = gegevens.sensorData;
-    //Voor aparte opvraag van server
-    //var C = gegevens[0].sensorData;
-    var timelapseid = $("#timelapse");
-    $.each(C, function(){
-        if (this.sensorID == 8) {
-            timelapseid.append("<img>");
-            timelapseid.children("img:last").attr("src", imageURL.concat(this.data[0])).attr("class", "hidden");
-        }
-        timelapseid.children(":first").removeClass("hidden").addClass("active-img");
-    });
-
-    //Starten van timelapse wanneer afbeeldingen geladen zijn
-    if (timelapseid.children()[0]){
-        $(window).load(timelapse());
-    }
 }
 
 //functie voor timelapse
@@ -593,7 +614,7 @@ function drawAverageMaxChart() {
 function loadElev() {
 
     // Create a new chart in the elevation_chart DIV.
-    ELEVCHART = new google.visualization.AreaChart(document.getElementById('heightschart'));
+    ELEVCHART = new google.visualization.ComboChart(document.getElementById('heightschart'));
 
     // Create a PathElevationRequest object using this array.
     // Ask for 512 samples along that path.
@@ -603,13 +624,13 @@ function loadElev() {
             var shortcoor =[];
             for (var i=0; i < a.length-1; i=i+2){
                 shortcoor.push(a[i]);
-               }
+            }
             shortcoor.push(a[a.length-1]);
             a = shortcoor;
         }
         var pathRequest = {
-                'path': a,
-                'samples': 256
+            'path': a,
+            'samples': 256
         };
     }
 
@@ -636,14 +657,26 @@ function plotElevation(results, status) {
         backgroundColor: '#dcdcdc',
         hAxis: {title:"Distance"},
         legend: 'none',
-        titleY: 'Elevation (m)'
+        titleY: 'Elevation (m)',
+        seriesType: "area",
+        series: {1: {
+            type: "line"
+        }}
     };
 
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Sample');
     data.addColumn('number', 'Elevation');
+
+    data.addColumn('number', 'Speed');
+
+
     for (var i = 0; i < results.length; i++) {
-        data.addRow(['', Math.round(elevations[i].elevation * 100) / 100]);
+        data.addRow(['', Math.round(elevations[i].elevation * 100) / 100, null]);
+    }
+
+    for (var i=0; i < speeddataDual.length; i++){
+        data.setValue(i,2, speeddataDual[i]);
     }
 
     // Draw the chart using the data within its DIV.
@@ -663,9 +696,13 @@ function drawSpeeds() {
         }
     };
 
-    var chart = new google.visualization.AreaChart(document.getElementById('speedchart'));
+    speedchart = new google.visualization.AreaChart(document.getElementById('speedchart'));
 
-    chart.draw(data, options);
+    google.visualization.events.addListener(speedchart, 'select', function() {
+        console.log(speedchart.getSelection());
+    });
+
+    speedchart.draw(data, options);
 }
 
 //tekenen van temperatuurgrafiek
@@ -767,6 +804,8 @@ function map() {
         loadElev();
     }
 
+    var totalcoor = coor.length-1;
+
     var mapOptions = {
         scrollwheel: true,
         styles: mapstyle
@@ -775,9 +814,8 @@ function map() {
         mapOptions);
 
     for (var i=1; i<coor.length-1; i++){
-        console.log(ToolTipData.Images[i]);
         var text = '<p>Speed: ' + ToolTipData.Speed[i] + '</p>' +
-                ToolTipData.Images[i];
+            ToolTipData.Images[i];
 
         var markerimg = new google.maps.Circle({
             position: coor[i],
@@ -789,40 +827,40 @@ function map() {
             strokeWeight: 2,
             fillColor: '#428bcb',
             fillOpacity: 0.35,
-            customData: text
+            customData: text,
+            customPoint: i
         });
 
         var infowindow = new google.maps.InfoWindow({
         });
-        //Timestamp en image toevoegen aan coordinaten om juiste image op te roepen.
         google.maps.event.addListener(markerimg, 'click', function () {
             infowindow.setContent(this.customData);
             infowindow.open(map, this);
         });
 
-        //google.maps.event.addListener(markerimg, 'click', function() {
-        //    infowindow.open(map,eval("markerimg" + i));
-        //});
+        google.maps.event.addListener(markerimg, 'mouseover', function(){
+            var elevpoint = Math.round((this.customPoint / totalcoor)*511);
+            console.log(elevpoint);
+            speedchart.setSelection([{column:1, row:this.customPoint}]);
+            ELEVCHART.setSelection([{column:1, row:elevpoint}])
+        });
+
     }
 
-    var textstart = '<p>Speed: ' + ToolTipData.Speed[0] + '</p>' +
+    var infowindow = new google.maps.InfoWindow({
+    });
+
+    var textstart = '<p>Speed: ' + ToolTipData.Speed[0] + ' '+ UNIT + '</p>' +
         ToolTipData.Images[0];
     var textend = '<p>Speed: ' + ToolTipData.Speed[-1] + '</p>' +
         ToolTipData.Images[ToolTipData.Images.length-1];
-
+    var markerstarticon = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=A|00FF00|000000");
     var markerstart = new google.maps.Marker({
         position: coor[0],
         map: map,
-        customData: textstart
-    });
-
-    var markerend = new google.maps.Marker({
-        position: coor[coor.length-1],
-        map: map,
-        customData: textend
-    });
-
-    var infowindow = new google.maps.InfoWindow({
+        icon: markerstarticon,
+        customData: textstart,
+        customPoint: 0
     });
 
     google.maps.event.addListener(markerstart, 'click', function() {
@@ -830,9 +868,28 @@ function map() {
         infowindow.open(map,markerstart);
     });
 
+    google.maps.event.addListener(markerstart, 'mouseover', function(){
+        speedchart.setSelection([{column:1, row:0}]);
+        ELEVCHART.setSelection([{column:1, row:0}])
+    });
+
+    var markerendicon = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=B|FF0000|000000");
+    var markerend = new google.maps.Marker({
+        position: coor[coor.length-1],
+        map: map,
+        icon: markerendicon,
+        customData: textend,
+        customPoint: coor.length-1
+    });
+
     google.maps.event.addListener(markerend, 'click', function() {
         infowindow.setContent(this.customData);
         infowindow.open(map,markerend);
+    });
+
+    google.maps.event.addListener(markerend, 'mouseover', function(){
+        speedchart.setSelection([{column:1, row:this.customPoint}]);
+        ELEVCHART.setSelection([{column:1, row:511}])
     });
 
     var bikePath = new google.maps.Polyline({
