@@ -1,5 +1,5 @@
 def split_data(line):
-    "Splits dataname and datadata"
+    "Splits dataname and datadata based on bracket location"
     i = 0
     while True:
         if line[i] == "[":
@@ -13,14 +13,14 @@ def split_data(line):
     return [line[:i-1],line[i+1:j]]
 
 def decimalextender(number):
-    "Makes 1 into 01, 2 into 02, ..."
+    "converts one-digit numbers to two-digits: 1 -> 01, 5 -> 05, 10 -> 10"
     if int(number) < 10:
         return "0"+number
     else:
         return number
 
 def find_signs(line):
-    "Finds the signs in a line"
+    "Finds the signs and spaces in a line"
     signs = []
     i = 0
     special_signs = [":","-"," "]
