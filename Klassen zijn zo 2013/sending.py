@@ -57,11 +57,11 @@ def send_pictures(tripnumber):
     photo_lists = split_in(tripnumber,20)   #more/less? test!
     i = 0
     for photo_list in photo_lists:
-##        socketIO.emit('endBikeTrip',json.dumps({"_id":tripID}),on_response) #is this required? also check socketIO.wait(x)
-##        socketIO.wait(2)
+        socketIO.emit('endBikeTrip',json.dumps({"_id":tripID}),on_response) #is this required? also check socketIO.wait(x)
+        socketIO.wait(2)
         socketIO.on('server_message',on_response)
         socketIO.emit('start',json.dumps(start),on_response)
-##        socketIO.wait(2)
+        socketIO.wait(2)
         for photo in photo_list:
             file = open('Data/Photos/'+tripnumber+'/'+photo,"rb").read().encode("base64")
             photodata = json.dumps({"imageName" : "foto"+str(i+1)+".jpg", "tripID" : tripID, "userID" : "r0369676", "raw" : file})
@@ -69,7 +69,7 @@ def send_pictures(tripnumber):
             headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
             r = requests.post(url, data = photodata, headers = headers)
             socketIO.emit('rt-sensordata', photodata,on_response)
-            #socketIO.wait(2)
+            socketIO.wait(0.2)
             print "image",i
             i += 1
 
