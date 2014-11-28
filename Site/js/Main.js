@@ -629,14 +629,14 @@ function loadElev() {
         }
         var pathRequest = {
             'path': a,
-            'samples': 256
+            'samples': coor.length
         };
     }
 
     else{
         var pathRequest = {
             'path': coor,
-            'samples': 512
+            'samples': coor.length
         };
     }
 
