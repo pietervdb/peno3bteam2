@@ -220,15 +220,31 @@
 
     <div class="" id="tripinfo" style="display:none;">
         <div class="row">
-            <div class="col-md-6">
-                <div id="dateinfo">
-                    <p>Date:</p>
-                </div>
+            <div class="col-md-11">
+                <form id="ShowCharts" class="form-inline" role="form">
+                    <div class="checkbox">
+                        <label><input id="ShowTimelapse" type="checkbox" checked>Timelapse</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input id="ShowMap" type="checkbox" checked>Map</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input id="ShowElev" type="checkbox" checked>Elevation</label>
+                    </div>
+                    <div class="checkbox">
+                        <label><input id="ShowSpeed" type="checkbox" checked>Speed</label>
+                    </div>
+                </form>
             </div>
-            <div class="col-md-6 text-right">
+            <div class="col-md-1 text-right">
                 <div id="close" style="display: inline;">
                     <button class="btn btn-link" type="button">
                         <span class="glyphicon glyphicon-remove"></span></button>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div id="dateinfo">
+                    <p>Date:</p>
                 </div>
             </div>
             <div class="">
@@ -255,14 +271,14 @@
             </div>
             <!--</div>-->
             <!--<div class="col-md-6 col-lg-6" id="right-column">-->
-            <h3>Map</h3>
+            <h3 id="map-canvas-title">Map</h3>
             <div id="map-canvas">
             </div>
             <div id="heights-canvas" class="visual" style="display:none;">
                 <h3>Elevation</h3>
                 <div id="heightschart" style="width: auto; height: 150px;"></div>
             </div>
-            <div id="speed-canvas" class="visual" style="display: none;">
+            <div id="speed-canvas" class="hidden visual" style="display: none;">
                 <h3>Speed</h3>
                 <div id="speedchart" style="width: auto; height: 150px;"></div>
             </div>
