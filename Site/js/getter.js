@@ -107,7 +107,7 @@ lapse.getter = (function() {
     function ExtractData(json, time){
         coordinates = [];
         temperature = [];
-        ToolTipData = {Speed:[], Images:[], Temp:[]};
+        ToolTipData = {Timestamp:[],Speed:[], Images:[], Temp:[]};
         speeddata = [['distance', 'Speed']];
         speeddataDual = [];
         var B = json.meta;
@@ -146,6 +146,7 @@ lapse.getter = (function() {
                             speeddata.push(["", sp]);
                             speeddataDual.push(sp);
                             ToolTipData.Speed.push(sp);
+                            ToolTipData.Timestamp.push(this.timestamp);
                         }
                     }
                     break;
@@ -168,14 +169,14 @@ lapse.getter = (function() {
 
         });
 
-        //if ( timelapseid.children().length == 0){
-        //    $("#left-column").hide();
-        //    $("#right-column").attr("class", "col-md-12 col-lg-12");
-        //}
-        //else {
-        //    $("#left-column").show();
-        //    $("#right-column").attr("class", "col-md-6 col-lg-6");
-        //}
+        if ( timelapseid.children().length == 0){
+            $("#left-column").hide();
+            $("#right-column").attr("class", "col-md-12 col-lg-12").css("padding-left", "17px");
+        }
+        else {
+            $("#left-column").show();
+            $("#right-column").attr("class", "col-md-6 col-lg-6").css("padding-left", "2px");
+        }
 
         $("#tripinfo").slideDown({
             duration:"slow",

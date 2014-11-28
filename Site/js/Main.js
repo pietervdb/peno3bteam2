@@ -27,6 +27,10 @@ var FilterMinSpeed = 0;
 var FilterMaxSpeed = 200;
 
 //TODO add filters: snelheid
+//TODO Sorteren
+//TODO QR-code
+//TODO Druk toevoegen aan infowindow
+//TODO 
 
 //controleren of laatste letter in URL een "#" is
 if (groupID[groupID.length-1] == "#"){
@@ -421,8 +425,19 @@ function thumbnail(json){
                 l = 1;
                 k = k + 1;
             }
+
+            var tripstarttime = new Date(json[i].startTime);
+            var tripendtime = new Date(json[i].endTime);
+            var tooltip;
+
+            if (tripstarttime == 'Invalid Date' | tripendtime == 'Invalid Date'){
+                tooltip = 'Unknown Time'
+            }
+            else {
+            tooltip = tripstarttime.format("HH:MM") + ' - ' + tripendtime.format("HH:MM");}
+
             var toAdd = '<div class="col-xs-3 col-sm-2 col-md-1 col-lg-1 thumbtn col-centered">' +
-                '<button class="thumbnail btn-default" type="button" data-toggle="tooltip" data-original-title="1" data-placement="top" id="' +tripid + '" value="'+i+'">' +
+                '<button class="thumbnail btn-default" type="button" data-toggle="tooltip" data-original-title="' + tooltip + '" data-placement="top" id="' +tripid + '" value="'+i+'">' +
                 '<img src="foto/logozondernaam.png" class="thumbimg">' +
                 '<p class="thumbp">'+
                 month[startTime.getMonth()] + " " + startTime.getDate() + " " + startTime.getFullYear() +
@@ -822,6 +837,12 @@ function map() {
     for (var i=1; i<coor.length-1; i++){
 
         var text = '<div>';
+        var timestamp = new Date(ToolTipData.Timestamp[i]);
+        timestamp = timestamp.format("HH:MM:ss");
+
+        if (ToolTipData.Timestamp[i]){
+            text += '<p>Time: ' + timestamp + '</p>';
+        }
 
         if (ToolTipData.Speed[i]) {
             text += '<p>Speed: ' + ToolTipData.Speed[i] + '</p>';
