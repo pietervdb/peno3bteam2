@@ -66,22 +66,11 @@ lapse.getter = (function() {
         averagemax[0] = ['Trip', 'Average Speed', 'Maximum Speed'];
         $.each(json, function(i, v) {
             var currentDate = new Date(v.startTime);
-<<<<<<< HEAD
-            var currentAverageSpeed = (Math.round((v.meta.averageSpeed*UNITMULTIPLIER)*100))/100;
-            if (currentAverageSpeed==null){
-                currentAverageSpeed=0;
-            }
-            if (C == null){
-                C = [];
-            }
-            if (CONDITION(C.length,currentDate,currentAverageSpeed)) {
-=======
             var C = v.sensorData;
             if (C == null){
                 C = [];
             }
             if (CONDITION(C.length, currentDate)) {
->>>>>>> 37bb330bfe3530a3d226ba17a1b42845e03b3f8f
                 var k = averagemax.length;
                 if (v.meta != null) {
                     averagemax.push([k, (Math.round((v.meta.averageSpeed*UNITMULTIPLIER)*100))/100, (Math.round((v.meta.maxSpeed*UNITMULTIPLIER)*100))/100]);
