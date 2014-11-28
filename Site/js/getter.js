@@ -72,7 +72,7 @@ lapse.getter = (function() {
                 C = [];
             }
             if (CONDITION(C.length, currentDate)) {
-                var k = averagemax.length;
+                    var k = averagemax.length;
                 if (v.meta != null) {
                     averagemax.push([k, (Math.round((v.meta.averageSpeed*UNITMULTIPLIER)*100))/100, (Math.round((v.meta.maxSpeed*UNITMULTIPLIER)*100))/100]);
                 }

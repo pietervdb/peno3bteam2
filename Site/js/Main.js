@@ -422,7 +422,7 @@ function thumbnail(json){
                 k = k + 1;
             }
             var toAdd = '<div class="col-xs-3 col-sm-2 col-md-1 col-lg-1 thumbtn col-centered">' +
-                '<button class="thumbnail btn-default btn" data-toggle="tooltip" data-placement="top" title="1" type="button" id="' +tripid + '" value="'+i+'">' +
+                '<button class="thumbnail btn-default" data-toggle="tooltip" data-placement="top" title="1" type="button" id="' +tripid + '" value="'+i+'">' +
                 '<img src="foto/logozondernaam.png" class="thumbimg">' +
                 '<p class="thumbp">'+
                 month[startTime.getMonth()] + " " + startTime.getDate() + " " + startTime.getFullYear() +
