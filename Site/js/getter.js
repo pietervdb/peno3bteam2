@@ -71,6 +71,9 @@ lapse.getter = (function() {
             if (C == null){
                 C = [];
             }
+            if (currentDate == 'Invalid Date'){
+                currentDate = new Date();
+            }
             if (CONDITION(C.length, currentDate)) {
                     var k = averagemax.length;
                 if (v.meta != null) {
@@ -152,7 +155,6 @@ lapse.getter = (function() {
                     break;
 
                 case THERMO: //temperatuur
-                    console.log(this.data[0].temperature[0]);
                     temperature.push([this.data[0].temperature[0]]);
                     ToolTipData.Temp.push(this.data[0].temperature[0]);
                     break;

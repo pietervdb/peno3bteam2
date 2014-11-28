@@ -30,7 +30,7 @@ var FilterMaxSpeed = 200;
 //TODO Sorteren
 //TODO QR-code
 //TODO Druk toevoegen aan infowindow
-//TODO 
+//TODO
 
 //controleren of laatste letter in URL een "#" is
 if (groupID[groupID.length-1] == "#"){
@@ -407,8 +407,9 @@ function thumbnail(json){
         var C = json[i].sensorData;
         var currentAverageSpeed = (Math.round((json[i].meta.averageSpeed*UNITMULTIPLIER)*100))/100;
         if (startTime == 'Invalid Date'){
-            startTime = previousDate;
+            startTime = new Date();
         }
+        console.log(startTime);
         if (currentAverageSpeed==null){
             currentAverageSpeed=0;
         }
