@@ -6,6 +6,7 @@ var coordinates;
 var ToolTipData;
 var heights;
 var speeddata;
+var speeddataDual;
 var temperature;
 var image;
 var GPS = 1;
@@ -108,6 +109,7 @@ lapse.getter = (function() {
         temperature = [];
         ToolTipData = {Speed:[], Images:[]};
         speeddata = [['distance', 'Speed']];
+        speeddataDual = [];
         var B = json.meta;
         var averageSpeed = (Math.round((B.averageSpeed*UNITMULTIPLIER)*100))/100;
         var maxSpeed = (Math.round((B.maxSpeed*UNITMULTIPLIER)*100))/100;
@@ -121,7 +123,7 @@ lapse.getter = (function() {
         }
 
         if (B.maxSpeed){
-            $("<p class='tripdata'>").text(maxSpeed*UNITMULTIPLIER + " " + UNIT).appendTo($("#MAXSPEED"));
+            $("<p class='tripdata'>").text(maxSpeed + " " + UNIT).appendTo($("#MAXSPEED"));
         }
         else{
             $("<p class='tripdata'>").text("/").appendTo($("#MAXSPEED"));
@@ -142,6 +144,7 @@ lapse.getter = (function() {
                         if (this.data[0].speed) {
                             var sp = (Math.round((this.data[0].speed[0]*UNITMULTIPLIER)*100))/100;
                             speeddata.push(["", sp]);
+                            speeddataDual.push(sp);
                             ToolTipData.Speed.push(sp);
                         }
                     }
