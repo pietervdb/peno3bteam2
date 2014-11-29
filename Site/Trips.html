@@ -81,7 +81,7 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row options">
     <div class="dropdown" style="display: inline;">
         <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
             Options
@@ -106,6 +106,7 @@
             </form>
         </ul>
     </div>
+    <p style="display:inline">Filter:</p>
     <div class="dropdown" style="display: inline;">
         <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
             Date
@@ -177,6 +178,23 @@
             <span class="glyphicon glyphicon-refresh"></span>
         </button>
     </div>
+    <div id="Sort" style="display: inline;">
+        <p class="" style="display: inline">Sort: </p>
+        <button id="TimeSort" class="btn btn-link" type="button" value="startTime" style="display: inline;">
+            Date
+        <span class="activesort up dropup">
+            <span class="caret"></span>
+        </span>
+            <span class="down caret" style="display: none;"></span>
+        </button>
+        <button id="SpeedSort" class="btn btn-link" type="button" value="averageSpeed" style="display: inline;">
+            Speed
+        <span class="up dropup" style="display: none;">
+            <span class="caret"></span>
+        </span>
+            <span class="down caret" style="display: none;"></span>
+        </button>
+    </div>
 </div>
 
 <div class="overlay" id="loadicon" ></div>
@@ -223,16 +241,16 @@
             <div class="col-md-11">
                 <form id="ShowCharts" class="form-inline" role="form">
                     <div class="checkbox">
-                        <label><input id="ShowTimelapse" type="checkbox" checked>Timelapse</label>
+                        <label><input id="ShowTimelapse" type="checkbox" value="#timelapse-canvas" checked>Timelapse</label>
                     </div>
                     <div class="checkbox">
-                        <label><input id="ShowMap" type="checkbox" checked>Map</label>
+                        <label><input id="ShowMap" type="checkbox" value="#map-canvas" checked>Map</label>
                     </div>
                     <div class="checkbox">
-                        <label><input id="ShowElev" type="checkbox" checked>Elevation</label>
+                        <label><input id="ShowElev" type="checkbox" value="#heights-canvas" checked>Elevation</label>
                     </div>
                     <div class="checkbox">
-                        <label><input id="ShowSpeed" type="checkbox" checked>Speed</label>
+                        <label><input id="ShowSpeed" type="checkbox" value="#speed-canvas" checked>Speed</label>
                     </div>
                 </form>
             </div>
@@ -277,31 +295,31 @@
                     <div id="map-canvas">
                     </div>
                 </div>
-                </div>
-                <div id="heights-canvas" class="visual" style="display:none;">
-                    <!--<h3>Elevation</h3>-->
-                    <div id="heightschart" style="width: auto; height: 150px;"></div>
-                </div>
-                <div id="speed-canvas" class="hidden visual" style="display: none;">
-                    <!--<h3>Speed</h3>-->
-                    <div id="speedchart" style="width: auto; height: 150px;"></div>
-                </div>
-                <!--</div>-->
             </div>
+            <div id="heights-canvas" class="visual" style="display:none;">
+                <!--<h3>Elevation</h3>-->
+                <div id="heightschart" style="width: auto; height: 150px;"></div>
+            </div>
+            <div id="speed-canvas" class="hidden visual" style="display: none;">
+                <!--<h3>Speed</h3>-->
+                <div id="speedchart" style="width: auto; height: 150px;"></div>
+            </div>
+            <!--</div>-->
         </div>
     </div>
-    <div id="footer">
-        <table style="width:100%">
-            <tr>
-                <td align="center" class="lijn_onderaan">
-                    <font color="green">Bike-Lapse</font>
-                </td>
-                <td class="lijn_onderaan">
-                    <a href="About.html"><font color="green">About</font></a>
-                </td>
-            </tr>
-        </table>
-    </div>
+</div>
+<div id="footer">
+    <table style="width:100%">
+        <tr>
+            <td align="center" class="lijn_onderaan">
+                <font color="green">Bike-Lapse</font>
+            </td>
+            <td class="lijn_onderaan">
+                <a href="About.html"><font color="green">About</font></a>
+            </td>
+        </tr>
+    </table>
+</div>
 </div>
 
 </body>

@@ -53,31 +53,49 @@ lapse.getter = (function() {
                 return NODATA()
             }
             else {
-                status.sort(sortByProperty('startTime'));
-                console.log(status);
                 AllTrips = status;
+                $.each(AllTrips,function(){
+                    if (!this.startTime && this.endTime){
+                        console.log('aa');
+                        this.startTime = this.endTime;
+                    }
+                    if (this.meta.averageSpeed){
+                        this.averageSpeed = this.meta.averageSpeed;
+                    }
+                    else{
+                        this.averageSpeed = 0;
+                    }
+                });
+                AllTrips.sort(sortByProperty('startTime'));
+                console.log(AllTrips);
                 ExtractAverageMax(AllTrips);
                 thumbnail(AllTrips);
             }
         }
     }
 
+    function Sort(json, property){
+        json.sort(sortByProperty(property));
+    }
+
     function ExtractAverageMax(json){
-        averagemax = [];
-        averagemax[0] = ['Trip', 'Average Speed', 'Maximum Speed'];
+        averagemax = [['Trip', 'Average Speed', 'Maximum Speed']];
         $.each(json, function(i, v) {
             var currentDate = new Date(v.startTime);
+            if (currentDate == 'Invalid Date'){
+                currentDate = new Date();
+            }
+
             var C = v.sensorData;
             if (C == null){
                 C = [];
             }
-            if (currentDate == 'Invalid Date'){
-                currentDate = new Date();
-            }
+
             if (CONDITION(C.length, currentDate)) {
-                    var k = averagemax.length;
+                var k = averagemax.length;
+                var D = v.meta;
                 if (v.meta != null) {
-                    averagemax.push([k, (Math.round((v.meta.averageSpeed*UNITMULTIPLIER)*100))/100, (Math.round((v.meta.maxSpeed*UNITMULTIPLIER)*100))/100]);
+                    averagemax.push([k, parseFloat((D.averageSpeed*UNITMULTIPLIER).toFixed(2)), parseFloat((D.maxSpeed*UNITMULTIPLIER).toFixed(2))]);
                 }
                 else {
                     averagemax.push([k, 0, 0])
@@ -91,17 +109,9 @@ lapse.getter = (function() {
             }
         });
         drawAverageMaxChart();
-        return averagemax
     }
 
     function ExtractTrip(json, trip, time){
-        //$.each(json, function(i, v) {
-        //    if (v._id == trip){
-        //        TripInfo = v;
-        //        ExtractData(TripInfo, time);
-        //        return false
-        //    }
-        //});
         TripInfo = json[trip];
         ExtractData(TripInfo,time);
         return false
@@ -114,8 +124,8 @@ lapse.getter = (function() {
         speeddata = [['distance', 'Speed']];
         speeddataDual = [];
         var B = json.meta;
-        var averageSpeed = (Math.round((B.averageSpeed*UNITMULTIPLIER)*100))/100;
-        var maxSpeed = (Math.round((B.maxSpeed*UNITMULTIPLIER)*100))/100;
+        var averageSpeed = parseFloat((B.averageSpeed*UNITMULTIPLIER).toFixed(2));
+        var maxSpeed = parseFloat((B.maxSpeed*UNITMULTIPLIER).toFixed(2));
         $("<p class='tripdata'>" + dateFormat(time)+"</p>").appendTo($("#dateinfo"));
 
         if (B.averageSpeed){
@@ -145,8 +155,7 @@ lapse.getter = (function() {
                     else if (this.data[0].type == "Point") {
                         coordinates.push([this.data[0].coordinates[0], this.data[0].coordinates[1]]);
                         if (this.data[0].speed) {
-                            var sp = (Math.round((this.data[0].speed[0]*UNITMULTIPLIER)*100))/100;
-                            speeddata.push(["", sp]);
+                            var sp = parseFloat((this.data[0].speed[0]*UNITMULTIPLIER).toFixed(2));
                             speeddataDual.push(sp);
                             ToolTipData.Speed.push(sp);
                             ToolTipData.Timestamp.push(this.timestamp);
@@ -222,6 +231,7 @@ lapse.getter = (function() {
 
     return {
         AJAX:AJAX,
+        Sort:Sort,
         GroupData:GroupData,
         ExtractAverageMax:ExtractAverageMax,
         ExtractTrip:ExtractTrip

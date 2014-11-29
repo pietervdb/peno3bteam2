@@ -11,11 +11,13 @@ var group;
 var groupHead;
 var interval;
 var coordinates;
-var coor;
+var GMCoordinates;
 var dataaveragemax;
 var dashboard;
 var speedchart;
+var ELEVData;
 var ELEVCHART;
+var ELEVToCall;
 var averagemax = false;
 var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
 var mindata = 0;
@@ -40,20 +42,20 @@ groupURL = groupURLbase.concat(groupID);
 
 //Wat doen bij laden van pagina
 $(document).ready(function(){
+    (function(){
+        group = document.getElementById(groupID);
+        var $jumbotext = $("#jumbo").children("h1");
 
-    group = document.getElementById(groupID);
-    var $jumbotext = $("#jumbo").children("h1");
+        if (groupID && group != null){
+            group.setAttribute("class", "active");
+            groupHead = group.firstChild.innerHTML;
+            $jumbotext.text(groupHead);
+        }
 
-    if (groupID && group != null){
-        group.setAttribute("class", "active");
-        groupHead = group.firstChild.innerHTML;
-        $jumbotext.text(groupHead);
-    }
-
-    else if (groupID) {
-        $jumbotext.text(groupID);
-    }
-
+        else if (groupID) {
+            $jumbotext.text(groupID);
+        }
+    })();
     loadMaps();
     spinner();
     main();
@@ -226,6 +228,44 @@ function main(){
 
     });
 
+    $("#Sort").children(":button").click(function(){
+        var prop = $(this).val();
+        function changecaret($button){
+            if($button.children(".activesort").length == 0){
+                $("#Sort").find(".activesort").removeClass("activesort").hide();
+                $button.children(".up").addClass("activesort").show();
+                lapse.getter.Sort(AllTrips, prop);
+            }
+            else{
+                if($button.children(".up.activesort").length != 0){
+                    $button.children(".up").removeClass("activesort").hide();
+                    $button.children(".down").addClass("activesort").show();
+                    AllTrips.reverse();
+                    //reversed = true;
+                }
+                else{
+                    $button.children(".down").removeClass("activesort").hide();
+                    $button.children(".up").addClass("activesort").show();
+                    AllTrips.reverse()
+                }
+            }
+        }
+        spinner();
+        changecaret($(this));
+        $("#loadicon").fadeIn({
+            complete:function(){
+                $("#slider-dots").empty();
+                $("#thumbnails").empty();
+                lapse.getter.ExtractAverageMax(AllTrips);
+                thumbnail(AllTrips);
+            }
+        });
+        $("#tripinfo").slideUp({
+            duration:"slow",
+            complete: deleteTripInfo()
+        });
+    });
+
     $("#close").click(function () {
         $("#thumbnails .thumbnail.active").removeClass("active");
         $("#tripinfo").slideUp({
@@ -236,6 +276,9 @@ function main(){
         });
     });
 
+    //
+    //TIMELAPSE PLAY-PAUSE
+    //
     $("#timelapse-play").click(function(){
         $("#timelapse-pause").removeClass("hidden");
         $(this).addClass("hidden");
@@ -248,42 +291,16 @@ function main(){
         clearInterval(interval);
     });
 
+    //
+    //Show visualization
+    //
     $("#ShowCharts").find(":input").change(function(){
-        switch (this.id){
-            case "ShowTimelapse":
-                if (this.checked){
-                    $("#timelapse-canvas").show();
-                }
-                else{
-                    $("#timelapse-canvas").hide()};
-                break;
-            case "ShowMap":
-                if (this.checked){
-                    $("#map-canvas-title").show();
-                    $("#map-canvas").show();
-                }
-                else{
-                    $("#map-canvas-title").hide();
-                    $("#map-canvas").hide()};
-                break;
-                //$("#map-canvas-title").toggle();
-                //$("#map-canvas").toggle();
-                //google.maps.event.trigger(map, "resize");
-                //break;
-            case "ShowElev":
-                if (this.checked){
-                    $("#heights-canvas").show();
-                }
-                else{
-                    $("#heights-canvas").hide()};
-                break;
-            case "ShowSpeed":
-                if (this.checked){
-                    $("#speed-canvas").show();
-                }
-                else{
-                    $("#speed-canvas").hide()};
-                break;
+        var value = this.val();
+        if (this.checked){
+            $(value).show();
+        }
+        else{
+            $(value).hide();
         }
     })
 }
@@ -343,7 +360,7 @@ function SetSpeed(){
     filtermaxspeed = $('input[name=maxspeed]', '#maxspeed').val();
     FilterMinSpeed = filterminspeed;
     FilterMaxSpeed = filtermaxspeed;
-    }
+}
 
 
 //parameters uit URL halen
@@ -405,11 +422,10 @@ function thumbnail(json){
     for (i = json.length-1; i>-1; i = i-1){
         var startTime = new Date(json[i].startTime);
         var C = json[i].sensorData;
-        var currentAverageSpeed = (Math.round((json[i].meta.averageSpeed*UNITMULTIPLIER)*100))/100;
+        var currentAverageSpeed = parseFloat((json[i].meta.averageSpeed*UNITMULTIPLIER).toFixed(2));
         if (startTime == 'Invalid Date'){
             startTime = new Date();
         }
-        console.log(startTime);
         if (currentAverageSpeed==null){
             currentAverageSpeed=0;
         }
@@ -435,7 +451,7 @@ function thumbnail(json){
                 tooltip = 'Unknown Time'
             }
             else {
-            tooltip = tripstarttime.format("HH:MM") + ' - ' + tripendtime.format("HH:MM");}
+                tooltip = tripstarttime.format("HH:MM") + ' - ' + tripendtime.format("HH:MM");}
 
             var toAdd = '<div class="col-xs-3 col-sm-2 col-md-1 col-lg-1 thumbtn col-centered">' +
                 '<button class="thumbnail btn-default" type="button" data-toggle="tooltip" data-original-title="' + tooltip + '" data-placement="top" id="' +tripid + '" value="'+i+'">' +
@@ -634,42 +650,63 @@ function loadElev() {
 
     // Create a new chart in the elevation_chart DIV.
     ELEVCHART = new google.visualization.ComboChart(document.getElementById('heightschart'));
+    ELEVData = [];
+    ELEVToCall = GMCoordinates;
 
     // Create a PathElevationRequest object using this array.
     // Ask for 512 samples along that path.
-    if (coor.length > 512) {
-        var a = coor;
-        while (a.length > 512) {
-            var shortcoor =[];
-            for (var i=0; i < a.length-1; i=i+2){
-                shortcoor.push(a[i]);
-            }
-            shortcoor.push(a[a.length-1]);
-            a = shortcoor;
-        }
+    if (ELEVToCall.length > 512) {
+        var ELEVCalling = ELEVToCall.splice(0,511);
+        console.log(ELEVCalling.length);
+
         var pathRequest = {
-            'path': a,
-            'samples': coor.length
+            'path': ELEVCalling,
+            'samples': ELEVCalling.length
         };
+        elevator.getElevationAlongPath(pathRequest, MoreElev);
     }
 
     else{
         var pathRequest = {
-            'path': coor,
-            'samples': coor.length
+            'path': ELEVToCall,
+            'samples': ELEVToCall.length
         };
+        elevator.getElevationAlongPath(pathRequest, plotElevation);
+    }
+}
+
+function MoreElev(){
+    for (i=0; i<results.length; i++){
+        ELEVData.push(results[i].elevation)
+    }
+    if (ELEVToCall.length > 512) {
+        var ELEVCalling = ELEVToCall.splice(0,511);
+        console.log(ELEVCalling.length);
+
+        var pathRequest = {
+            'path': ELEVCalling,
+            'samples': ELEVCalling.length
+        };
+        elevator.getElevationAlongPath(pathRequest, MoreElev);
     }
 
-    // Initiate the path request.
-    elevator.getElevationAlongPath(pathRequest, plotElevation);
+    else{
+        var pathRequest = {
+            'path': ELEVToCall,
+            'samples': ELEVToCall.length
+        };
+        elevator.getElevationAlongPath(pathRequest, plotElevation);
+    }
 }
 
 function plotElevation(results, status) {
     if (status != google.maps.ElevationStatus.OK) {
         return;
     }
+    for (i=0; i<results.length; i++){
+        ELEVData.push(results[i].elevation)
+    }
     $("#heights-canvas").show();
-    var elevations = results;
 
     var options = {
         //title: 'Elevation',
@@ -700,7 +737,7 @@ function plotElevation(results, status) {
 
 
     for (var i = 0; i < results.length; i++) {
-        data.addRow(['', Math.round(elevations[i].elevation * 100) / 100, speeddataDual[i]]);
+        data.addRow(['', parseFloat(ELEVData[i].toFixed(2)), speeddataDual[i]]);
     }
 
     // Draw the chart using the data within its DIV.
@@ -763,8 +800,9 @@ function mapsloaded(){
 }
 
 function map() {
-    coor = [];
-    var coor_default = [];
+    GMCoordinates = [];
+    //var coor_default = [];
+    var bounds  = new google.maps.LatLngBounds();
     var HOEKPUNTEN;
     var mapstyle = [
         {"featureType":"administrative", "stylers":[{"visibility":"on"}]},
@@ -778,7 +816,6 @@ function map() {
         {"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"on"}]},
         {"featureType":"water","stylers":[{"color":"#84afa3"},{"lightness":52}]},{"stylers":[{"saturation":-17},{"gamma":0.36}]},
         {"featureType":"transit.line","elementType":"geometry","stylers":[{"color":"#3f518c"}]}];
-    var bounds  = new google.maps.LatLngBounds();
 
     if (coordinates.length !== 0){
         if (coordinates[0][0] >= 100){
@@ -810,7 +847,7 @@ function map() {
             [50.861890,4.685460]];
         $.each(HOEKPUNTEN, function(){
             var bound = new google.maps.LatLng(this[0],this[1]);
-            coor_default.push(bound);
+            //coor_default.push(bound);
             bounds.extend(bound);
         });
     }
@@ -818,11 +855,11 @@ function map() {
     else {
         $.each(coordinates, function(){
             var bound = new google.maps.LatLng(this[0],this[1]);
-            coor.push(bound);
+            GMCoordinates.push(bound);
             bounds.extend(bound);
         });
     }
-    if (coor.length >= 2) {
+    if (GMCoordinates.length >= 2) {
         // Create an ElevationService.
         elevator = new google.maps.ElevationService();
         loadElev();
@@ -835,7 +872,7 @@ function map() {
     var map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
 
-    for (var i=1; i<coor.length-1; i++){
+    for (var i=1; i<GMCoordinates.length-1; i++){
 
         var text = '<div>';
         var timestamp = new Date(ToolTipData.Timestamp[i]);
@@ -859,8 +896,8 @@ function map() {
         text += '</div>';
 
         var markerimg = new google.maps.Circle({
-            position: coor[i],
-            center: coor[i],
+            position: GMCoordinates[i],
+            center: GMCoordinates[i],
             map: map,
             radius: 4,
             strokeColor: '#428bca',
@@ -895,7 +932,7 @@ function map() {
         ToolTipData.Images[ToolTipData.Images.length-1];
     var markerstarticon = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=A|00FF00|000000");
     var markerstart = new google.maps.Marker({
-        position: coor[0],
+        position: GMCoordinates[0],
         map: map,
         icon: markerstarticon,
         customData: textstart,
@@ -913,11 +950,11 @@ function map() {
 
     var markerendicon = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=B|FF0000|000000");
     var markerend = new google.maps.Marker({
-        position: coor[coor.length-1],
+        position: GMCoordinates[GMCoordinates.length-1],
         map: map,
         icon: markerendicon,
         customData: textend,
-        customPoint: coor.length-1
+        customPoint: GMCoordinates.length-1
     });
 
     google.maps.event.addListener(markerend, 'click', function() {
@@ -926,11 +963,11 @@ function map() {
     });
 
     google.maps.event.addListener(markerend, 'mouseover', function(){
-        ELEVCHART.setSelection([{row:coor.length-1}])
+        ELEVCHART.setSelection([{row:GMCoordinates.length-1}])
     });
 
     var bikePath = new google.maps.Polyline({
-        path: coor,
+        path: GMCoordinates,
         geodesic: true,
         strokeColor: '#4373B2',
         strokeOpacity: 1.0,
@@ -940,12 +977,12 @@ function map() {
     var dist = google.maps.geometry.spherical.computeLength(bikePath.getPath());
 
     if (dist > 1000){
-        dist = Math.round((dist/1000) * 100) / 100;
+        dist = parseFloat((dist/1000).toFixed(1));
         //dist = dist / 1000
         $("<p class='tripdata'>").text(dist + " km").appendTo($("#DIST"));
     }
     else {
-        dist =  Math.round(dist * 100) / 100;
+        dist =  parseFloat(dist.toFixed(2));
         $("<p class='tripdata'>").text(dist + " m").appendTo($("#DIST"));
     }
 
