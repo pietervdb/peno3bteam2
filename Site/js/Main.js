@@ -883,10 +883,10 @@ function map() {
         }
 
         if (ToolTipData.Speed[i]) {
-            text += '<p>Speed: ' + ToolTipData.Speed[i] + '</p>';
+            text += '<p>Speed: ' + ToolTipData.Speed[i] + ' ' + UNIT + '</p>';
         }
         if (ToolTipData.Temp[i]){
-            text += '<p>Temperature: ' + ToolTipData.Temp[i] + '</p>';
+            text += '<p>Temperature: ' + ToolTipData.Temp[i] + ' °C' + '</p>';
         }
         if (ToolTipData.Images[i]){
             text += ToolTipData.Images[i];
