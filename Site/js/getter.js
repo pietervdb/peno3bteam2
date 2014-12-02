@@ -199,6 +199,7 @@ lapse.getter = (function() {
             },
             complete: function() {
                 map(json);
+                drawTemp();
                 timelapseid.children(":first").removeClass("hidden").addClass("active-img");
                 //Starten van timelapse wanneer afbeeldingen geladen zijn
                 if (timelapseid.children()[0]){

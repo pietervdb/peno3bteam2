@@ -669,32 +669,31 @@ function drawTemp(){
     if (ToolTipData.Temp.length < 1){
         return false
     }
+    else {
+        datatemp = new google.visualization.DataTable();
+        datatemp.addColumn('number', 'Sample');
+        datatemp.addColumn('number', 'Temperature');
+        $.each(ToolTipData.Temp, function (i, v) {
+            datatemp.addRow([i, v]);
+        });
+        $("#temp-canvas").show();
 
-    datatemp = google.visualization.arrayToDataTable();
-    datatemp.addColumn('');
-    datatemp.addColumn('Temperature');
-    $.each(ToolTipData.Temp, function(i,v){
-        datatemp.addRow(i,v);
-    });
+        var options = {
+            //title: 'Elevation',
+            backgroundColor: '#dcdcdc',
+            hAxis: {
+                title: "Time"
+            },
+            legend: 'none',
+            titleY: 'Temperature [°C]',
+            curveType: 'function'
 
-    var options = {
-        //title: 'Elevation',
-        backgroundColor: '#dcdcdc',
-        hAxis: {gridlines:{color:'#FF0000'},
-            title:"Time"},
-        //legend: 'none',
-        titleY: 'Temperature (°C)',
-        curveType: 'function'
+        };
 
-    };
+        TEMPCHART = new google.visualization.LineChart(document.getElementById('tempchart'));
 
-    TEMPCHART = new google.visualization.LineChart(document.getElementById('tempchart'));
-
-    TEMPCHART.draw(datatemp, options);
-
-
-
-
+        TEMPCHART.draw(datatemp, options);
+    }
 }
 
 //Tekenen van hoogtegrafiek
@@ -929,7 +928,8 @@ function map(json) {
             });
 
             google.maps.event.addListener(markerstart, 'mouseover', function(){
-                ELEVCHART.setSelection([{row:0}])
+                ELEVCHART.setSelection([{row:0}]);
+                TEMPCHART.setSelection([{row:0}]);
             });
         })();
 
@@ -980,7 +980,8 @@ function map(json) {
                 });
 
                 google.maps.event.addListener(markerimg, 'mouseover', function(){
-                    ELEVCHART.setSelection([{row:this.customPoint}])
+                    ELEVCHART.setSelection([{row:this.customPoint}]);
+                    TEMPCHART.setSelection([{row:this.customPoint}]);
                 });
 
             }
@@ -1026,7 +1027,8 @@ function map(json) {
             });
 
             google.maps.event.addListener(markerend, 'mouseover', function(){
-                ELEVCHART.setSelection([{row:GMCoordinates.length-1}])
+                ELEVCHART.setSelection([{row:GMCoordinates.length-1}]);
+                TEMPCHART.setSelection([{row:GMCoordinates.length-1}]);
             });
         })();
     })();
