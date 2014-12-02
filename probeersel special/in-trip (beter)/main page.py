@@ -14,7 +14,7 @@ GPIO.output(8,False)
 GPIO.output(11,True)
 
 on = False
-time_last = time.time()
+timer_last = time.time()
 tripnumber = '0'
 queue = []
 

@@ -3,23 +3,20 @@ import picamera
 from PIL import Image
 
 foldername = ''
-current_photo = 0
 
 def make_photo_dir(tripnumber):
     "makes dir where pictures will be stored"
     global foldername
     foldername = 'Data/Photos/'+tripnumber
     os.makedirs(foldername)
-    current_photo = 0
+    print 'new photodir made', tripnumber
 
-def snap():
+def snap(photonumber):
     "takes picture and resizes it"
-    global current_photo
+    print 'foto nr',photonumber
     with picamera.PiCamera() as camera:
-        camera.capture(foldername+'/'+str(current_photo)+'.jpg')
+        camera.capture(foldername+'/'+str(photonumber)+'.jpg')
         
-    img = Image.open(foldername+'/'+str(current_photo)+'.jpg')
+    img = Image.open(foldername+'/'+str(photonumber)+'.jpg')
     img = img.resize((600,338), Image.ANTIALIAS)
-    img.save(foldername+'/'+str(current_photo)+".jpg","JPEG")
-        
-    current_photo += 1
+    img.save(foldername+'/'+str(photonumber)+".jpg","JPEG")

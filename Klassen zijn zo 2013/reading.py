@@ -25,6 +25,8 @@ def find_fix():
     
 def find_time(st):
     "finds start/stop time"
+    if len(fix_on)==0:
+            return None
     if st == 'start':
         return lines_list[fix_on[0]+4][:-1]
     elif st == 'stop':
@@ -110,15 +112,19 @@ def make_data_list():
     return datalist
 
 def make_meta_dict():
-    speed_list = find_gps_data("Speed")
+    global fix_on
     temp_list = find_data("Tempe")
-    
-    average_speed = sum(speed_list)/len(speed_list)
-    max_speed = max(speed_list)
-
     min_temp = min(temp_list)
     avg_temp = sum(temp_list)/len(temp_list)
     max_temp = max(temp_list)
-    
-    meta_dict = {"averageSpeed":average_speed,"maxSpeed":max_speed,"other":[{"temperature":[min_temp,avg_temp,max_temp]}]}
+    if len(fix_on)>0:
+        speed_list = find_gps_data("Speed")
+        
+        
+        average_speed = sum(speed_list)/len(speed_list)
+        max_speed = max(speed_list)
+        
+        meta_dict = {"averageSpeed":average_speed,"maxSpeed":max_speed,"other":[{"temperature":[min_temp,avg_temp,max_temp]}]}
+    else:
+        meta_dict = {"other":[{"temperature":[min_temp,avg_temp,max_temp]}]}
     return meta_dict

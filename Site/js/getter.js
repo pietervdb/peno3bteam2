@@ -99,7 +99,7 @@ lapse.getter = (function() {
             var currentDate = v.startTime;
             var C = v.sensorData;
 
-            if (CONDITION(C.length, currentDate)) {
+            if (CONDITION(C.length, currentDate, json[i].Speedavg*UNITMULTIPLIER)) {
                 var k = averagemax.length;
                 averagemax.push([
                     k,
