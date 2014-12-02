@@ -13,6 +13,7 @@ def split_data(line):
     return [line[:i-1],line[i+1:j]]
 
 def decimalextender(number):
+    print 'number',number
     "converts one-digit numbers to two-digits: 1 -> 01, 5 -> 05, 10 -> 10"
     if int(number) < 10:
         return "0"+number
