@@ -21,15 +21,15 @@ var averagemax = false;
 var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
 var mindata = 0;
 var UNITMULTIPLIER = 1;
-var UNIT = "m/s";
+var UNITSPEED = "m/s";
+var UNITDIST = "m";
+var UNITMULTIPLIERDIST = 1;
 var FilterStartDate = new Date(70,0,1,1,0,0,0);
 var FilterEndDate = new Date(2015,0,1,1,0,0,0);
 var FilterMinSpeed = 0;
 var FilterMaxSpeed = 200;
 var FilterMinDist = 0;
 var FilterMaxDist = 1000000;
-
-//TODO Sorteren
 
 //Wat doen bij laden van pagina
 $(document).ready(function(){
@@ -186,6 +186,15 @@ function main(){
         }
     });
 
+    $('#unitform').find('.unit').change(function(){
+        console.log("aa");
+        var unitselection = $('input[name=unitradio]:checked', '#unitform').val().split(" ");
+        UNITSPEED = unitselection[1];
+        UNITDIST = unitselection[2];
+        $("#distfilter").children(".dis").prop('placeholder', UNITDIST);
+        $("#speedfilter").children(".spe").prop('placeholder', UNITSPEED);
+    });
+
     $("#FilterDateOn").change(function(){
         if (this.checked){
             $("#FilterDateFrom,#FilterDateTo").removeAttr("checked");
@@ -222,11 +231,11 @@ function main(){
         spinner();
         var unitselection = $('input[name=unitradio]:checked', '#unitform').val().split(" ");
         UNITMULTIPLIER = unitselection[0];
-        UNIT = unitselection[1];
+        UNITMULTIPLIERDIST = (UNITMULTIPLIER == 3.6)? 1000 : 1;
+
         SetDates();
         SetSpeed();
         SetDistances();
-        //FilterStartDate.setFullYear($("#filteryear").val(),$("#filtermonth").val()-1,$("#filterday").val());
         $("#loadicon").fadeIn({
             complete:function(){
                 $("#groupinfo").show();
@@ -465,7 +474,7 @@ function thumbnail(json){
         var startTime = json[i].startTime;
         var C = json[i].sensorData;
 
-        if (CONDITION(C.length, startTime, json[i].Speedavg*UNITMULTIPLIER, json[i].distance*UNITMULTIPLIER)) {
+        if (CONDITION(C.length, startTime, json[i].Speedavg*UNITMULTIPLIER, json[i].distance/UNITMULTIPLIERDIST)) {
             l = l + 1;
             var tripid = json[i]._id;
             var endTime = json[i].endTime;
@@ -735,7 +744,7 @@ function plotElevation(results, status) {
         vAxes: [
             {title: 'Elevation [m]',
                 titleTextStyle: {color: '#0000FF'}},
-            {title: 'Speed [' + UNIT + ']',
+            {title: 'Speed [' + UNITSPEED + ']',
                 titleTextStyle: {color: '#FF0000'}}
         ]
 
@@ -856,7 +865,7 @@ function map(json) {
                 textstart += '<p>Time: ' + timestamp + '</p>';
             }
             if (ToolTipData.Speed[0]) {
-                textstart += '<p>Speed: ' + ToolTipData.Speed[0] + ' ' + UNIT + '</p>';
+                textstart += '<p>Speed: ' + ToolTipData.Speed[0] + ' ' + UNITSPEED + '</p>';
             }
             if (ToolTipData.Temp[0]){
                 textstart += '<p>Temperature: ' + ToolTipData.Temp[0] + ' °C' + '</p>';
@@ -902,7 +911,7 @@ function map(json) {
                     text += '<p>Time: ' + timestamp + '</p>';
                 }
                 if (ToolTipData.Speed[i]) {
-                    text += '<p>Speed: ' + ToolTipData.Speed[i] + ' ' + UNIT + '</p>';
+                    text += '<p>Speed: ' + ToolTipData.Speed[i] + ' ' + UNITSPEED + '</p>';
                 }
                 if (ToolTipData.Temp[i]){
                     text += '<p>Temperature: ' + ToolTipData.Temp[i] + ' °C' + '</p>';
@@ -954,7 +963,7 @@ function map(json) {
                 textend += '<p>Time: ' + timestamp + '</p>';
             }
             if (ToolTipData.Speed[ToolTipData.Speed.length - 1]) {
-                textend += '<p>Speed: ' + ToolTipData.Speed[ToolTipData.Speed.length - 1] + ' ' + UNIT + '</p>';
+                textend += '<p>Speed: ' + ToolTipData.Speed[ToolTipData.Speed.length - 1] + ' ' + UNITSPEED + '</p>';
             }
             if (ToolTipData.Temp[ToolTipData.Temp.length - 1]){
                 textend += '<p>Temperature: ' + ToolTipData.Temp[ToolTipData.Temp.length - 1] + ' °C' + '</p>';

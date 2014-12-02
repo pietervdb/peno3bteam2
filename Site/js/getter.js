@@ -100,7 +100,7 @@ lapse.getter = (function() {
             var currentDate = v.startTime;
             var C = v.sensorData;
 
-            if (CONDITION(C.length, currentDate, json[i].Speedavg*UNITMULTIPLIER, json[i].distance*UNITMULTIPLIER)) {
+            if (CONDITION(C.length, currentDate, json[i].Speedavg*UNITMULTIPLIER, json[i].distance/UNITMULTIPLIERDIST)) {
                 var k = averagemax.length;
                 averagemax.push([
                     k,
@@ -133,8 +133,8 @@ lapse.getter = (function() {
         var time = json.startTime;
         var averageSpeed = parseFloat((json.Speedavg*UNITMULTIPLIER).toFixed(2));
         var maxSpeed = parseFloat((json.Speedmax*UNITMULTIPLIER).toFixed(2));
-        var textavg = (averageSpeed == 0)? "/" : averageSpeed + " " + UNIT;
-        var textmax = (maxSpeed == 0)? "/" : maxSpeed + " " + UNIT;
+        var textavg = (averageSpeed == 0)? "/" : averageSpeed + " " + UNITSPEED;
+        var textmax = (maxSpeed == 0)? "/" : maxSpeed + " " + UNITSPEED;
 
         $("<p class='tripdata'>" + dateFormat(time)+"</p>").appendTo($("#dateinfo"));
         $("<p class='tripdata'>").text(textavg).appendTo($("#AVSPEED"));

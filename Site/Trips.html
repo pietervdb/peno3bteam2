@@ -100,10 +100,10 @@
                 <li class="dropdown-header">Units</li>
                 <form class="filter" role="form" id="unitform">
                     <div class="radio">
-                        <label><input type="radio" name="unitradio" checked="true" value="1 m/s">m/s</label>
+                        <label><input class="unit" type="radio" name="unitradio" checked="true" value="1 m/s m">m/s</label>
                     </div>
                     <div class="radio">
-                        <label><input type="radio" name="unitradio" value="3.6 km/h">km/u</label>
+                        <label><input class="unit" type="radio" name="unitradio" value="3.6 km/h km">km/h</label>
                     </div>
                 </form>
             </ul>
@@ -157,16 +157,38 @@
                 </ul>
             </div>
             <div class="dropdown" style="display: inline;">
-                <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownSpeed" data-toggle="dropdown" aria-expanded="true">
                     Average Speed
                     <span class="caret"></span>
                 </button>
-                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownSpeed">
                     <form class="filter" role="form" id="speedfilter">
-                        From
-                        <input class="" type="number" name="minspeed" min="0" max="200" value="0" required>
-                        To
-                        <input class="" type="number" name="maxspeed" min="0" max="200" value="200" required>
+                        <div class="checkbox">
+                            <label><input id="FilterSpeedFrom" type="checkbox">From</label>
+                        </div>
+                        <input class="spe" type="number" name="minspeed" min="0" max="200" placeholder="m/s" required>
+                        <div class="checkbox">
+                            <label><input id="FilterSpeedTo" type="checkbox">To</label>
+                        </div>
+                        <input class="spe" type="number" name="maxspeed" min="0" max="200" placeholder="m/s" required>
+                    </form>
+                </ul>
+            </div>
+            <div class="dropdown" style="display: inline;">
+                <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownDIST" data-toggle="dropdown" aria-expanded="true">
+                    Distance
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownDIST">
+                    <form class="filter" role="form" id="distfilter">
+                        <div class="checkbox">
+                            <label><input id="FilterDistFrom" type="checkbox">From</label>
+                        </div>
+                        <input class="dis" type="number" name="distmin" min="0" placeholder="m" required>
+                        <div class="checkbox">
+                            <label><input id="FilterDistTo" type="checkbox">To</label>
+                        </div>
+                        <input class="dis" type="number" name="distmax" min="0" placeholder="m" required>
                     </form>
                 </ul>
             </div>
@@ -177,49 +199,9 @@
             </div>
         </div>
     </div>
-    <div class="dropdown" style="display: inline;">
-        <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownSpeed" data-toggle="dropdown" aria-expanded="true">
-            Average Speed
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownSpeed">
-            <form class="filter" role="form" id="speedfilter">
-                <div class="checkbox">
-                    <label><input id="FilterSpeedFrom" type="checkbox">From</label>
-                </div>
-                <input class="" type="number" name="minspeed" min="0" max="200" placeholder="m/s" required>
-                <div class="checkbox">
-                    <label><input id="FilterSpeedTo" type="checkbox">To</label>
-                </div>
-                <input class="" type="number" name="maxspeed" min="0" max="200" placeholder="m/s" required>
-            </form>
-        </ul>
-    </div>
-    <div class="dropdown" style="display: inline;">
-    <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownDIST" data-toggle="dropdown" aria-expanded="true">
-        Distance
-        <span class="caret"></span>
-    </button>
-    <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownDIST">
-        <form class="filter" role="form" id="distfilter">
-            <div class="checkbox">
-                <label><input id="FilterDistFrom" type="checkbox">From</label>
-            </div>
-            <input class="" type="number" name="distmin" min="0" placeholder="m" required>
-            <div class="checkbox">
-                <label><input id="FilterDistTo" type="checkbox">To</label>
-            </div>
-            <input class="" type="number" name="distmax" min="0" placeholder="m" required>
-        </form>
-    </ul>
-</div>
-    <div id="refresh" style="display: inline;">
-        <button class="btn btn-link" type="button">
-            <span class="glyphicon glyphicon-refresh"></span>
-        </button>
-    </div>
-    <div id="Sort" style="display: inline;">
-        <p class="" style="display: inline">Sort: </p>
+
+    <div class="col-md-4 text-center" id="Sort" style="display: inline;">
+        <p class="" style="display: inline; color: #428BCA">Sort: </p>
         <button id="TimeSort" class="btn btn-link" type="button" value="startTime" style="display: inline;">
             Date
         <span class="activesort up dropup">
