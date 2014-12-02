@@ -201,6 +201,18 @@ function main(){
         }
     });
 
+    $("#FilterSpeedFrom").change(function(){
+        if (this.checked){
+            $("#FilterSpeedOn").removeAttr("checked");
+        }
+    });
+
+    $("#FilterSpeedTo").change(function(){
+        if (this.checked){
+            $("#FilterSpeedOn").removeAttr("checked");
+        }
+    });
+
     //Herladen
     $("#refresh").click(function () {
 
