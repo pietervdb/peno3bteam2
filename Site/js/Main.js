@@ -27,12 +27,7 @@ var FilterEndDate = new Date(2015,0,1,1,0,0,0);
 var FilterMinSpeed = 0;
 var FilterMaxSpeed = 200;
 
-//TODO add filters: snelheid
 //TODO Sorteren
-//TODO QR-code
-//TODO Druk toevoegen aan infowindow
-//TODO
-
 
 //Wat doen bij laden van pagina
 $(document).ready(function(){
@@ -374,10 +369,12 @@ function SetDates(){
 function SetSpeed(){
     var filterminspeed;
     var filtermaxspeed;
-    filterminspeed = $('input[name=maxspeed]', '#minspeed').val();
-    filtermaxspeed = $('input[name=maxspeed]', '#maxspeed').val();
+    filterminspeed = $('input[name=minspeed]', '#speedfilter').val();
+    filtermaxspeed = $('input[name=maxspeed]', '#speedfilter').val();
     FilterMinSpeed = filterminspeed;
     FilterMaxSpeed = filtermaxspeed;
+    console.log(FilterMinSpeed);
+    console.log(FilterMaxSpeed);
 }
 
 
@@ -390,8 +387,8 @@ function getUrlVars() {
     return vars;
 }
 
-function CONDITION(sensors, date){
-    return sensors != mindata && FilterStartDate <= date && FilterEndDate >= date
+function CONDITION(sensors, date, Speed){
+    return sensors != mindata && FilterStartDate <= date && FilterEndDate >= date && FilterMinSpeed<=Speed && FilterMaxSpeed>=Speed
 
 }
 
@@ -440,7 +437,7 @@ function thumbnail(json){
         var C = json[i].sensorData;
         var currentSpeedavg = parseFloat((json[i].Speedavg*UNITMULTIPLIER).toFixed(2));
 
-        if (CONDITION(C.length, startTime)) {
+        if (CONDITION(C.length, startTime, json[i].Speedavg*UNITMULTIPLIER)) {
             l = l + 1;
             var tripid = json[i]._id;
             var endTime = json[i].endTime;
