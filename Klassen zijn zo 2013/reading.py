@@ -13,7 +13,7 @@ def read(tripnumber):
     
     find_fix()
 
-def find_fix():
+def find_fix(answer=False):
     "finds GPS fixes"
     global fix_on
     fix_on = []
@@ -22,6 +22,8 @@ def find_fix():
         if lines_list[i][0:5] == "Fix:Y":
             fix_on.append(i)
         i += step
+    if answer:
+        return fix_on
     
 def find_time(st):
     "finds start/stop time"

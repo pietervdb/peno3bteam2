@@ -40,15 +40,15 @@ body {
 .jumbotron {
     background-image:url('http://goo.gl/SMXLQE');
     /*background-image: url("../foto/Logo.png");*/
-    background-position: bottom left;
+    background-position: left;
     background-size: 100%;
     background-repeat: no-repeat;
     width: auto;
-    height: auto;
+    height: 250px !important;
     margin-bottom: 10px;
 }
 .jumbotron h1 {
-    margin-top: 100px;
+    margin-top: 0px;
     color:lightgray;
 }
 .jumbotron p{
