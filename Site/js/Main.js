@@ -14,6 +14,7 @@ var coordinates;
 var GMCoordinates;
 var dataaveragemax;
 var dashboard;
+var datatemp;
 var ELEVData;
 var ELEVCHART;
 var ELEVToCall;
@@ -660,6 +661,39 @@ function drawAverageMaxChart() {
             control.draw();
         });
     }
+
+}
+
+function drawTemp(){
+
+    if (ToolTipData.Temp.length < 1){
+        return false
+    }
+
+    datatemp = google.visualization.arrayToDataTable();
+    datatemp.addColumn('');
+    datatemp.addColumn('Temperature');
+    $.each(ToolTipData.Temp, function(i,v){
+        datatemp.addRow(i,v);
+    });
+
+    var options = {
+        //title: 'Elevation',
+        backgroundColor: '#dcdcdc',
+        hAxis: {gridlines:{color:'#FF0000'},
+            title:"Time"},
+        //legend: 'none',
+        titleY: 'Temperature (°C)',
+        curveType: 'function'
+
+    };
+
+    TEMPCHART = new google.visualization.LineChart(document.getElementById('tempchart'));
+
+    TEMPCHART.draw(datatemp, options);
+
+
+
 
 }
 
