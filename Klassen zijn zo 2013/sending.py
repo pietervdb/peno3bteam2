@@ -67,9 +67,14 @@ def send_data(tripnumber):
     
     tripID = str(answer[0][u'_id'])
     send_pictures(tripnumber)
-    
+            
 def send_pictures(tripnumber):
     photo_lists = split_in(tripnumber,20)   #more/less? test!
+    fix_list = find_fix(True)
+    data_fix_list = []
+    timestamp_list = find_data('Date/')
+    for fix in fix_list:
+        data_fix_list.append(int(float(fix)/24))
     i = 0
     for photo_list in photo_lists:
         socketIO.emit('endBikeTrip',json.dumps({"_id":tripID}),on_response) #is this required? also check socketIO.wait(x)
@@ -79,7 +84,12 @@ def send_pictures(tripnumber):
         socketIO.wait(2)
         for photo in photo_list:
             file = open('Data/Photos/'+tripnumber+'/'+photo,"rb").read().encode("base64")
-            photodata = json.dumps({"imageName" : "foto"+str(i+1)+".jpg", "tripID" : tripID, "userID" : "r0369676", "raw" : file})
+            
+            if i in data_fix_list:
+                photodata = json.dumps({"imageName" : "foto"+str(i+1)+".jpg", "tripID" : tripID, "userID" : "r0369676", "raw" : file, "timestamp" : timestamp_list[i]})
+            else:
+                photodata = json.dumps({"imageName" : "foto"+str(i+1)+".jpg", "tripID" : tripID, "userID" : "r0369676", "raw" : file})
+                
             url = "http://dali.cs.kuleuven.be:8080/qbike/upload"
             headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
             r = requests.post(url, data = photodata, headers = headers)
