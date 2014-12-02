@@ -3,14 +3,76 @@ var AllTrips;
 var TripInfo = 'NONE';
 var averagemax;
 var coordinates;
-var heights;
-var temperature;
-var image;
+var ToolTipData;
+var speeddataDual;
 var GPS = 1;
-var THERMO = 3;
+var THERMO = 10;
 var CAM = 8;
 
+
 lapse.getter = (function() {
+
+    function sortByProperty(property) {
+        'use strict';
+        return function (a, b) {
+            var sortStatus = 0;
+            if (a[property] < b[property]) {
+                sortStatus = -1;
+            } else if (a[property] > b[property]) {
+                sortStatus = 1;
+            }
+
+            return sortStatus;
+        };
+    }
+
+    function Sort(json, property){
+        json.sort(sortByProperty(property));
+    }
+
+    function ConfigureJSON(json){
+        $.each(json,function(i,v){
+            (function CalculateDistance(){
+                if (!v.distance){
+                    var route = [];
+                    $.each(v.sensorData,function(){
+                        if (this.sensorID == GPS){
+                            if (this.data[0].type == "MultiPoint") {
+                                $.each(this.data[0].coordinates, function(){
+                                    var a = new google.maps.LatLng(this[0],this[1]);
+                                    route.push(a);
+                                });
+                            }
+                            else if (this.data[0].type == "Point") {
+                                var a = new google.maps.LatLng(this.data[0].coordinates[0],this.data[0].coordinates[1]);
+                                route.push(a);
+                            }
+                        }
+                    });
+                    v.distance = google.maps.geometry.spherical.computeLength(route);
+                    v.route = route;
+                }
+            })();
+
+            (function ConfigureTime(){
+                v.startTime = v.startTime || v.endTime;
+                v.endTime = v.endTime || v.startTime;
+                v.startTime = new Date(v.startTime);
+                v.endTime = new Date(v.endTime);
+            })();
+
+            (function ConfigureSpeeds(){
+                v.Speedavg = v.meta.averageSpeed || 0;
+                v.Speedmax = v.meta.maxSpeed || 0;
+            })();
+
+            (function ConfigureSensorData(){
+                if (!v.sensorData){
+                    v.sensorData = [];
+                }
+            })();
+        });
+    }
 
     function GroupData(status, URL){
         if (status == 'NO DATA'){
@@ -22,96 +84,90 @@ lapse.getter = (function() {
             }
             else {
                 AllTrips = status;
+                ConfigureJSON(AllTrips);
+                AllTrips.sort(sortByProperty('startTime'));
                 ExtractAverageMax(AllTrips);
                 thumbnail(AllTrips);
             }
         }
     }
 
+
     function ExtractAverageMax(json){
-        averagemax = [];
-        averagemax[0] = ['Trip', 'Average Speed', 'Maximum Speed'];
+        averagemax = [['Trip', 'Average Speed', 'Maximum Speed']];
         $.each(json, function(i, v) {
+            var currentDate = v.startTime;
             var C = v.sensorData;
-            if (C == null){
-                C = [];
-            }
-            if (C.length != mindata) {
+
+            if (CONDITION(C.length, currentDate)) {
                 var k = averagemax.length;
-                if (v.meta != null) {
-                    //if (v.meta.averageSpeed > 28){
-                    //    averagemax.push([k,15, 18]);
-                    //}
-                    //else{
-                        averagemax.push([k, v.meta.averageSpeed, v.meta.maxSpeed]);
-                    //}
-                }
-                else {
-                    averagemax.push([k, 0, 0])
-                }
-                if (typeof averagemax[k - 1][1] === "undefined") {
-                    averagemax[k - 1][1] = 0;
-                }
-                if (typeof averagemax[k - 1][2] === "undefined") {
-                    averagemax[k - 1][2] = 0;
-                }
+                averagemax.push([
+                    k,
+                    parseFloat((v.Speedavg*UNITMULTIPLIER).toFixed(2)),
+                    parseFloat((v.Speedmax*UNITMULTIPLIER).toFixed(2))
+                ]);
             }
         });
-        google.setOnLoadCallback(drawAverageMaxChart());
-        return averagemax
+        console.log(averagemax);
+        if (averagemax.length > 1){
+            drawAverageMaxChart();
+        }
+        else {
+            NODATA();
+        }
     }
 
     function ExtractTrip(json, trip){
-        $.each(json, function(i, v) {
-            if (v._id == trip){
-                TripInfo = v;
-                ExtractData(TripInfo);
-                return false
-            }
-        });
+        TripInfo = json[trip];
+        ExtractData(TripInfo);
+        return false
     }
 
     function ExtractData(json){
-        coordinates = [];
-        temperature = [];
-        var B = json.meta;
+        //coordinates = [];
+        ToolTipData = {Timestamp:[],Speed:[], Images:[], Temp:[]};
+        speeddataDual = [];
 
-        if (typeof B.averageSpeed !== "undefined"){
-            $("<p class='tripdata'>").text(B.averageSpeed + " m/s").appendTo($("#AVSPEED"));
-        }
-        else {
-            $("<p class='tripdata'>").text("/").appendTo($("#AVSPEED"));
-        }
+        var time = json.startTime;
+        var averageSpeed = parseFloat((json.Speedavg*UNITMULTIPLIER).toFixed(2));
+        var maxSpeed = parseFloat((json.Speedmax*UNITMULTIPLIER).toFixed(2));
+        var textavg = (averageSpeed == 0)? "/" : averageSpeed + " " + UNIT;
+        var textmax = (maxSpeed == 0)? "/" : maxSpeed + " " + UNIT;
 
-        if (typeof B.maxSpeed !== "undefined"){
-            $("<p class='tripdata'>").text(B.maxSpeed + " m/s").appendTo($("#MAXSPEED"));
-        }
-        else{
-            $("<p class='tripdata'>").text("/").appendTo($("#MAXSPEED"));
-        }
+        $("<p class='tripdata'>" + dateFormat(time)+"</p>").appendTo($("#dateinfo"));
+        $("<p class='tripdata'>").text(textavg).appendTo($("#AVSPEED"));
+        $("<p class='tripdata'>").text(textmax).appendTo($("#MAXSPEED"));
 
         var C = json.sensorData;
         var timelapseid = $("#timelapse");
         $.each(C,function() {
             switch (this.sensorID) {
                 case GPS: //coordinaten
-                    if (this.data[0].type == "MultiPoint") {
-                        $.each(this.data[0].coordinates, function(){
-                            coordinates.push([this[0], this[1]]);
-                        });
-                    }
-                    else if (this.data[0].type == "Point") {
-                        coordinates.push([this.data[0].coordinates[0], this.data[0].coordinates[1]]);
+                    if (this.data[0].type == "Point") {
+                        console.log(this.timestamp);
+                        ToolTipData.Timestamp.push(this.timestamp);
+                        if (this.data[0].speed){
+                            var sp = parseFloat((this.data[0].speed[0]*UNITMULTIPLIER).toFixed(2));
+                            speeddataDual.push(sp);
+                            ToolTipData.Speed.push(sp);
+                        }
+                        else{
+                            speeddataDual.push(0);
+                            ToolTipData.Speed.push(null);
+                        }
+
                     }
                     break;
 
                 case THERMO: //temperatuur
-                    temperature.push([this.data[0].value]);
+                    ToolTipData.Temp.push(this.data[0].temperature[0]);
                     break;
 
                 case CAM: //images
-                    timelapseid.append("<img>");
-                    timelapseid.children("img:last").attr("src", imageURL.concat(this.data[0])).attr("class", "hidden");
+                    var str = '<img src="' + imageURL.concat(this.data[0]) + '">';
+                    var strhidden = '<img class="hidden" src="' + imageURL.concat(this.data[0]) + '">';
+                    ToolTipData.Images.push(str);
+                    $(strhidden).appendTo(timelapseid);
                     break;
             }
 
@@ -119,11 +175,11 @@ lapse.getter = (function() {
 
         if ( timelapseid.children().length == 0){
             $("#left-column").hide();
-            $("#right-column").attr("class", "col-md-12 col-lg-12");
+            $("#right-column").attr("class", "col-md-12 col-lg-12").css("padding-left", "17px");
         }
         else {
             $("#left-column").show();
-            $("#right-column").attr("class", "col-md-6 col-lg-6");
+            $("#right-column").attr("class", "col-md-6 col-lg-6").css("padding-left", "2px");
         }
 
         $("#tripinfo").slideDown({
@@ -133,16 +189,16 @@ lapse.getter = (function() {
                 $('html, body').animate({ scrollTop:  $("#tripinfo").offset().top - 50 }, 0);
             },
             complete: function() {
-                //$("html, body").stop();
-                map();
+                map(json);
                 timelapseid.children(":first").removeClass("hidden").addClass("active-img");
-            }});
-        //map();
-
-        //Starten van timelapse wanneer afbeeldingen geladen zijn
-        if (typeof timelapseid.children()[0] !== "undefined"){
-            $("img").load(timelapse());
-        }
+                //Starten van timelapse wanneer afbeeldingen geladen zijn
+                if (timelapseid.children()[0]){
+                    timelapseid.waitForImages(function(){
+                        $("#timelapse-canvas").show();
+                    })
+                }
+            }
+        });
     }
 
     function AJAX(URL, callback) {
@@ -155,6 +211,7 @@ lapse.getter = (function() {
             // tell jQuery we're expecting JSONP
             dataType: "jsonp",
 
+            error: function() {NODATA()},
             // work with the response
             success: function( response ) {
                 return callback(response, URL); // server response
@@ -165,6 +222,7 @@ lapse.getter = (function() {
 
     return {
         AJAX:AJAX,
+        Sort:Sort,
         GroupData:GroupData,
         ExtractAverageMax:ExtractAverageMax,
         ExtractTrip:ExtractTrip

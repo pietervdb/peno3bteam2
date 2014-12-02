@@ -20,7 +20,8 @@
 
     <script src="js/getter.js" type="text/javascript"></script>
     <script type="text/javascript" src="js/Old%20javascript/ChartAssistants.js"></script>
-
+    <LINK REL="SHORTCUT ICON"
+          HREF="foto/favicon.ico">
 </head>
 <body>
 <div class="container">
@@ -57,15 +58,13 @@
                             </div>
                         </form>
                     </li>
-                    <li><a href="Trips.html?group=assistants">Assistants</a></li>
-                    <li id="A1"><a href="#">A1</a></li>
-                    <li><a href="Trips.html?group=cwa2">A2</a></li>
-                    <li class="disabled" id="A3"><a href="#">A3</a></li>
-                    <li class="disabled" id="B1"><a href="#">B1</a></li>
-                    <li><a href="Trips.html?group=CWB2">B2</a></li>
-                    <li class=" disabled" id="B3"><a href="#">B3</a></li>
-                    <!--</ul>-->
-                    <!--</li>-->
+                    <li id="assistants"><a href="Trips.html?group=assistants">Assistants</a></li>
+                    <li id="cwa1"><a href="Trips.html?group=cwa1">A1</a></li>
+                    <li id="cwa2"><a href="Trips.html?group=cwa2">A2</a></li>
+                    <li id="cwa3"><a href="Trips.html?group=cwa3">A3</a></li>
+                    <li id="CWB1"><a href="Trips.html?group=cwb1">B1</a></li>
+                    <li id="CWB2"><a href="Trips.html?group=cwb2">B2</a></li>
+                    <li id="CWB3"><a href="Trips.html?group=cwb3">B3</a></li>
                 </ul>
             </div><!-- /.navbar-collapse -->
         </div><!-- /.container-fluid -->
@@ -78,64 +77,39 @@
         </div>
     </div>
 
+    <br>
+    <br>
+    <br>
+
     <div class="row">
-        <div>
-            <ul class="nav nav-pills nav-justified">
-                <li class = "disabled"><a href="#">A1</a></li>
-                <li><a href="Trips.html?group=cwa2">A2</a></li>
-                <li class = "disabled"><a href="#">A3</a></li>
-                <li><a href="Trips.html?group=assistants">Assistants</a></li>
-                <li class = "disabled"><a href="#">B1</a></li>
-                <li><a href="Trips.html?group=CWB2">B2</a></li>
-                <li class = "disabled"><a href="#">B3</a></li>
-            </ul>
+        <div class="text-center">
+             <a class="btn btn-primary btn-xlarge" type="submit" href="Trips.html?group=assistants">Assistants</a>
+                <a class="btn btn-primary btn-xlarge" type="submit" href="Trips.html?group=cwa1">A1</a>
+                <a class="btn btn-primary btn-xlarge" type="submit" href="Trips.html?group=cwa2">A2</a>
+                <a class="btn btn-primary btn-xlarge" type="submit" href="Trips.html?group=cwa3">A3</a>
+                <a class="btn btn-primary btn-xlarge" type="submit" href="Trips.html?group=cwb1">B1</a>
+                <a class="btn btn-primary btn-xlarge" type="submit" href="Trips.html?group=cwb2">B2</a>
+                <a class="btn btn-primary btn-xlarge" type="submit" href="Trips.html?group=cwb3">B3</a>
         </div>
     </div>
-    <table	>
-        <tr>
-            <th>Average Speed</th>
-            <th>25 km/u</th>
-        </tr>
-        <tr>
-            <th>Top Speed</th>
-            <th>66 km/u</th>
-        </tr>
-        <tr>
-            <th>Overall Distance</th>
-            <th>1200 km</th>
-        </tr>
-    </table>
+    <br>
+    <br>
+    <br>
+    <br>
+    <br>
 
-    <div class="charts" id="dashboard">
-        <div id="dashboard_div" style="width: auto; height: auto;">
-            <div id="chart_div"></div>
-            <div id="control_div" style="height:1px; background-color: lightgray"></div>
-        </div>
+    <div id="footer">
+        <table style="width:100%">
+            <tr>
+                <td align="center" class="lijn_onderaan">
+                    <font color="green">Bike-Lapse</font>
+                </td>
+                <td class="lijn_onderaan">
+                    <a href="About.html"><font color="green">About</font></a>
+                </td>
+            </tr>
+        </table>
     </div>
-    <!--<div class="charts">-->
-    <!--<div id="tempchart" style="width: auto; height: auto;"></div>-->
-    <!--</div>-->
-    <!--<div class="charts">-->
-    <!--<div id="map-canvas"></div>-->
-    <!--</div>-->
-    <!--<div class="charts">-->
-    <!--<div id="heightschart" style="width: auto; height: 150px;"></div>-->
-    <!--</div>-->
-    <!--<div>-->
-    <!--<img class="hidden" src="" id="image"/>-->
-    <!--</div>-->
-
-
-<table style="width:100%">
-    <tr>
-        <td align="center" id="lijn_onderaan">
-            <font color="green">Bike-Lapse</font>
-        </td>
-        <td id="lijn_onderaan">
-            <a href="http://localhost:63342/Site/About.html"><font color="green">About</font></a>
-        </td>
-    </tr>
-</table>
 </div>
 </body>
 

@@ -3,7 +3,7 @@
  */
 //URL = "http://dali.cs.kuleuven.be:8080/qbike/trips/",
 var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
-var server = 8080; //8081 voor production
+var server = 8080; //8080 voor test, 8443 voor productie
 var groupURLbase = "http://dali.cs.kuleuven.be:" + server + "/qbike/trips?groupID=";
 var groupID = getUrlVars()["group"];
 var groupURL;
@@ -11,40 +11,51 @@ var group;
 var groupHead;
 var interval;
 var coordinates;
-var coor;
+var GMCoordinates;
 var dataaveragemax;
 var dashboard;
-var averagemax = "undefined";
+var ELEVData;
+var ELEVCHART;
+var ELEVToCall;
+var averagemax = false;
 var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
 var mindata = 0;
+var UNITMULTIPLIER = 1;
+var UNIT = "m/s";
+var FilterStartDate = new Date(70,0,1,1,0,0,0);
+var FilterEndDate = new Date(2015,0,1,1,0,0,0);
+var FilterMinSpeed = 0;
+var FilterMaxSpeed = 200;
 
-//TODO add filters: eenheid snelheid, datum(vanaf, tot, maand, jaar), temperatuur, 
-//TODO datefilter
-//TODO thumbnails efficiënter maken
-//TODO sluitknop tripinfo
-//TODO selectie duidelijker maken?
-//TODO average en maxspeed weergeven
+//TODO add filters: snelheid
+//TODO Sorteren
+//TODO QR-code
+//TODO Druk toevoegen aan infowindow
+//TODO
 
-//controleren of laatste letter in URL een "#" is
-if (groupID[groupID.length-1] == "#"){
-    groupID = groupID.slice(0,groupID.length-1)
-}
-groupURL = groupURLbase.concat(groupID);
 
 //Wat doen bij laden van pagina
 $(document).ready(function(){
-    group = document.getElementById(groupID);
+    (function(){
+        //controleren of laatste letter in URL een "#" is
+        if (groupID[groupID.length-1] == "#"){
+            groupID = groupID.slice(0,groupID.length-1)
+        }
+        groupURL = groupURLbase.concat(groupID);
 
-    if (typeof groupID !== 'undefined' && group != null){
-        group.setAttribute("class", "active");
-        groupHead = group.firstChild.innerHTML;
-        $(".jumbotron > h1").text(groupHead);
-    }
+        group = document.getElementById(groupID);
+        var $jumbotext = $("#jumbo").children("h1");
 
-    else if (typeof groupID !== 'undefined') {
-        $(".jumbotron > h1").text(groupID);
-    }
+        if (groupID && group != null){
+            group.setAttribute("class", "active");
+            groupHead = group.firstChild.innerHTML;
+            $jumbotext.text(groupHead);
+        }
 
+        else if (groupID) {
+            $jumbotext.text(groupID);
+        }
+    })();
     loadMaps();
     spinner();
     main();
@@ -56,7 +67,6 @@ $(window).resize(function(){
     google.maps.event.trigger(map, "resize");
 });
 
-
 //
 //INIT
 //
@@ -64,19 +74,41 @@ $(window).resize(function(){
 function main(){
 
     //klik-functie van pijl naar rechts
-    $('.arrow-next').click(function() {
+    $('#arrow-next').click(function() {
         if ($(this).hasClass("disabled")){
             return false
         }
         $(this).addClass("disabled");
-        var currentSlide = $('.active-list');
+        var $sliderdots = $("#slider-dots");
+        var $thumbnails = $("#thumbnails");
+        var currentSlide = $thumbnails.find(".active-list");
         var nextSlide = currentSlide.prev();
-        var currentDot = $('.active-dot');
+        var currentDot = $sliderdots.find(".active-dot");
         var nextDot = currentDot.next();
 
         if(nextSlide.length === 0) {
-            nextSlide = $('.Outer').last();
-            nextDot = $('.dot').first();
+            nextSlide = $thumbnails.children(".Outer").last();
+            nextDot = $sliderdots.find(".dot").first();
+        }
+
+        var $yearinfo = $("#yearinfo");
+        var nextSlideEndYear = nextSlide.children(":last").find("p").text().slice(-4);
+        var nextSlideStartYear = nextSlide.children(":first").find("p").text().slice(-4);
+        var currentYear = $yearinfo.text();
+        if (nextSlideEndYear != currentYear){
+            $yearinfo.text("");
+            if (nextSlideStartYear == nextSlideEndYear){
+                $yearinfo.text(nextSlideStartYear);
+            }
+            else if (nextSlideEndYear == ""){
+                $yearinfo.text(nextSlideStartYear);
+            }
+            else if (nextSlideStartYear == ""){
+                $yearinfo.text(nextSlideEndYear);
+            }
+            else{
+                $yearinfo.text(nextSlideStartYear + " - " + nextSlideEndYear);
+            }
         }
 
         $.when(
@@ -86,7 +118,7 @@ function main(){
         ).done(function() {
                 nextSlide.fadeIn(500).addClass('active-list').removeClass("hidden")}
         ).done(function() {
-                $('.arrow-next').removeClass("disabled");
+                $('#arrow-next').removeClass("disabled");
                 currentDot.removeClass('active-dot');
                 nextDot.addClass('active-dot');
             });
@@ -95,19 +127,41 @@ function main(){
     });
 
     //klik-functie van pijl naar links
-    $('.arrow-prev').click(function() {
+    $('#arrow-prev').click(function() {
         if ($(this).hasClass("disabled")){
             return false
         }
         $(this).addClass("disabled");
-        var currentSlide = $('.active-list');
+        var $thumbnails = $("#thumbnails");
+        var $sliderdots = $("#slider-dots");
+        var currentSlide = $thumbnails.find('.active-list');
         var prevSlide = currentSlide.next();
-        var currentDot = $('.active-dot');
+        var currentDot = $sliderdots.find('.active-dot');
         var prevDot = currentDot.prev();
 
         if(prevSlide.length === 0) {
-            prevSlide = $('.Outer').first();
-            prevDot = $('.dot').last();
+            prevSlide = $thumbnails.find(".Outer").first();
+            prevDot = $sliderdots.find('.dot').last();
+        }
+
+        var $yearinfo = $("#yearinfo");
+        var prevSlideEndYear = prevSlide.children(":last").find("p").text().slice(-4);
+        var prevSlideStartYear = prevSlide.children(":first").find("p").text().slice(-4);
+        var currentYear = $yearinfo.text();
+        if (prevSlideStartYear != currentYear){
+            $yearinfo.text("");
+            if (prevSlideEndYear == prevSlideStartYear){
+                $yearinfo.text(prevSlideStartYear);
+            }
+            else if (prevSlideEndYear == ""){
+                $yearinfo.text(prevSlideStartYear);
+            }
+            else if (prevSlideStartYear == ""){
+                $yearinfo.text(prevSlideEndYear);
+            }
+            else{
+                $yearinfo.text(prevSlideStartYear + " - " + prevSlideEndYear);
+            }
         }
 
         $.when(
@@ -117,7 +171,7 @@ function main(){
         ).done(function() {
                 prevSlide.fadeIn(500).addClass('active-list').removeClass("hidden")}
         ).done(function() {
-                $('.arrow-prev').removeClass("disabled");
+                $('#arrow-prev').removeClass("disabled");
                 currentDot.removeClass('active-dot');
                 prevDot.addClass('active-dot');
             });
@@ -135,31 +189,197 @@ function main(){
         }
     });
 
+    $("#FilterDateOn").change(function(){
+        if (this.checked){
+            $("#FilterDateFrom,#FilterDateTo").removeAttr("checked");
+        }
+    });
+
+    $("#FilterDateFrom").change(function(){
+        if (this.checked){
+            $("#FilterDateOn").removeAttr("checked");
+        }
+    });
+
+    $("#FilterDateTo").change(function(){
+        if (this.checked){
+            $("#FilterDateOn").removeAttr("checked");
+        }
+    });
+
+    $("#FilterSpeedFrom").change(function(){
+        if (this.checked){
+            $("#FilterSpeedOn").removeAttr("checked");
+        }
+    });
+
+    $("#FilterSpeedTo").change(function(){
+        if (this.checked){
+            $("#FilterSpeedOn").removeAttr("checked");
+        }
+    });
+
     //Herladen
     $("#refresh").click(function () {
-        $(".slider-dots").empty();
-        $("#thumbnails").empty();
-        $("#loadicon").show();
+
         spinner();
-        lapse.getter.ExtractAverageMax(AllTrips);
-        thumbnail(AllTrips);
+        var unitselection = $('input[name=unitradio]:checked', '#unitform').val().split(" ");
+        UNITMULTIPLIER = unitselection[0];
+        UNIT = unitselection[1];
+        SetDates();
+        SetSpeed();
+        //FilterStartDate.setFullYear($("#filteryear").val(),$("#filtermonth").val()-1,$("#filterday").val());
+        $("#loadicon").fadeIn({
+            complete:function(){
+                $("#groupinfo").show();
+                $("#nodata").hide();
+                $("#slider-dots").empty();
+                $("#thumbnails").empty();
+                lapse.getter.ExtractAverageMax(AllTrips);
+                thumbnail(AllTrips);
+            }
+        });
+        $("#tripinfo").slideUp({
+            duration:"slow",
+            complete: deleteTripInfo()
+        });
+
+    });
+
+    $("#Sort").children(":button").click(function(){
+        var prop = $(this).val();
+        function changecaret($button){
+            if($button.children(".activesort").length == 0){
+                $("#Sort").find(".activesort").removeClass("activesort").hide();
+                $button.children(".up").addClass("activesort").show();
+                lapse.getter.Sort(AllTrips, prop);
+            }
+            else{
+                if($button.children(".up.activesort").length != 0){
+                    $button.children(".up").removeClass("activesort").hide();
+                    $button.children(".down").addClass("activesort").show();
+                    AllTrips.reverse();
+                    //reversed = true;
+                }
+                else{
+                    $button.children(".down").removeClass("activesort").hide();
+                    $button.children(".up").addClass("activesort").show();
+                    AllTrips.reverse()
+                }
+            }
+        }
+        spinner();
+        changecaret($(this));
+        $("#loadicon").fadeIn({
+            complete:function(){
+                $("#slider-dots").empty();
+                $("#thumbnails").empty();
+                lapse.getter.ExtractAverageMax(AllTrips);
+                thumbnail(AllTrips);
+            }
+        });
+        $("#tripinfo").slideUp({
+            duration:"slow",
+            complete: deleteTripInfo()
+        });
     });
 
     $("#close").click(function () {
-        $(".thumbnail.active").removeClass("active");
+        $("#thumbnails").find(".thumbnail.active").removeClass("active");
         $("#tripinfo").slideUp({
             duration:"slow",
             complete: function () {
-                coordinates = "NONE";
-                $("#map-canvas").empty();
-                $("#timelapse").empty();
-                $("#heightsdiv").hide();
-                $(".tripdata").remove();
-                clearInterval(interval);
+                deleteTripInfo()
             }
         });
     });
+
+    //
+    //TIMELAPSE PLAY-PAUSE
+    //
+    $("#timelapse-play").click(function(){
+        $("#timelapse-pause").removeClass("hidden");
+        $(this).addClass("hidden");
+        timelapse()
+    });
+
+    $("#timelapse-pause").click(function(){
+        $("#timelapse-play").removeClass("hidden");
+        $(this).addClass("hidden");
+        clearInterval(interval);
+    });
+
+    //
+    //Show visualization
+    //
+    $("#ShowCharts").find(":input").change(function(){
+        var value = this.val();
+        if (this.checked){
+            $(value).show();
+        }
+        else{
+            $(value).hide();
+        }
+    })
 }
+
+function SetDates(){
+    var filterday;
+    var filtermonth;
+    var filteryear;
+    if ($("#FilterDateOn").prop("checked")){
+        filterday = $('input[name=day]', '#FormDateFromOn').val();
+        var filterdayend = parseInt(filterday) + 1;
+        filtermonth = $('input[name=month]', '#FormDateFromOn').val()-1;
+        filteryear = $('input[name=year]', '#FormDateFromOn').val();
+        FilterStartDate.setFullYear(filteryear, filtermonth, filterday);
+        FilterEndDate.setFullYear(filteryear, filtermonth, filterdayend);
+    }
+
+    else if ($("#FilterDateFrom").prop("checked") && !$("#FilterDateTo").prop("checked")){
+        filterday = $('input[name=day]', '#FormDateFromOn').val();
+        filtermonth = $('input[name=month]', '#FormDateFromOn').val()-1;
+        filteryear = $('input[name=year]', '#FormDateFromOn').val();
+        FilterStartDate.setFullYear(filteryear, filtermonth, filterday);
+        FilterEndDate.setFullYear(2015,0,1);
+
+    }
+
+    else if (!$("#FilterDateFrom").prop("checked") && $("#FilterDateTo").prop("checked")){
+        filterday = $('input[name=day]', '#FormDateTo').val();
+        filtermonth = $('input[name=month]', '#FormDateTo').val()-1;
+        filteryear = $('input[name=year]', '#FormDateTo').val();
+        FilterStartDate.setFullYear(1970, 0, 1);
+        FilterEndDate.setFullYear(filteryear, filtermonth, filterday);
+    }
+
+    else if ($("#FilterDateFrom").prop("checked") && $("#FilterDateTo").prop("checked")){
+        filterday = $('input[name=day]', '#FormDateFromOn').val();
+        filtermonth = $('input[name=month]', '#FormDateFromOn').val()-1;
+        filteryear = $('input[name=year]', '#FormDateFromOn').val();
+        FilterStartDate.setFullYear(filteryear, filtermonth, filterday);
+
+        filterday = $('input[name=day]', '#FormDateTo').val();
+        filtermonth = $('input[name=month]', '#FormDateTo').val()-1;
+        filteryear = $('input[name=year]', '#FormDateTo').val();
+        FilterEndDate.setFullYear(filteryear, filtermonth, filterday);
+    }
+
+    else {
+        FilterStartDate.setFullYear(1970, 0, 1);
+        FilterEndDate.setFullYear(2015,0,1);
+    }
+}
+
+function SetSpeed(){
+    var filterminspeed;
+    var filtermaxspeed;
+    filterminspeed = $('input[name=maxspeed]', '#minspeed').val();
+    filtermaxspeed = $('input[name=maxspeed]', '#maxspeed').val();
+    FilterMinSpeed = filterminspeed;
+    FilterMaxSpeed = filtermaxspeed;
+}
+
 
 //parameters uit URL halen
 function getUrlVars() {
@@ -168,6 +388,11 @@ function getUrlVars() {
         vars[key] = value;
     });
     return vars;
+}
+
+function CONDITION(sensors, date){
+    return sensors != mindata && FilterStartDate <= date && FilterEndDate >= date
+
 }
 
 function spinner(){
@@ -209,33 +434,41 @@ function NODATA(){
 function thumbnail(json){
     var l = 12;
     var k = 0;
-    var i;
-    for (i = json.length-1; i>-1; i = i-1){
 
+    for (var i = json.length-1; i>-1; i = i-1){
+        var startTime = json[i].startTime;
         var C = json[i].sensorData;
-        if (C == null){
-            C = [];
-        }
-        if (C.length != mindata) {
+        var currentSpeedavg = parseFloat((json[i].Speedavg*UNITMULTIPLIER).toFixed(2));
+
+        if (CONDITION(C.length, startTime)) {
             l = l + 1;
+            var tripid = json[i]._id;
+            var endTime = json[i].endTime;
+            var tooltip;
+
             if (l==13) {
                 $('<div class="Outer hidden">').attr("id", k+1).appendTo("#thumbnails");
-                $("<li>&bull;</li>").addClass("dot").appendTo($(".slider-dots"));
+                $("<li>&bull;</li>").addClass("dot").appendTo($("#slider-dots"));
                 l = 1;
                 k = k + 1;
             }
-            var toAdd = '<div class="col-xs-3 col-sm-2 col-md-1 col-lg-1 thumbtn">' +
-                '<button class="thumbnail btn-default" type="button" id="' + json[i]._id + '" >' +
-                '<img src="foto/foto1.png" class="thumbimg">';
 
-            if (typeof json[i].startTime !== "undefined") {
-                toAdd = toAdd + '<p class="thumbp">'+ json[i].startTime.slice(5, 10) +'</p>';
+            if (startTime == endTime){
+                tooltip = startTime.format("HH:MM")
+            }
+            else {
+                tooltip = startTime.format("HH:MM") + ' - ' + endTime.format("HH:MM");
             }
 
-            toAdd = toAdd + '</button></div>';
+            var toAdd = '<div class="col-xs-3 col-sm-2 col-md-1 col-lg-1 thumbtn col-centered">' +
+                '<button class="thumbnail btn-default" type="button" data-toggle="tooltip" data-original-title="' + tooltip + '" data-placement="top" id="' +tripid + '" value="'+i+'">' +
+                '<img src="foto/logozondernaam.png" class="thumbimg">' +
+                '<p class="thumbp">'+ startTime.format("mmm dd yyyy")+
+                '</p></button></div>';
+
             $(toAdd).prependTo($("#" + k));
 
-                $.each(C, function () {
+            $.each(C, function () {
                 if (this.sensorID == CAM) {
                     $("#thumbnails").find("div:last-child div:first-child button img").attr("src", imageURL.concat(this.data[0]));
                     return false
@@ -244,30 +477,54 @@ function thumbnail(json){
         }
     }
 
-    $(".slider-dots li:last-child").addClass("active-dot");
-    $("img").load(function(){
-        $("#loadicon").hide().data('spinner').stop();
-        $("#1").removeClass("hidden").addClass("active-list");
-        equalHeight($(".thumbnail"));
+    $("#slider-dots").find("li:last-child").addClass("active-dot");
+    var $thumbnails = $("#thumbnails");
+
+    $thumbnails.waitForImages(function(){
+        var firstlist = $("#1");
+        firstlist.removeClass("hidden").addClass("active-list");
+        $("#loadicon").fadeOut({
+            complete: function(){
+                $("#loadicon").data('spinner').stop();
+            }
+        });
+        equalHeight($("#thumbnails").find(".thumbnail"));
+        $('[data-toggle="tooltip"]').tooltip({
+            placement: "top"
+        });
     });
 
-    $(".thumbnail").click(function () {
-        var tripid = this.id;
-        $(".thumbnail.active").removeClass("active");
+    $thumbnails.find(".thumbnail").click(function () {
+        //var tripid = this.id;
+        var tripid = $(this).val();
+        $("#thumbnails").find(".thumbnail.active").removeClass("active");
         $(this).addClass("active");
         $("#tripinfo").slideUp({
             duration:"slow",
-            complete: function () {
+            complete: function(){
                 coordinates = "NONE";
+                $("#timelapse-pause").addClass("hidden");
+                $("#timelapse-play").removeClass("hidden");
                 $("#map-canvas").empty();
                 $("#timelapse").empty();
-                $("#heightsdiv").hide();
-                $(".tripdata").remove();
+                $("#visual-container").children(".visual").hide();
+                $("#tripinfo").find(".tripdata").remove();
                 clearInterval(interval);
                 lapse.getter.ExtractTrip(json,tripid);
             }
         });
     });
+}
+
+function deleteTripInfo() {
+    coordinates = "NONE";
+    $("#timelapse-pause").addClass("hidden");
+    $("#timelapse-play").removeClass("hidden");
+    $("#map-canvas").empty();
+    $("#timelapse").empty();
+    $("#visual-container .visual").hide();
+    $("#tripinfo .tripdata").remove();
+    clearInterval(interval);
 }
 
 //thumbnails zelfde grootte maken
@@ -282,39 +539,19 @@ function equalHeight(group) {
     group.each(function() { $(this).height(tallest); });
 }
 
-//Laden van foto's voor timelapse
-function images(gegevens){
-    var C = gegevens.sensorData;
-    //Voor aparte opvraag van server
-    //var C = gegevens[0].sensorData;
-    var timelapseid = $("#timelapse");
-    $.each(C, function(){
-        if (this.sensorID == 8) {
-            timelapseid.append("<img>");
-            timelapseid.children("img:last").attr("src", imageURL.concat(this.data[0])).attr("class", "hidden");
-        }
-        timelapseid.children(":first").removeClass("hidden").addClass("active-img");
-    });
-
-    //Starten van timelapse wanneer afbeeldingen geladen zijn
-    if (typeof timelapseid.children()[0] !== "undefined"){
-        $("img").load(timelapse());
-    }
-}
-
 //functie voor timelapse
 function timelapse() {
 
-    interval = setInterval( showIMG, 100);
-    var h = $("div#left-column").height();
-    $("div#map-canvas").height(h);
+    interval = setInterval( showIMG, 500);
+    //var h = $("#left-column").height();
+    //$("#map-canvas").height(h);
 
     function showIMG() {
-        var currentimg = $('.active-img');
+        var $timelapse = $("#timelapse");
+        var currentimg = $timelapse.children(".active-img");
         var nextimg = currentimg.next();
-        var timelapseid = $("#timelapse");
         if(nextimg.length === 0) {
-            nextimg = timelapseid.children(':first');
+            nextimg = $timelapse.children(':first');
         }
         currentimg.removeClass('active-img').addClass("hidden");
         nextimg.addClass('active-img').removeClass("hidden");
@@ -329,7 +566,6 @@ function timelapse() {
 function drawAverageMaxChart() {
 
     dataaveragemax = google.visualization.arrayToDataTable(averagemax);
-    console.log(dataaveragemax)
 
     dashboard = new google.visualization.Dashboard(document.getElementById('dashboard_div'));
 
@@ -341,12 +577,9 @@ function drawAverageMaxChart() {
 //            'title': 'Average Speed',
             'backgroundColor': '#dcdcdc',
             'vAxis': {
-                viewWindowMode:'explicit',
-                viewWindow:{
-                    max:15,
-                    min:0
-                }},
-            'hAxis': {title:"Tripnumber"},
+                viewWindowMode:'explicit'
+            },
+            //'hAxis': {title:"Tripnumber"},
             'animation':{
                 'duration':'250'
             }
@@ -400,80 +633,104 @@ function drawAverageMaxChart() {
 function loadElev() {
 
     // Create a new chart in the elevation_chart DIV.
-    ELEVCHART = new google.visualization.AreaChart(document.getElementById('heightschart'));
+    ELEVCHART = new google.visualization.ComboChart(document.getElementById('heightschart'));
+    ELEVData = [];
+    ELEVToCall = GMCoordinates;
+    var pathRequest;
 
     // Create a PathElevationRequest object using this array.
-    // Ask for 256 samples along that path.
-    var pathRequest = {
-        'path': coor,
-        'samples': 256
-    };
+    // Ask for 512 samples along that path.
+    if (ELEVToCall.length > 512) {
+        var ELEVCalling = ELEVToCall.splice(0,511);
+        console.log(ELEVCalling.length);
 
-    // Initiate the path request.
-    elevator.getElevationAlongPath(pathRequest, plotElevation);
+        pathRequest = {
+            'path': ELEVCalling,
+            'samples': ELEVCalling.length
+        };
+        elevator.getElevationAlongPath(pathRequest, MoreElev);
+    }
+
+    else{
+        pathRequest = {
+            'path': ELEVToCall,
+            'samples': ELEVToCall.length
+        };
+        elevator.getElevationAlongPath(pathRequest, plotElevation);
+    }
+}
+
+function MoreElev(results){
+    for (var i=0; i<results.length; i++){
+        ELEVData.push(results[i].elevation)
+    }
+    var pathRequest;
+    if (ELEVToCall.length > 512) {
+        var ELEVCalling = ELEVToCall.splice(0,511);
+        console.log(ELEVCalling.length);
+
+        pathRequest = {
+            'path': ELEVCalling,
+            'samples': ELEVCalling.length
+        };
+        elevator.getElevationAlongPath(pathRequest, MoreElev);
+    }
+
+    else{
+        pathRequest = {
+            'path': ELEVToCall,
+            'samples': ELEVToCall.length
+        };
+        elevator.getElevationAlongPath(pathRequest, plotElevation);
+    }
 }
 
 function plotElevation(results, status) {
     if (status != google.maps.ElevationStatus.OK) {
         return;
     }
-    $("#heightsdiv").show();
-    var elevations = results;
+    for (i=0; i<results.length; i++){
+        ELEVData.push(results[i].elevation)
+    }
+    $("#heights-canvas").show();
 
     var options = {
-        title: 'Elevation',
+        //title: 'Elevation',
         backgroundColor: '#dcdcdc',
-        hAxis: {title:"Distance"},
-        legend: 'none',
-        titleY: 'Elevation (m)'
+        hAxis: {gridlines:{color:'#FF0000'},
+        title:"Time"},
+        //legend: 'none',
+        //titleY: 'Elevation (m)',
+        seriesType: "line",
+        curveType: 'function',
+        series: {1: {
+            //type: "line",
+            targetAxisIndex: 1
+        }},
+        vAxes: [
+            {title: 'Elevation [m]',
+                titleTextStyle: {color: '#0000FF'}},
+            {title: 'Speed [' + UNIT + ']',
+                titleTextStyle: {color: '#FF0000'}}
+        ]
+
     };
 
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Sample');
     data.addColumn('number', 'Elevation');
+
+    data.addColumn('number', 'Speed');
+
+
     for (var i = 0; i < results.length; i++) {
-        data.addRow(['', Math.round(elevations[i].elevation * 100) / 100]);
+        data.addRow(['', parseFloat(ELEVData[i].toFixed(2)), speeddataDual[i]]);
     }
 
     // Draw the chart using the data within its DIV.
-    ELEVCHART.draw(data, options);
+    var dataview = new google.visualization.DataView(data);
+    ELEVCHART.draw(dataview, options);
 }
-
-function drawHeights() {
-    $("#heightsdiv").removeClass("hidden");
-    var data = google.visualization.arrayToDataTable(heights);
-
-    var options = {
-        title: 'Elevation',
-        backgroundColor: '#dcdcdc',
-        hAxis: {title:"Distance"},
-        legend:{
-            position:'none'
-        }
-    };
-
-    var chart = new google.visualization.AreaChart(document.getElementById('heightschart'));
-
-    chart.draw(data, options);
-}
-
-//tekenen van temperatuurgrafiek
-function drawTemp() {
-    var data = google.visualization.arrayToDataTable(temperature);
-
-    var options = {
-        title: 'Temperature',
-        backgroundColor: '#dcdcdc',
-        vAxis: {maxValue: 33, minValue:0},
-        hAxis: {title:"Tripnumber"}
-
-    };
-
-    var chart = new google.visualization.AreaChart(document.getElementById('tempchart'));
-
-    chart.draw(data, options);
-}
-
 
 //
 // MAP
@@ -490,12 +747,12 @@ function mapsloaded(){
     lapse.getter.GroupData('NO DATA', groupURL);
 }
 
-function map() {
-    coor = [];
-    var coor_default = [];
+function map(json) {
+    GMCoordinates = json.route;
+    var bounds  = new google.maps.LatLngBounds();
     var HOEKPUNTEN;
     var mapstyle = [
-        {"featureType":"administrative", "stylers":[{"visibility":"off"}]},
+        {"featureType":"administrative", "stylers":[{"visibility":"on"}]},
         {"featureType":"poi","stylers":[{"visibility":"simplified"}]},
         {"featureType":"road","elementType":"labels","stylers":[{"visibility":"simplified"}]},
         {"featureType":"water","stylers":[{"visibility":"simplified"}]},
@@ -506,55 +763,6 @@ function map() {
         {"featureType":"road.highway","elementType":"geometry","stylers":[{"visibility":"on"}]},
         {"featureType":"water","stylers":[{"color":"#84afa3"},{"lightness":52}]},{"stylers":[{"saturation":-17},{"gamma":0.36}]},
         {"featureType":"transit.line","elementType":"geometry","stylers":[{"color":"#3f518c"}]}];
-    var bounds  = new google.maps.LatLngBounds();
-
-    if (coordinates.length !== 0){
-        if (coordinates[0][0] >= 100){
-            $.each(coordinates, function(){
-                var x = this[0];
-                var y = this[1];
-                var x1 = (x - x%100)/100;
-                var x2 = x%100 - x%1;
-                var x3 = (x%1)*100;
-                var ddx = x1 + x2/60 + x3/3600;
-                var y1 = (y - y%100)/100;
-                var y2 = y%100 - y%1;
-                var y3 = (y%1)*100;
-                var ddy =y1+y2/60 + y3/3600;
-
-                this[0] = ddx;
-                this[1] = ddy;
-            });
-        }
-    }
-
-
-
-    if (coordinates.length === 0) {
-        HOEKPUNTEN = [
-            [50.864477,4.679248],
-            [50.863807,4.672468],
-            [50.865913,4.687649],
-            [50.861890,4.685460]];
-        $.each(HOEKPUNTEN, function(){
-            var bound = new google.maps.LatLng(this[0],this[1]);
-            coor_default.push(bound);
-            bounds.extend(bound);
-        });
-    }
-
-    else {
-        $.each(coordinates, function(){
-            var bound = new google.maps.LatLng(this[0],this[1]);
-            coor.push(bound);
-            bounds.extend(bound);
-        });
-    }
-    if (coor.length >= 2) {
-        // Create an ElevationService.
-        elevator = new google.maps.ElevationService();
-        loadElev();
-    }
 
     var mapOptions = {
         scrollwheel: true,
@@ -562,33 +770,176 @@ function map() {
     };
     var map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
-    var marker = new google.maps.Marker({
-        position: coor[0],
-        map: map
-    });
-    var marker = new google.maps.Marker({
-        position: coor[coor.length-1],
-        map: map
-    });
+
+    (function ConfigureCoordinatesBounds(){
+
+        if (GMCoordinates.length === 0) {
+            HOEKPUNTEN = [
+                [50.864477,4.679248],
+                [50.863807,4.672468],
+                [50.865913,4.687649],
+                [50.861890,4.685460]];
+            $.each(HOEKPUNTEN, function(){
+                var bound = new google.maps.LatLng(this[0],this[1]);
+                //coor_default.push(bound);
+                bounds.extend(bound);
+            });
+        }
+
+        else {
+            if (GMCoordinates[0][0] >= 100){
+                $.each(GMCoordinates, function(){
+                    var x = this[0];
+                    var y = this[1];
+                    var x1 = (x - x%100)/100;
+                    var x2 = x%100 - x%1;
+                    var x3 = (x%1)*100;
+                    var ddx = x1 + x2/60 + x3/3600;
+                    var y1 = (y - y%100)/100;
+                    var y2 = y%100 - y%1;
+                    var y3 = (y%1)*100;
+                    var ddy =y1+y2/60 + y3/3600;
+
+                    this[0] = ddx;
+                    this[1] = ddy;
+                });
+            }
+
+            $.each(GMCoordinates, function(i,v){
+                bounds.extend(v);
+            });
+        }
+        if (GMCoordinates.length >= 2) {
+            // Create an ElevationService.
+            elevator = new google.maps.ElevationService();
+            loadElev();
+        }
+    })();
+
+    (function makeMarkers(){
+        var infowindow = new google.maps.InfoWindow({
+        });
+
+        (function startMarker(){
+            var textstart = '<p>Speed: ' + ToolTipData.Speed[0] + ' '+ UNIT + '</p>' +
+                ToolTipData.Images[0];
+
+            var markerstarticon = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=A|00FF00|000000");
+            var markerstart = new google.maps.Marker({
+                position: GMCoordinates[0],
+                map: map,
+                icon: markerstarticon,
+                customData: textstart,
+                customPoint: 0
+            });
+
+            google.maps.event.addListener(markerstart, 'click', function() {
+                infowindow.setContent(this.customData);
+                infowindow.open(map,markerstart);
+            });
+
+            google.maps.event.addListener(markerstart, 'mouseover', function(){
+                ELEVCHART.setSelection([{row:0}])
+            });
+        })();
+
+        (function otherMarkers(){
+            for (var i=1; i<GMCoordinates.length-1; i++){
+
+                var text = '<div>';
+                var timestamp = new Date(ToolTipData.Timestamp[i]);
+                console.log(timestamp);
+                timestamp = timestamp.format("HH:MM:ss");
+
+                if (ToolTipData.Timestamp[i]){
+                    text += '<p>Time: ' + timestamp + '</p>';
+                }
+
+                if (ToolTipData.Speed[i]) {
+                    text += '<p>Speed: ' + ToolTipData.Speed[i] + ' ' + UNIT + '</p>';
+                }
+                if (ToolTipData.Temp[i]){
+                    text += '<p>Temperature: ' + ToolTipData.Temp[i] + ' °C' + '</p>';
+                }
+                if (ToolTipData.Images[i]){
+                    text += ToolTipData.Images[i];
+
+                }
+
+                text += '</div>';
+
+                var markerimg = new google.maps.Circle({
+                    position: GMCoordinates[i],
+                    center: GMCoordinates[i],
+                    map: map,
+                    radius: 4,
+                    strokeColor: '#428bca',
+                    strokeOpacity: 0.8,
+                    strokeWeight: 2,
+                    fillColor: '#428bcb',
+                    fillOpacity: 0.35,
+                    customData: text,
+                    customPoint: i
+                });
+
+                google.maps.event.addListener(markerimg, 'click', function () {
+                    infowindow.setContent(this.customData);
+                    infowindow.open(map, this);
+                });
+
+                google.maps.event.addListener(markerimg, 'mouseover', function(){
+                    ELEVCHART.setSelection([{row:this.customPoint}])
+                });
+
+            }
+        })();
+
+        (function endMarker(){
+            var textend = '<p>Speed: ' + ToolTipData.Speed[-1] + '</p>' +
+                ToolTipData.Images[ToolTipData.Images.length-1];
+
+
+            var markerendicon = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=B|FF0000|000000");
+            var markerend = new google.maps.Marker({
+                position: GMCoordinates[GMCoordinates.length-1],
+                map: map,
+                icon: markerendicon,
+                customData: textend,
+                customPoint: GMCoordinates.length-1
+            });
+
+            google.maps.event.addListener(markerend, 'click', function() {
+                infowindow.setContent(this.customData);
+                infowindow.open(map,markerend);
+            });
+
+            google.maps.event.addListener(markerend, 'mouseover', function(){
+                ELEVCHART.setSelection([{row:GMCoordinates.length-1}])
+            });
+        })();
+    })();
+
+    (function ComputeDistance(){
+        var dist = json.distance;
+        //var dist = google.maps.geometry.spherical.computeLength(GMCoordinates);
+
+        if (dist > 1000){
+            dist = parseFloat((dist/1000).toFixed(1));
+            $("<p class='tripdata'>").text(dist + " km").appendTo($("#DIST"));
+        }
+        else {
+            dist =  parseFloat(dist.toFixed(2));
+            $("<p class='tripdata'>").text(dist + " m").appendTo($("#DIST"));
+        }
+    })();
+
     var bikePath = new google.maps.Polyline({
-        path: coor,
+        path: GMCoordinates,
         geodesic: true,
         strokeColor: '#4373B2',
         strokeOpacity: 1.0,
         strokeWeight: 3
     });
-
-    var dist = google.maps.geometry.spherical.computeLength(bikePath.getPath());
-
-    if (dist > 1000){
-        dist = Math.round((dist/1000) * 100) / 100;
-        //dist = dist / 1000
-        $("<p class='tripdata'>").text(dist + " km").appendTo($("#DIST"));
-    }
-    else {
-        dist =  Math.round(dist * 100) / 100;
-        $("<p class='tripdata'>").text(dist + " m").appendTo($("#DIST"));
-    }
 
     map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
         new FullScreenControl(map));

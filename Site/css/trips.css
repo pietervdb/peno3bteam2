@@ -1,11 +1,21 @@
 body {
     background-color: ghostwhite;
-    padding-top: 65px; /*bij fixed nav-bar*/
+    /*padding-top: 65px; *//*bij fixed nav-bar*/
+    height: 100%;
+    margin: 0;
+    padding: 0;
 }
+
+html { height: 100% }
 
 img {
     width: 100%;
     height: 100%;
+}
+
+#timelapse img {
+    /*max-height: 255px !important;*/
+    /*width: 480px !important;*/
 }
 
 li {
@@ -27,6 +37,23 @@ th {
 
 table {
     border-spacing: 5px;
+}
+
+/*.row .row {*/
+    /*margin-left: 0;*/
+    /*margin-right: 0;*/
+/*}*/
+
+.row-centered {
+    text-align:center;
+}
+.col-centered {
+    display:inline-block;
+    float:none;
+    /* reset the text-align */
+    text-align:left;
+    /* inline-block space fix */
+    margin-right:-4px;
 }
 
 #searchgroup{
@@ -74,17 +101,34 @@ table {
 .filter{
     padding-left: 15px;
 }
+.filter2{
+    padding-left: 5px;
+}
+
+#dateinfo p{
+    display: inline;
+    margin-left: 15px;
+}
+
+#tripinfo h3{
+    margin-left: 15px;
+    margin-right: 15px;
+    color: #428bca;
+    opacity: 0.75;
+    border-bottom: 2px solid ;
+    margin-bottom: 2px;
+}
 
 .slider-nav {
     text-align: center;
-    margin-top: 20px;
+    /*margin-top: 20px;*/
 }
 
-#arrows {
-    margin: 10px 15px 10px 15px;
-}
+/*#arrows {*/
+    /*margin: 10px 15px 10px 15px;*/
+/*}*/
 
-.arrow-prev {
+#arrow-prev {
     margin-right: 45px;
     display: inline-block;
     vertical-align: top;
@@ -92,7 +136,7 @@ table {
     color: lightsteelblue;
 }
 
-.arrow-next {
+#arrow-next {
     margin-left: 45px;
     display: inline-block;
     vertical-align: top;
@@ -100,21 +144,21 @@ table {
     color: lightsteelblue;
 }
 
-.slider-dots {
+#slider-dots {
     list-style: none;
     display: inline-block;
     padding-left: 0;
     margin-bottom: 0;
 }
 
-.slider-dots li {
+#slider-dots li {
     color: lightsteelblue;
     display: inline;
     font-size: 30px;
     margin-right: 5px;
 }
 
-.slider-dots li.active-dot {
+#slider-dots li.active-dot {
     color: midnightblue;
 }
 
@@ -129,15 +173,18 @@ table {
 }
 
 #right-column {
-    background-color: lightgray;
+    /*background-color: lightgray;*/
     position: relative;
-    padding: 0 2px 0 2px;
+    padding: 0 17px 0 2px;
+    /*margin-right: 15px;*/
 }
 
 #map-canvas {
-    min-height:320px;
-    margin: 0;
-    padding: 0;
+    /*width: 100%;*/
+    min-height: 400px;
+    /*margin-left: 15px;*/
+    /*margin-right: -15px;*/
+    /*padding-left: 0;*/
 }
 
 #map-canvas.fullscreen {
@@ -202,6 +249,10 @@ div#footer{
 }
 
 #left-column{
-    padding: 0 2px 0 2px !important;
+    padding: 0 2px 0 17px !important;
+}
+
+#left-column h3{
+    margin-top: 0;
 }
 
