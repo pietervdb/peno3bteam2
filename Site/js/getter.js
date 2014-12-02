@@ -125,7 +125,7 @@ lapse.getter = (function() {
 
     function ExtractData(json){
         //coordinates = [];
-        ToolTipData = {Timestamp:[],Speed:[], Images:[], Temp:[]};
+        ToolTipData = {Timestamp:[],Speed:[], Images:[], Temp:[], Pressure:[]};
         speeddataDual = [];
 
         var time = json.startTime;
@@ -161,6 +161,13 @@ lapse.getter = (function() {
 
                 case THERMO: //temperatuur
                     ToolTipData.Temp.push(this.data[0].temperature[0]);
+                    var P = this.data[0].pressure[0];
+                    if (800 < P && P < 1100){
+                        ToolTipData.Pressure.push(this.data[0].pressure[0]);
+                    }
+                    else {
+                        ToolTipData.Pressure.push(null);
+                    }
                     break;
 
                 case CAM: //images

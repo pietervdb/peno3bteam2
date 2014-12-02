@@ -809,8 +809,29 @@ function map(json) {
         });
 
         (function startMarker(){
-            var textstart = '<p>Speed: ' + ToolTipData.Speed[0] + ' '+ UNIT + '</p>' +
-                ToolTipData.Images[0];
+
+            var textstart = '<div>';
+            var timestamp = new Date(ToolTipData.Timestamp[0]);
+            timestamp = timestamp.format("HH:MM:ss");
+
+            if (ToolTipData.Timestamp[0]){
+                textstart += '<p>Time: ' + timestamp + '</p>';
+            }
+            if (ToolTipData.Speed[0]) {
+                textstart += '<p>Speed: ' + ToolTipData.Speed[0] + ' ' + UNIT + '</p>';
+            }
+            if (ToolTipData.Temp[0]){
+                textstart += '<p>Temperature: ' + ToolTipData.Temp[0] + ' °C' + '</p>';
+            }
+            if (ToolTipData.Pressure[0]){
+                textstart += '<p>Pressure: ' + ToolTipData.Pressure[0] + ' °hPa' + '</p>';
+            }
+            if (ToolTipData.Images[0]){
+                textstart += ToolTipData.Images[0];
+
+            }
+
+            textstart += '</div>';
 
             var markerstarticon = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=A|00FF00|000000");
             var markerstart = new google.maps.Marker({
@@ -842,12 +863,14 @@ function map(json) {
                 if (ToolTipData.Timestamp[i]){
                     text += '<p>Time: ' + timestamp + '</p>';
                 }
-
                 if (ToolTipData.Speed[i]) {
                     text += '<p>Speed: ' + ToolTipData.Speed[i] + ' ' + UNIT + '</p>';
                 }
                 if (ToolTipData.Temp[i]){
                     text += '<p>Temperature: ' + ToolTipData.Temp[i] + ' °C' + '</p>';
+                }
+                if (ToolTipData.Pressure[i]){
+                    text += '<p>Pressure: ' + ToolTipData.Pressure[i] + ' °hPa' + '</p>';
                 }
                 if (ToolTipData.Images[i]){
                     text += ToolTipData.Images[i];
@@ -883,9 +906,28 @@ function map(json) {
         })();
 
         (function endMarker(){
-            var textend = '<p>Speed: ' + ToolTipData.Speed[-1] + '</p>' +
-                ToolTipData.Images[ToolTipData.Images.length-1];
 
+            var textend = '<div>';
+            var timestamp = new Date(ToolTipData.Timestamp[ToolTipData.Timestamp.length - 1]);
+            timestamp = timestamp.format("HH:MM:ss");
+
+            if (ToolTipData.Timestamp[ToolTipData.Timestamp.length - 1]){
+                textend += '<p>Time: ' + timestamp + '</p>';
+            }
+            if (ToolTipData.Speed[ToolTipData.Speed.length - 1]) {
+                textend += '<p>Speed: ' + ToolTipData.Speed[ToolTipData.Speed.length - 1] + ' ' + UNIT + '</p>';
+            }
+            if (ToolTipData.Temp[ToolTipData.Temp.length - 1]){
+                textend += '<p>Temperature: ' + ToolTipData.Temp[ToolTipData.Temp.length - 1] + ' °C' + '</p>';
+            }
+            if (ToolTipData.Pressure[ToolTipData.Pressure.length - 1]){
+                textend += '<p>Pressure: ' + ToolTipData.Pressure[ToolTipData.Pressure.length - 1] + ' °hPa' + '</p>';
+            }
+            if (ToolTipData.Images[ToolTipData.Images.length - 1]){
+                textend += ToolTipData.Images[ToolTipData.Images.length - 1];
+            }
+
+            textend += '</div>';
 
             var markerendicon = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=B|FF0000|000000");
             var markerend = new google.maps.Marker({
@@ -907,7 +949,7 @@ function map(json) {
         })();
     })();
 
-    (function ComputeDistance(){
+    (function GetDistance(){
         var dist = json.distance;
         //var dist = google.maps.geometry.spherical.computeLength(GMCoordinates);
 
