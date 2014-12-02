@@ -26,6 +26,8 @@ var FilterStartDate = new Date(70,0,1,1,0,0,0);
 var FilterEndDate = new Date(2015,0,1,1,0,0,0);
 var FilterMinSpeed = 0;
 var FilterMaxSpeed = 200;
+var FilterMinDist = 0;
+var FilterMaxDist = 1000000;
 
 //TODO Sorteren
 
@@ -223,6 +225,7 @@ function main(){
         UNIT = unitselection[1];
         SetDates();
         SetSpeed();
+        SetDistances();
         //FilterStartDate.setFullYear($("#filteryear").val(),$("#filtermonth").val()-1,$("#filterday").val());
         $("#loadicon").fadeIn({
             complete:function(){
@@ -367,16 +370,42 @@ function SetDates(){
 }
 
 function SetSpeed(){
-    var filterminspeed;
-    var filtermaxspeed;
-    filterminspeed = $('input[name=minspeed]', '#speedfilter').val();
-    filtermaxspeed = $('input[name=maxspeed]', '#speedfilter').val();
-    FilterMinSpeed = filterminspeed;
-    FilterMaxSpeed = filtermaxspeed;
-    console.log(FilterMinSpeed);
-    console.log(FilterMaxSpeed);
+    var filtermin;
+    var filtermax;
+    if ($("#FilterSpeedFrom").prop("checked")){
+        filtermin = $('input[name=minspeed]', '#speedfilter').val();
+        FilterMinSpeed = filtermin;
+    }
+    else {
+        FilterMinSpeed = 0;
+    }
+    if ($("#FilterSpeedTo").prop("checked")){
+        filtermax = $('input[name=maxspeed]', '#speedfilter').val();
+        FilterMaxSpeed = filtermax;
+    }
+    else {
+        FilterMaxSpeed = 200;
+    }
 }
 
+function SetDistances(){
+    var filtermin;
+    var filtermax;
+    if ($("#FilterDistFrom").prop("checked")){
+        filtermin = $('input[name=distmin]', '#distfilter').val();
+        FilterMinDist = filtermin;
+    }
+    else {
+        FilterMinDist = 0;
+    }
+    if ($("#FilterDistTo").prop("checked")){
+        filtermax = $('input[name=distmax]', '#distfilter').val();
+        FilterMaxDist = filtermax;
+    }
+    else {
+        FilterMaxDist = 10000000;
+    }
+}
 
 //parameters uit URL halen
 function getUrlVars() {
@@ -387,8 +416,8 @@ function getUrlVars() {
     return vars;
 }
 
-function CONDITION(sensors, date, Speed){
-    return sensors != mindata && FilterStartDate <= date && FilterEndDate >= date && FilterMinSpeed<=Speed && FilterMaxSpeed>=Speed
+function CONDITION(sensors, date, Speed,Distance){
+    return sensors != mindata && FilterStartDate <= date && FilterEndDate >= date && FilterMinSpeed<=Speed && FilterMaxSpeed>=Speed && FilterMinDist <= Distance && Distance <= FilterMaxDist
 
 }
 
@@ -435,9 +464,8 @@ function thumbnail(json){
     for (var i = json.length-1; i>-1; i = i-1){
         var startTime = json[i].startTime;
         var C = json[i].sensorData;
-        var currentSpeedavg = parseFloat((json[i].Speedavg*UNITMULTIPLIER).toFixed(2));
 
-        if (CONDITION(C.length, startTime, json[i].Speedavg*UNITMULTIPLIER)) {
+        if (CONDITION(C.length, startTime, json[i].Speedavg*UNITMULTIPLIER, json[i].distance*UNITMULTIPLIER)) {
             l = l + 1;
             var tripid = json[i]._id;
             var endTime = json[i].endTime;
@@ -818,12 +846,13 @@ function map(json) {
         });
 
         (function startMarker(){
-
+            console.log(ToolTipData.Timestamp);
             var textstart = '<div>';
-            var timestamp = new Date(ToolTipData.Timestamp[0]);
-            timestamp = timestamp.format("HH:MM:ss");
+
 
             if (ToolTipData.Timestamp[0]){
+                var timestamp = new Date(ToolTipData.Timestamp[0]);
+                timestamp = timestamp.format("HH:MM:ss");
                 textstart += '<p>Time: ' + timestamp + '</p>';
             }
             if (ToolTipData.Speed[0]) {
@@ -865,11 +894,11 @@ function map(json) {
             for (var i=1; i<GMCoordinates.length-1; i++){
 
                 var text = '<div>';
-                var timestamp = new Date(ToolTipData.Timestamp[i]);
-                console.log(timestamp);
-                timestamp = timestamp.format("HH:MM:ss");
+
 
                 if (ToolTipData.Timestamp[i]){
+                    var timestamp = new Date(ToolTipData.Timestamp[i]);
+                    timestamp = timestamp.format("HH:MM:ss");
                     text += '<p>Time: ' + timestamp + '</p>';
                 }
                 if (ToolTipData.Speed[i]) {
@@ -917,10 +946,11 @@ function map(json) {
         (function endMarker(){
 
             var textend = '<div>';
-            var timestamp = new Date(ToolTipData.Timestamp[ToolTipData.Timestamp.length - 1]);
-            timestamp = timestamp.format("HH:MM:ss");
+
 
             if (ToolTipData.Timestamp[ToolTipData.Timestamp.length - 1]){
+                var timestamp = new Date(ToolTipData.Timestamp[ToolTipData.Timestamp.length - 1]);
+                timestamp = timestamp.format("HH:MM:ss");
                 textend += '<p>Time: ' + timestamp + '</p>';
             }
             if (ToolTipData.Speed[ToolTipData.Speed.length - 1]) {

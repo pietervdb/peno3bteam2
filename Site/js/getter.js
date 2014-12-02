@@ -32,6 +32,12 @@ lapse.getter = (function() {
 
     function ConfigureJSON(json){
         $.each(json,function(i,v){
+            (function ConfigureSensorData(){
+                if (!v.sensorData){
+                    v.sensorData = [];
+                }
+            })();
+
             (function CalculateDistance(){
                 if (!v.distance){
                     var route = [];
@@ -66,11 +72,6 @@ lapse.getter = (function() {
                 v.Speedmax = v.meta.maxSpeed || 0;
             })();
 
-            (function ConfigureSensorData(){
-                if (!v.sensorData){
-                    v.sensorData = [];
-                }
-            })();
         });
     }
 
@@ -99,7 +100,7 @@ lapse.getter = (function() {
             var currentDate = v.startTime;
             var C = v.sensorData;
 
-            if (CONDITION(C.length, currentDate, json[i].Speedavg*UNITMULTIPLIER)) {
+            if (CONDITION(C.length, currentDate, json[i].Speedavg*UNITMULTIPLIER, json[i].distance*UNITMULTIPLIER)) {
                 var k = averagemax.length;
                 averagemax.push([
                     k,
@@ -125,6 +126,7 @@ lapse.getter = (function() {
 
     function ExtractData(json){
         //coordinates = [];
+        console.log(json);
         ToolTipData = {Timestamp:[],Speed:[], Images:[], Temp:[], Pressure:[]};
         speeddataDual = [];
 
