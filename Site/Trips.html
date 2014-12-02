@@ -82,111 +82,119 @@
     </div>
 </div>
 
-<div class="row options">
-    <div class="dropdown" style="display: inline;">
-        <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownUNIT" data-toggle="dropdown" aria-expanded="true">
-            Options
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownUNIT">
-            <form class="filter" role="form">
-                <div class="checkbox">
-                    <label>
-                        <input id="filterall" type="checkbox" > Show all trips
-                    </label>
-                </div>
-            </form>
-            <li class="dropdown-header">Units</li>
-            <form class="filter" role="form" id="unitform">
-                <div class="radio">
-                    <label><input type="radio" name="unitradio" checked="true" value="1 m/s">m/s</label>
-                </div>
-                <div class="radio">
-                    <label><input type="radio" name="unitradio" value="3.6 km/h">km/u</label>
-                </div>
-            </form>
-        </ul>
+<div class="row options" data-toggle="tooltip" data-original-title="To apply filter or options: click refresh button" data-placement="top">
+    <div class="col-md-4 text-center">
+        <div class="dropdown" style="display: inline;">
+            <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownUNIT" data-toggle="dropdown" aria-expanded="true">
+                Options
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownUNIT">
+                <form class="filter" role="form">
+                    <div class="checkbox">
+                        <label>
+                            <input id="filterall" type="checkbox" > Show all trips
+                        </label>
+                    </div>
+                </form>
+                <li class="dropdown-header">Units</li>
+                <form class="filter" role="form" id="unitform">
+                    <div class="radio">
+                        <label><input type="radio" name="unitradio" checked="true" value="1 m/s">m/s</label>
+                    </div>
+                    <div class="radio">
+                        <label><input type="radio" name="unitradio" value="3.6 km/h">km/u</label>
+                    </div>
+                </form>
+            </ul>
+        </div>
     </div>
-    <p style="display:inline">Filter:</p>
-    <div class="dropdown" style="display: inline;">
-        <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownDATE" data-toggle="dropdown" aria-expanded="true">
-            Date
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownDATE">
-            <li class="dropdown-header"></li>
-            <form class="filter form-inline" role="form">
-                <div class="checkbox">
-                    <label><input id="FilterDateFrom" type="checkbox">From</label>
-                </div>
-                <div class="checkbox">
-                    <label><input id="FilterDateOn" type="checkbox">On</label>
-                </div>
-            </form>
-            <form class="filter2" id="FormDateFromOn" role="form">
-                day:
-                <input class="" type="number" name="day" min="1" max="31" value="1" required>
-                <br>
-                month:
-                <input class="" type="number" name="month" min="1" max="12" value="1" required>
-                <br>
-                year:
-                <input class="" type="number" name="year" min="1970" max="2015" value="2014" required>
-                <br>
-            </form>
-            <form class="filter form-inline" role="form">
-                <div class="checkbox">
-                    <label><input id="FilterDateTo" type="checkbox">To</label>
-                </div>
-            </form>
-            <form  class="filter2" id="FormDateTo" role="form">
-                day:
-                <input class="" type="number" name="day" min="1" max="31" value="1" required>
-                <br>
-                month:
-                <input class="" type="number" name="month" min="1" max="12" value="1" required>
-                <br>
-                year:
-                <input class="" type="number" name="year" min="1970" max="2015" value="2014" required>
-                <br>
-            </form>
-        </ul>
+    <div class="col-md-4 text-center">
+        <div style="text-align: center">
+            <p style="display:inline; color: #428BCA">Filter:</p>
+            <div class="dropdown" style="display: inline;">
+                <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownDATE" data-toggle="dropdown" aria-expanded="true">
+                    Date
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownDATE">
+                    <li class="dropdown-header"></li>
+                    <form class="filter form-inline" role="form">
+                        <div class="checkbox">
+                            <label><input id="FilterDateFrom" type="checkbox">From</label>
+                        </div>
+                        <div class="checkbox">
+                            <label><input id="FilterDateOn" type="checkbox">On</label>
+                        </div>
+                    </form>
+                    <form class="filter2" id="FormDateFromOn" role="form">
+                        day:
+                        <input class="" type="number" name="day" min="1" max="31" value="1" required>
+                        <br>
+                        month:
+                        <input class="" type="number" name="month" min="1" max="12" value="1" required>
+                        <br>
+                        year:
+                        <input class="" type="number" name="year" min="1970" max="2015" value="2014" required>
+                        <br>
+                    </form>
+                    <form class="filter form-inline" role="form">
+                        <div class="checkbox">
+                            <label><input id="FilterDateTo" type="checkbox">To</label>
+                        </div>
+                    </form>
+                    <form  class="filter2" id="FormDateTo" role="form">
+                        day:
+                        <input class="" type="number" name="day" min="1" max="31" value="1" required>
+                        <br>
+                        month:
+                        <input class="" type="number" name="month" min="1" max="12" value="1" required>
+                        <br>
+                        year:
+                        <input class="" type="number" name="year" min="1970" max="2015" value="2014" required>
+                        <br>
+                    </form>
+                </ul>
+            </div>
+            <div class="dropdown" style="display: inline;">
+                <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+                    Average Speed
+                    <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+                    <form class="filter" role="form" id="speedfilter">
+                        From
+                        <input class="" type="number" name="minspeed" min="0" max="200" value="0" required>
+                        To
+                        <input class="" type="number" name="maxspeed" min="0" max="200" value="200" required>
+                    </form>
+                </ul>
+            </div>
+            <div id="refresh" style="display: inline;">
+                <button class="btn btn-link" type="button">
+                    <span class="glyphicon glyphicon-refresh"></span>
+                </button>
+            </div>
+        </div>
     </div>
-    <div class="dropdown" style="display: inline;">
-        <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
-            Average Speed
-            <span class="caret"></span>
-        </button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-            <form class="filter" role="form" id="speedfilter">
-                From
-                <input class="" type="number" name="minspeed" min="0" max="200" value="0" required>
-                To
-                <input class="" type="number" name="maxspeed" min="0" max="200" value="200" required>
-            </form>
-        </ul>
-    </div>
-    <div id="refresh" style="display: inline;">
-        <button class="btn btn-link" type="button">
-            <span class="glyphicon glyphicon-refresh"></span>
-        </button>
-    </div>
-    <div id="Sort" style="display: inline;">
-        <p class="" style="display: inline">Sort: </p>
-        <button id="TimeSort" class="btn btn-link" type="button" value="startTime" style="display: inline;">
-            Date
+    <div class="col-md-4 text-center">
+        <div id="Sort" style="display: inline;">
+            <p class="" style="display: inline ; color: #428BCA">Sort: </p>
+            <button id="TimeSort" class="btn btn-link" type="button" value="startTime" style="display: inline;">
+                Date
         <span class="activesort up dropup">
             <span class="caret"></span>
         </span>
-            <span class="down caret" style="display: none;"></span>
-        </button>
-        <button id="SpeedSort" class="btn btn-link" type="button" value="Speedavg" style="display: inline;">
-            Speed
+                <span class="down caret" style="display: none;"></span>
+            </button>
+            <button id="SpeedSort" class="btn btn-link" type="button" value="Speedavg" style="display: inline;">
+                Speed
         <span class="up dropup" style="display: none;">
             <span class="caret"></span>
         </span>
-            <span class="down caret" style="display: none;"></span>
-        </button>
+                <span class="down caret" style="display: none;"></span>
+            </button>
+        </div>
     </div>
 </div>
 
