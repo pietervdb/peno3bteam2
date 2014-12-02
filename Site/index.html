@@ -24,7 +24,7 @@
           HREF="foto/favicon.ico">
 </head>
 <body>
-<div class="container">
+<div class="container-fluid">
     <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
         <div class="container-fluid">
             <!-- Brand and toggle get grouped for better mobile display -->
@@ -72,15 +72,17 @@
 
     <div class="row">
         <div class='jumbotron'>
-            <h1>BIKE-LAPSE</h1>
-            <p>Quantify!</p>
+            <h1></h1>
+            <p></p>
         </div>
     </div>
-
+    <div id="welcome">
+        Welcome to Bike Lapse!
+    </div>
+    <div id="welcome2">
+        Pick your group by clicking one of these buttons:
+    </div>
     <br>
-    <br>
-    <br>
-
     <div class="row">
         <div class="text-center">
              <a class="btn btn-primary btn-xlarge" type="submit" href="Trips.html?group=assistants">Assistants</a>
@@ -93,11 +95,18 @@
         </div>
     </div>
     <br>
+    <div id="welcome3">
+        Or pick your own group:
+        <form class="navbar-form" role="search" action="Trips.html">
+            <div class="input-group">
+                <input type="text" class="form-control" placeholder="groupId" name="group" id="group">
+                <div class="input-group-btn">
+                    <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
     <br>
-    <br>
-    <br>
-    <br>
-
     <div id="footer">
         <table style="width:100%">
             <tr>

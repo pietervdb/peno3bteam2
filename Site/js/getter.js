@@ -32,6 +32,12 @@ lapse.getter = (function() {
 
     function ConfigureJSON(json){
         $.each(json,function(i,v){
+            (function ConfigureSensorData(){
+                if (!v.sensorData){
+                    v.sensorData = [];
+                }
+            })();
+
             (function CalculateDistance(){
                 if (!v.distance){
                     var route = [];
@@ -66,11 +72,6 @@ lapse.getter = (function() {
                 v.Speedmax = v.meta.maxSpeed || 0;
             })();
 
-            (function ConfigureSensorData(){
-                if (!v.sensorData){
-                    v.sensorData = [];
-                }
-            })();
         });
     }
 
@@ -99,7 +100,7 @@ lapse.getter = (function() {
             var currentDate = v.startTime;
             var C = v.sensorData;
 
-            if (CONDITION(C.length, currentDate)) {
+            if (CONDITION(C.length, currentDate, json[i].Speedavg*UNITMULTIPLIER, json[i].distance/UNITMULTIPLIERDIST)) {
                 var k = averagemax.length;
                 averagemax.push([
                     k,
@@ -125,14 +126,15 @@ lapse.getter = (function() {
 
     function ExtractData(json){
         //coordinates = [];
-        ToolTipData = {Timestamp:[],Speed:[], Images:[], Temp:[]};
+        console.log(json);
+        ToolTipData = {Timestamp:[],Speed:[], Images:[], Temp:[], Pressure:[]};
         speeddataDual = [];
 
         var time = json.startTime;
         var averageSpeed = parseFloat((json.Speedavg*UNITMULTIPLIER).toFixed(2));
         var maxSpeed = parseFloat((json.Speedmax*UNITMULTIPLIER).toFixed(2));
-        var textavg = (averageSpeed == 0)? "/" : averageSpeed + " " + UNIT;
-        var textmax = (maxSpeed == 0)? "/" : maxSpeed + " " + UNIT;
+        var textavg = (averageSpeed == 0)? "/" : averageSpeed + " " + UNITSPEED;
+        var textmax = (maxSpeed == 0)? "/" : maxSpeed + " " + UNITSPEED;
 
         $("<p class='tripdata'>" + dateFormat(time)+"</p>").appendTo($("#dateinfo"));
         $("<p class='tripdata'>").text(textavg).appendTo($("#AVSPEED"));
@@ -161,6 +163,13 @@ lapse.getter = (function() {
 
                 case THERMO: //temperatuur
                     ToolTipData.Temp.push(this.data[0].temperature[0]);
+                    var P = this.data[0].pressure[0];
+                    if (800 < P && P < 1100){
+                        ToolTipData.Pressure.push(this.data[0].pressure[0]);
+                    }
+                    else {
+                        ToolTipData.Pressure.push(null);
+                    }
                     break;
 
                 case CAM: //images
