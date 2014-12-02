@@ -3,7 +3,7 @@
  */
 //URL = "http://dali.cs.kuleuven.be:8080/qbike/trips/",
 var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
-var server = 8080; //8081 voor production
+var server = 8080; //8080 voor test, 8443 voor productie
 var groupURLbase = "http://dali.cs.kuleuven.be:" + server + "/qbike/trips?groupID=";
 var groupID = getUrlVars()["group"];
 var groupURL;
@@ -14,7 +14,6 @@ var coordinates;
 var GMCoordinates;
 var dataaveragemax;
 var dashboard;
-var speedchart;
 var ELEVData;
 var ELEVCHART;
 var ELEVToCall;
@@ -34,15 +33,16 @@ var FilterMaxSpeed = 200;
 //TODO Druk toevoegen aan infowindow
 //TODO
 
-//controleren of laatste letter in URL een "#" is
-if (groupID[groupID.length-1] == "#"){
-    groupID = groupID.slice(0,groupID.length-1)
-}
-groupURL = groupURLbase.concat(groupID);
 
 //Wat doen bij laden van pagina
 $(document).ready(function(){
     (function(){
+        //controleren of laatste letter in URL een "#" is
+        if (groupID[groupID.length-1] == "#"){
+            groupID = groupID.slice(0,groupID.length-1)
+        }
+        groupURL = groupURLbase.concat(groupID);
+
         group = document.getElementById(groupID);
         var $jumbotext = $("#jumbo").children("h1");
 
@@ -79,14 +79,16 @@ function main(){
             return false
         }
         $(this).addClass("disabled");
-        var currentSlide = $('#thumbnails .active-list');
+        var $sliderdots = $("#slider-dots");
+        var $thumbnails = $("#thumbnails");
+        var currentSlide = $thumbnails.find(".active-list");
         var nextSlide = currentSlide.prev();
-        var currentDot = $('#slider-dots .active-dot');
+        var currentDot = $sliderdots.find(".active-dot");
         var nextDot = currentDot.next();
 
         if(nextSlide.length === 0) {
-            nextSlide = $('#thumbnails .Outer').last();
-            nextDot = $('#slider-dots .dot').first();
+            nextSlide = $thumbnails.children(".Outer").last();
+            nextDot = $sliderdots.find(".dot").first();
         }
 
         var $yearinfo = $("#yearinfo");
@@ -130,14 +132,16 @@ function main(){
             return false
         }
         $(this).addClass("disabled");
-        var currentSlide = $('#thumbnails .active-list');
+        var $thumbnails = $("#thumbnails");
+        var $sliderdots = $("#slider-dots");
+        var currentSlide = $thumbnails.find('.active-list');
         var prevSlide = currentSlide.next();
-        var currentDot = $('#slider-dots .active-dot');
+        var currentDot = $sliderdots.find('.active-dot');
         var prevDot = currentDot.prev();
 
         if(prevSlide.length === 0) {
-            prevSlide = $('#thumbnails .Outer').first();
-            prevDot = $('#slider-dots .dot').last();
+            prevSlide = $thumbnails.find(".Outer").first();
+            prevDot = $sliderdots.find('.dot').last();
         }
 
         var $yearinfo = $("#yearinfo");
@@ -215,6 +219,8 @@ function main(){
         //FilterStartDate.setFullYear($("#filteryear").val(),$("#filtermonth").val()-1,$("#filterday").val());
         $("#loadicon").fadeIn({
             complete:function(){
+                $("#groupinfo").show();
+                $("#nodata").hide();
                 $("#slider-dots").empty();
                 $("#thumbnails").empty();
                 lapse.getter.ExtractAverageMax(AllTrips);
@@ -267,7 +273,7 @@ function main(){
     });
 
     $("#close").click(function () {
-        $("#thumbnails .thumbnail.active").removeClass("active");
+        $("#thumbnails").find(".thumbnail.active").removeClass("active");
         $("#tripinfo").slideUp({
             duration:"slow",
             complete: function () {
@@ -318,7 +324,7 @@ function SetDates(){
         FilterEndDate.setFullYear(filteryear, filtermonth, filterdayend);
     }
 
-    else if ($("#FilterDateFrom").prop("checked") && $("#FilterDateTo").prop("checked") == false){
+    else if ($("#FilterDateFrom").prop("checked") && !$("#FilterDateTo").prop("checked")){
         filterday = $('input[name=day]', '#FormDateFromOn').val();
         filtermonth = $('input[name=month]', '#FormDateFromOn').val()-1;
         filteryear = $('input[name=year]', '#FormDateFromOn').val();
@@ -327,7 +333,7 @@ function SetDates(){
 
     }
 
-    else if ($("#FilterDateFrom").prop("checked") == false && $("#FilterDateTo").prop("checked")){
+    else if (!$("#FilterDateFrom").prop("checked") && $("#FilterDateTo").prop("checked")){
         filterday = $('input[name=day]', '#FormDateTo').val();
         filtermonth = $('input[name=month]', '#FormDateTo').val()-1;
         filteryear = $('input[name=year]', '#FormDateTo').val();
@@ -416,25 +422,17 @@ function NODATA(){
 function thumbnail(json){
     var l = 12;
     var k = 0;
-    var i;
-    var previousDate = Date();
 
-    for (i = json.length-1; i>-1; i = i-1){
-        var startTime = new Date(json[i].startTime);
+    for (var i = json.length-1; i>-1; i = i-1){
+        var startTime = json[i].startTime;
         var C = json[i].sensorData;
-        var currentAverageSpeed = parseFloat((json[i].meta.averageSpeed*UNITMULTIPLIER).toFixed(2));
-        if (startTime == 'Invalid Date'){
-            startTime = new Date();
-        }
-        if (currentAverageSpeed==null){
-            currentAverageSpeed=0;
-        }
-        if (C == null){
-            C = [];
-        }
+        var currentSpeedavg = parseFloat((json[i].Speedavg*UNITMULTIPLIER).toFixed(2));
+
         if (CONDITION(C.length, startTime)) {
             l = l + 1;
             var tripid = json[i]._id;
+            var endTime = json[i].endTime;
+            var tooltip;
 
             if (l==13) {
                 $('<div class="Outer hidden">').attr("id", k+1).appendTo("#thumbnails");
@@ -443,30 +441,20 @@ function thumbnail(json){
                 k = k + 1;
             }
 
-            var tripstarttime = new Date(json[i].startTime);
-            var tripendtime = new Date(json[i].endTime);
-            var tooltip;
-
-            if (tripstarttime == 'Invalid Date' | tripendtime == 'Invalid Date'){
-                tooltip = 'Unknown Time'
+            if (startTime == endTime){
+                tooltip = startTime.format("HH:MM")
             }
             else {
-                tooltip = tripstarttime.format("HH:MM") + ' - ' + tripendtime.format("HH:MM");}
+                tooltip = startTime.format("HH:MM") + ' - ' + endTime.format("HH:MM");
+            }
 
             var toAdd = '<div class="col-xs-3 col-sm-2 col-md-1 col-lg-1 thumbtn col-centered">' +
                 '<button class="thumbnail btn-default" type="button" data-toggle="tooltip" data-original-title="' + tooltip + '" data-placement="top" id="' +tripid + '" value="'+i+'">' +
                 '<img src="foto/logozondernaam.png" class="thumbimg">' +
-                '<p class="thumbp">'+
-                month[startTime.getMonth()] + " " + startTime.getDate() + " " + startTime.getFullYear() +
+                '<p class="thumbp">'+ startTime.format("mmm dd yyyy")+
                 '</p></button></div>';
 
-
-            if (startTime != "Invalid Date") {
-            }
-
             $(toAdd).prependTo($("#" + k));
-            $("#"+tripid).data("TIME", startTime);
-            previousDate = startTime;
 
             $.each(C, function () {
                 if (this.sensorID == CAM) {
@@ -477,43 +465,27 @@ function thumbnail(json){
         }
     }
 
-    $("#thumbnails").waitForImages(function(){
+    $("#slider-dots").find("li:last-child").addClass("active-dot");
+    var $thumbnails = $("#thumbnails");
+
+    $thumbnails.waitForImages(function(){
         var firstlist = $("#1");
-        var startyear;
-        var endyear;
         firstlist.removeClass("hidden").addClass("active-list");
-        endyear = firstlist.children(":last").find("p").text().slice(-4);
-        startyear = firstlist.children(":first").find("p").text().slice(-4);
-        if (startyear == endyear){
-            $("#yearinfo").text(startyear);
-        }
-        else if (endyear == ""){
-            $("#yearinfo").text(startyear);
-        }
-        else if (startyear == ""){
-            $("#yearinfo").text(endyear);
-        }
-        else{
-            $("#yearinfo").text(startyear + " - " + endyear);
-        }
         $("#loadicon").fadeOut({
             complete: function(){
                 $("#loadicon").data('spinner').stop();
             }
         });
-        equalHeight($("#thumbnails .thumbnail"));
+        equalHeight($("#thumbnails").find(".thumbnail"));
         $('[data-toggle="tooltip"]').tooltip({
             placement: "top"
         });
     });
 
-    $("#slider-dots li:last-child").addClass("active-dot");
-
-    $("#thumbnails .thumbnail").click(function () {
+    $thumbnails.find(".thumbnail").click(function () {
         //var tripid = this.id;
         var tripid = $(this).val();
-        var time = $(this).data("TIME");
-        $("#thumbnails .thumbnail.active").removeClass("active");
+        $("#thumbnails").find(".thumbnail.active").removeClass("active");
         $(this).addClass("active");
         $("#tripinfo").slideUp({
             duration:"slow",
@@ -523,10 +495,10 @@ function thumbnail(json){
                 $("#timelapse-play").removeClass("hidden");
                 $("#map-canvas").empty();
                 $("#timelapse").empty();
-                $("#visual-container .visual").hide();
-                $("#tripinfo .tripdata").remove();
+                $("#visual-container").children(".visual").hide();
+                $("#tripinfo").find(".tripdata").remove();
                 clearInterval(interval);
-                lapse.getter.ExtractTrip(json,tripid, time);
+                lapse.getter.ExtractTrip(json,tripid);
             }
         });
     });
@@ -563,11 +535,11 @@ function timelapse() {
     //$("#map-canvas").height(h);
 
     function showIMG() {
-        var currentimg = $('#timelapse .active-img');
+        var $timelapse = $("#timelapse");
+        var currentimg = $timelapse.children(".active-img");
         var nextimg = currentimg.next();
-        var timelapseid = $("#timelapse");
         if(nextimg.length === 0) {
-            nextimg = timelapseid.children(':first');
+            nextimg = $timelapse.children(':first');
         }
         currentimg.removeClass('active-img').addClass("hidden");
         nextimg.addClass('active-img').removeClass("hidden");
@@ -652,6 +624,7 @@ function loadElev() {
     ELEVCHART = new google.visualization.ComboChart(document.getElementById('heightschart'));
     ELEVData = [];
     ELEVToCall = GMCoordinates;
+    var pathRequest;
 
     // Create a PathElevationRequest object using this array.
     // Ask for 512 samples along that path.
@@ -659,7 +632,7 @@ function loadElev() {
         var ELEVCalling = ELEVToCall.splice(0,511);
         console.log(ELEVCalling.length);
 
-        var pathRequest = {
+        pathRequest = {
             'path': ELEVCalling,
             'samples': ELEVCalling.length
         };
@@ -667,7 +640,7 @@ function loadElev() {
     }
 
     else{
-        var pathRequest = {
+        pathRequest = {
             'path': ELEVToCall,
             'samples': ELEVToCall.length
         };
@@ -675,15 +648,16 @@ function loadElev() {
     }
 }
 
-function MoreElev(){
-    for (i=0; i<results.length; i++){
+function MoreElev(results){
+    for (var i=0; i<results.length; i++){
         ELEVData.push(results[i].elevation)
     }
+    var pathRequest;
     if (ELEVToCall.length > 512) {
         var ELEVCalling = ELEVToCall.splice(0,511);
         console.log(ELEVCalling.length);
 
-        var pathRequest = {
+        pathRequest = {
             'path': ELEVCalling,
             'samples': ELEVCalling.length
         };
@@ -691,7 +665,7 @@ function MoreElev(){
     }
 
     else{
-        var pathRequest = {
+        pathRequest = {
             'path': ELEVToCall,
             'samples': ELEVToCall.length
         };
@@ -711,7 +685,8 @@ function plotElevation(results, status) {
     var options = {
         //title: 'Elevation',
         backgroundColor: '#dcdcdc',
-        hAxis: {gridlines:{color:'#FF0000'}},
+        hAxis: {gridlines:{color:'#FF0000'},
+        title:"Time"},
         //legend: 'none',
         //titleY: 'Elevation (m)',
         seriesType: "line",
@@ -741,48 +716,9 @@ function plotElevation(results, status) {
     }
 
     // Draw the chart using the data within its DIV.
-    ELEVCHART.draw(data, options);
+    var dataview = new google.visualization.DataView(data);
+    ELEVCHART.draw(dataview, options);
 }
-
-function drawSpeeds() {
-    $("#speed-canvas").show();
-    var data = google.visualization.arrayToDataTable(speeddata);
-
-    var options = {
-        //title: 'Speed',
-        backgroundColor: '#dcdcdc',
-        hAxis: {title:"Distance"},
-        legend:{
-            position:'none'
-        }
-    };
-
-    speedchart = new google.visualization.AreaChart(document.getElementById('speedchart'));
-
-    google.visualization.events.addListener(speedchart, 'select', function() {
-        console.log(speedchart.getSelection());
-    });
-
-    speedchart.draw(data, options);
-}
-
-//tekenen van temperatuurgrafiek
-function drawTemp() {
-    var data = google.visualization.arrayToDataTable(temperature);
-
-    var options = {
-        title: 'Temperature',
-        backgroundColor: '#dcdcdc',
-        vAxis: {maxValue: 33, minValue:0},
-        hAxis: {title:"Tripnumber"}
-
-    };
-
-    var chart = new google.visualization.AreaChart(document.getElementById('tempchart'));
-
-    chart.draw(data, options);
-}
-
 
 //
 // MAP
@@ -799,9 +735,8 @@ function mapsloaded(){
     lapse.getter.GroupData('NO DATA', groupURL);
 }
 
-function map() {
-    GMCoordinates = [];
-    //var coor_default = [];
+function map(json) {
+    GMCoordinates = json.route;
     var bounds  = new google.maps.LatLngBounds();
     var HOEKPUNTEN;
     var mapstyle = [
@@ -817,54 +752,6 @@ function map() {
         {"featureType":"water","stylers":[{"color":"#84afa3"},{"lightness":52}]},{"stylers":[{"saturation":-17},{"gamma":0.36}]},
         {"featureType":"transit.line","elementType":"geometry","stylers":[{"color":"#3f518c"}]}];
 
-    if (coordinates.length !== 0){
-        if (coordinates[0][0] >= 100){
-            $.each(coordinates, function(){
-                var x = this[0];
-                var y = this[1];
-                var x1 = (x - x%100)/100;
-                var x2 = x%100 - x%1;
-                var x3 = (x%1)*100;
-                var ddx = x1 + x2/60 + x3/3600;
-                var y1 = (y - y%100)/100;
-                var y2 = y%100 - y%1;
-                var y3 = (y%1)*100;
-                var ddy =y1+y2/60 + y3/3600;
-
-                this[0] = ddx;
-                this[1] = ddy;
-            });
-        }
-    }
-
-
-
-    if (coordinates.length === 0) {
-        HOEKPUNTEN = [
-            [50.864477,4.679248],
-            [50.863807,4.672468],
-            [50.865913,4.687649],
-            [50.861890,4.685460]];
-        $.each(HOEKPUNTEN, function(){
-            var bound = new google.maps.LatLng(this[0],this[1]);
-            //coor_default.push(bound);
-            bounds.extend(bound);
-        });
-    }
-
-    else {
-        $.each(coordinates, function(){
-            var bound = new google.maps.LatLng(this[0],this[1]);
-            GMCoordinates.push(bound);
-            bounds.extend(bound);
-        });
-    }
-    if (GMCoordinates.length >= 2) {
-        // Create an ElevationService.
-        elevator = new google.maps.ElevationService();
-        loadElev();
-    }
-
     var mapOptions = {
         scrollwheel: true,
         styles: mapstyle
@@ -872,99 +759,167 @@ function map() {
     var map = new google.maps.Map(document.getElementById('map-canvas'),
         mapOptions);
 
-    for (var i=1; i<GMCoordinates.length-1; i++){
+    (function ConfigureCoordinatesBounds(){
 
-        var text = '<div>';
-        var timestamp = new Date(ToolTipData.Timestamp[i]);
-        timestamp = timestamp.format("HH:MM:ss");
-
-        if (ToolTipData.Timestamp[i]){
-            text += '<p>Time: ' + timestamp + '</p>';
+        if (GMCoordinates.length === 0) {
+            HOEKPUNTEN = [
+                [50.864477,4.679248],
+                [50.863807,4.672468],
+                [50.865913,4.687649],
+                [50.861890,4.685460]];
+            $.each(HOEKPUNTEN, function(){
+                var bound = new google.maps.LatLng(this[0],this[1]);
+                //coor_default.push(bound);
+                bounds.extend(bound);
+            });
         }
 
-        if (ToolTipData.Speed[i]) {
-            text += '<p>Speed: ' + ToolTipData.Speed[i] + ' ' + UNIT + '</p>';
+        else {
+            if (GMCoordinates[0][0] >= 100){
+                $.each(GMCoordinates, function(){
+                    var x = this[0];
+                    var y = this[1];
+                    var x1 = (x - x%100)/100;
+                    var x2 = x%100 - x%1;
+                    var x3 = (x%1)*100;
+                    var ddx = x1 + x2/60 + x3/3600;
+                    var y1 = (y - y%100)/100;
+                    var y2 = y%100 - y%1;
+                    var y3 = (y%1)*100;
+                    var ddy =y1+y2/60 + y3/3600;
+
+                    this[0] = ddx;
+                    this[1] = ddy;
+                });
+            }
+
+            $.each(GMCoordinates, function(i,v){
+                bounds.extend(v);
+            });
         }
-        if (ToolTipData.Temp[i]){
-            text += '<p>Temperature: ' + ToolTipData.Temp[i] + ' °C' + '</p>';
+        if (GMCoordinates.length >= 2) {
+            // Create an ElevationService.
+            elevator = new google.maps.ElevationService();
+            loadElev();
         }
-        if (ToolTipData.Images[i]){
-            text += ToolTipData.Images[i];
+    })();
 
-        }
-
-        text += '</div>';
-
-        var markerimg = new google.maps.Circle({
-            position: GMCoordinates[i],
-            center: GMCoordinates[i],
-            map: map,
-            radius: 4,
-            strokeColor: '#428bca',
-            strokeOpacity: 0.8,
-            strokeWeight: 2,
-            fillColor: '#428bcb',
-            fillOpacity: 0.35,
-            customData: text,
-            customPoint: i
-        });
-
+    (function makeMarkers(){
         var infowindow = new google.maps.InfoWindow({
-            maxWidth: '100%'
-        });
-        google.maps.event.addListener(markerimg, 'click', function () {
-            infowindow.setContent(this.customData);
-            infowindow.open(map, this);
         });
 
-        google.maps.event.addListener(markerimg, 'mouseover', function(){
-            ELEVCHART.setSelection([{row:this.customPoint}])
-        });
+        (function startMarker(){
+            var textstart = '<p>Speed: ' + ToolTipData.Speed[0] + ' '+ UNIT + '</p>' +
+                ToolTipData.Images[0];
 
-    }
+            var markerstarticon = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=A|00FF00|000000");
+            var markerstart = new google.maps.Marker({
+                position: GMCoordinates[0],
+                map: map,
+                icon: markerstarticon,
+                customData: textstart,
+                customPoint: 0
+            });
 
-    var infowindow = new google.maps.InfoWindow({
-    });
+            google.maps.event.addListener(markerstart, 'click', function() {
+                infowindow.setContent(this.customData);
+                infowindow.open(map,markerstart);
+            });
 
-    var textstart = '<p>Speed: ' + ToolTipData.Speed[0] + ' '+ UNIT + '</p>' +
-        ToolTipData.Images[0];
-    var textend = '<p>Speed: ' + ToolTipData.Speed[-1] + '</p>' +
-        ToolTipData.Images[ToolTipData.Images.length-1];
-    var markerstarticon = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=A|00FF00|000000");
-    var markerstart = new google.maps.Marker({
-        position: GMCoordinates[0],
-        map: map,
-        icon: markerstarticon,
-        customData: textstart,
-        customPoint: 0
-    });
+            google.maps.event.addListener(markerstart, 'mouseover', function(){
+                ELEVCHART.setSelection([{row:0}])
+            });
+        })();
 
-    google.maps.event.addListener(markerstart, 'click', function() {
-        infowindow.setContent(this.customData);
-        infowindow.open(map,markerstart);
-    });
+        (function otherMarkers(){
+            for (var i=1; i<GMCoordinates.length-1; i++){
 
-    google.maps.event.addListener(markerstart, 'mouseover', function(){
-        ELEVCHART.setSelection([{row:0}])
-    });
+                var text = '<div>';
+                var timestamp = new Date(ToolTipData.Timestamp[i]);
+                console.log(timestamp);
+                timestamp = timestamp.format("HH:MM:ss");
 
-    var markerendicon = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=B|FF0000|000000");
-    var markerend = new google.maps.Marker({
-        position: GMCoordinates[GMCoordinates.length-1],
-        map: map,
-        icon: markerendicon,
-        customData: textend,
-        customPoint: GMCoordinates.length-1
-    });
+                if (ToolTipData.Timestamp[i]){
+                    text += '<p>Time: ' + timestamp + '</p>';
+                }
 
-    google.maps.event.addListener(markerend, 'click', function() {
-        infowindow.setContent(this.customData);
-        infowindow.open(map,markerend);
-    });
+                if (ToolTipData.Speed[i]) {
+                    text += '<p>Speed: ' + ToolTipData.Speed[i] + ' ' + UNIT + '</p>';
+                }
+                if (ToolTipData.Temp[i]){
+                    text += '<p>Temperature: ' + ToolTipData.Temp[i] + ' °C' + '</p>';
+                }
+                if (ToolTipData.Images[i]){
+                    text += ToolTipData.Images[i];
 
-    google.maps.event.addListener(markerend, 'mouseover', function(){
-        ELEVCHART.setSelection([{row:GMCoordinates.length-1}])
-    });
+                }
+
+                text += '</div>';
+
+                var markerimg = new google.maps.Circle({
+                    position: GMCoordinates[i],
+                    center: GMCoordinates[i],
+                    map: map,
+                    radius: 4,
+                    strokeColor: '#428bca',
+                    strokeOpacity: 0.8,
+                    strokeWeight: 2,
+                    fillColor: '#428bcb',
+                    fillOpacity: 0.35,
+                    customData: text,
+                    customPoint: i
+                });
+
+                google.maps.event.addListener(markerimg, 'click', function () {
+                    infowindow.setContent(this.customData);
+                    infowindow.open(map, this);
+                });
+
+                google.maps.event.addListener(markerimg, 'mouseover', function(){
+                    ELEVCHART.setSelection([{row:this.customPoint}])
+                });
+
+            }
+        })();
+
+        (function endMarker(){
+            var textend = '<p>Speed: ' + ToolTipData.Speed[-1] + '</p>' +
+                ToolTipData.Images[ToolTipData.Images.length-1];
+
+
+            var markerendicon = new google.maps.MarkerImage("http://chart.apis.google.com/chart?chst=d_map_pin_letter&chld=B|FF0000|000000");
+            var markerend = new google.maps.Marker({
+                position: GMCoordinates[GMCoordinates.length-1],
+                map: map,
+                icon: markerendicon,
+                customData: textend,
+                customPoint: GMCoordinates.length-1
+            });
+
+            google.maps.event.addListener(markerend, 'click', function() {
+                infowindow.setContent(this.customData);
+                infowindow.open(map,markerend);
+            });
+
+            google.maps.event.addListener(markerend, 'mouseover', function(){
+                ELEVCHART.setSelection([{row:GMCoordinates.length-1}])
+            });
+        })();
+    })();
+
+    (function ComputeDistance(){
+        var dist = json.distance;
+        //var dist = google.maps.geometry.spherical.computeLength(GMCoordinates);
+
+        if (dist > 1000){
+            dist = parseFloat((dist/1000).toFixed(1));
+            $("<p class='tripdata'>").text(dist + " km").appendTo($("#DIST"));
+        }
+        else {
+            dist =  parseFloat(dist.toFixed(2));
+            $("<p class='tripdata'>").text(dist + " m").appendTo($("#DIST"));
+        }
+    })();
 
     var bikePath = new google.maps.Polyline({
         path: GMCoordinates,
@@ -973,18 +928,6 @@ function map() {
         strokeOpacity: 1.0,
         strokeWeight: 3
     });
-
-    var dist = google.maps.geometry.spherical.computeLength(bikePath.getPath());
-
-    if (dist > 1000){
-        dist = parseFloat((dist/1000).toFixed(1));
-        //dist = dist / 1000
-        $("<p class='tripdata'>").text(dist + " km").appendTo($("#DIST"));
-    }
-    else {
-        dist =  parseFloat(dist.toFixed(2));
-        $("<p class='tripdata'>").text(dist + " m").appendTo($("#DIST"));
-    }
 
     map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
         new FullScreenControl(map));

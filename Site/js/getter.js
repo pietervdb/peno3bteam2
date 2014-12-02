@@ -4,28 +4,10 @@ var TripInfo = 'NONE';
 var averagemax;
 var coordinates;
 var ToolTipData;
-var heights;
-var speeddata;
 var speeddataDual;
-var temperature;
-var image;
 var GPS = 1;
 var THERMO = 10;
 var CAM = 8;
-var month = [
-    "Jan",
-    "Feb",
-    "Mar",
-    "Apr",
-    "May",
-    "June",
-    "July",
-    "Aug",
-    "Sep",
-    "Oct",
-    "Nov",
-    "Dec"
-];
 
 
 lapse.getter = (function() {
@@ -44,6 +26,54 @@ lapse.getter = (function() {
         };
     }
 
+    function Sort(json, property){
+        json.sort(sortByProperty(property));
+    }
+
+    function ConfigureJSON(json){
+        $.each(json,function(i,v){
+            (function CalculateDistance(){
+                if (!v.distance){
+                    var route = [];
+                    $.each(v.sensorData,function(){
+                        if (this.sensorID == GPS){
+                            if (this.data[0].type == "MultiPoint") {
+                                $.each(this.data[0].coordinates, function(){
+                                    var a = new google.maps.LatLng(this[0],this[1]);
+                                    route.push(a);
+                                });
+                            }
+                            else if (this.data[0].type == "Point") {
+                                var a = new google.maps.LatLng(this.data[0].coordinates[0],this.data[0].coordinates[1]);
+                                route.push(a);
+                            }
+                        }
+                    });
+                    v.distance = google.maps.geometry.spherical.computeLength(route);
+                    v.route = route;
+                }
+            })();
+
+            (function ConfigureTime(){
+                v.startTime = v.startTime || v.endTime;
+                v.endTime = v.endTime || v.startTime;
+                v.startTime = new Date(v.startTime);
+                v.endTime = new Date(v.endTime);
+            })();
+
+            (function ConfigureSpeeds(){
+                v.Speedavg = v.meta.averageSpeed || 0;
+                v.Speedmax = v.meta.maxSpeed || 0;
+            })();
+
+            (function ConfigureSensorData(){
+                if (!v.sensorData){
+                    v.sensorData = [];
+                }
+            })();
+        });
+    }
+
     function GroupData(status, URL){
         if (status == 'NO DATA'){
             return lapse.getter.AJAX(URL, GroupData);
@@ -54,117 +84,82 @@ lapse.getter = (function() {
             }
             else {
                 AllTrips = status;
-                $.each(AllTrips,function(){
-                    if (!this.startTime && this.endTime){
-                        console.log('aa');
-                        this.startTime = this.endTime;
-                    }
-                    if (this.meta.averageSpeed){
-                        this.averageSpeed = this.meta.averageSpeed;
-                    }
-                    else{
-                        this.averageSpeed = 0;
-                    }
-                });
+                ConfigureJSON(AllTrips);
                 AllTrips.sort(sortByProperty('startTime'));
-                console.log(AllTrips);
                 ExtractAverageMax(AllTrips);
                 thumbnail(AllTrips);
             }
         }
     }
 
-    function Sort(json, property){
-        json.sort(sortByProperty(property));
-    }
 
     function ExtractAverageMax(json){
         averagemax = [['Trip', 'Average Speed', 'Maximum Speed']];
         $.each(json, function(i, v) {
-            var currentDate = new Date(v.startTime);
-            if (currentDate == 'Invalid Date'){
-                currentDate = new Date();
-            }
-
+            var currentDate = v.startTime;
             var C = v.sensorData;
-            if (C == null){
-                C = [];
-            }
 
             if (CONDITION(C.length, currentDate)) {
                 var k = averagemax.length;
-                var D = v.meta;
-                if (v.meta != null) {
-                    averagemax.push([k, parseFloat((D.averageSpeed*UNITMULTIPLIER).toFixed(2)), parseFloat((D.maxSpeed*UNITMULTIPLIER).toFixed(2))]);
-                }
-                else {
-                    averagemax.push([k, 0, 0])
-                }
-                if (!averagemax[k - 1][1]) {
-                    averagemax[k - 1][1] = 0;
-                }
-                if (!averagemax[k - 1][2]) {
-                    averagemax[k - 1][2] = 0;
-                }
+                averagemax.push([
+                    k,
+                    parseFloat((v.Speedavg*UNITMULTIPLIER).toFixed(2)),
+                    parseFloat((v.Speedmax*UNITMULTIPLIER).toFixed(2))
+                ]);
             }
         });
-        drawAverageMaxChart();
+        console.log(averagemax);
+        if (averagemax.length > 1){
+            drawAverageMaxChart();
+        }
+        else {
+            NODATA();
+        }
     }
 
-    function ExtractTrip(json, trip, time){
+    function ExtractTrip(json, trip){
         TripInfo = json[trip];
-        ExtractData(TripInfo,time);
+        ExtractData(TripInfo);
         return false
     }
 
-    function ExtractData(json, time){
-        coordinates = [];
-        temperature = [];
+    function ExtractData(json){
+        //coordinates = [];
         ToolTipData = {Timestamp:[],Speed:[], Images:[], Temp:[]};
-        speeddata = [['distance', 'Speed']];
         speeddataDual = [];
-        var B = json.meta;
-        var averageSpeed = parseFloat((B.averageSpeed*UNITMULTIPLIER).toFixed(2));
-        var maxSpeed = parseFloat((B.maxSpeed*UNITMULTIPLIER).toFixed(2));
+
+        var time = json.startTime;
+        var averageSpeed = parseFloat((json.Speedavg*UNITMULTIPLIER).toFixed(2));
+        var maxSpeed = parseFloat((json.Speedmax*UNITMULTIPLIER).toFixed(2));
+        var textavg = (averageSpeed == 0)? "/" : averageSpeed + " " + UNIT;
+        var textmax = (maxSpeed == 0)? "/" : maxSpeed + " " + UNIT;
+
         $("<p class='tripdata'>" + dateFormat(time)+"</p>").appendTo($("#dateinfo"));
-
-        if (B.averageSpeed){
-            $("<p class='tripdata'>").text(averageSpeed + " " + UNIT).appendTo($("#AVSPEED"));
-        }
-        else {
-            $("<p class='tripdata'>").text("/").appendTo($("#AVSPEED"));
-        }
-
-        if (B.maxSpeed){
-            $("<p class='tripdata'>").text(maxSpeed + " " + UNIT).appendTo($("#MAXSPEED"));
-        }
-        else{
-            $("<p class='tripdata'>").text("/").appendTo($("#MAXSPEED"));
-        }
+        $("<p class='tripdata'>").text(textavg).appendTo($("#AVSPEED"));
+        $("<p class='tripdata'>").text(textmax).appendTo($("#MAXSPEED"));
 
         var C = json.sensorData;
         var timelapseid = $("#timelapse");
         $.each(C,function() {
             switch (this.sensorID) {
                 case GPS: //coordinaten
-                    if (this.data[0].type == "MultiPoint") {
-                        $.each(this.data[0].coordinates, function(){
-                            coordinates.push([this[0], this[1]]);
-                        });
-                    }
-                    else if (this.data[0].type == "Point") {
-                        coordinates.push([this.data[0].coordinates[0], this.data[0].coordinates[1]]);
-                        if (this.data[0].speed) {
+                    if (this.data[0].type == "Point") {
+                        console.log(this.timestamp);
+                        ToolTipData.Timestamp.push(this.timestamp);
+                        if (this.data[0].speed){
                             var sp = parseFloat((this.data[0].speed[0]*UNITMULTIPLIER).toFixed(2));
                             speeddataDual.push(sp);
                             ToolTipData.Speed.push(sp);
-                            ToolTipData.Timestamp.push(this.timestamp);
                         }
+                        else{
+                            speeddataDual.push(0);
+                            ToolTipData.Speed.push(null);
+                        }
+
                     }
                     break;
 
                 case THERMO: //temperatuur
-                    temperature.push([this.data[0].temperature[0]]);
                     ToolTipData.Temp.push(this.data[0].temperature[0]);
                     break;
 
@@ -173,8 +168,6 @@ lapse.getter = (function() {
                     var strhidden = '<img class="hidden" src="' + imageURL.concat(this.data[0]) + '">';
                     ToolTipData.Images.push(str);
                     $(strhidden).appendTo(timelapseid);
-                    //timelapseid.append("<img>");
-                    //timelapseid.children("img:last").attr("src", imageURL.concat(this.data[0])).attr("class", "hidden");
                     break;
             }
 
@@ -196,14 +189,12 @@ lapse.getter = (function() {
                 $('html, body').animate({ scrollTop:  $("#tripinfo").offset().top - 50 }, 0);
             },
             complete: function() {
-                map();
-                drawSpeeds();
+                map(json);
                 timelapseid.children(":first").removeClass("hidden").addClass("active-img");
                 //Starten van timelapse wanneer afbeeldingen geladen zijn
                 if (timelapseid.children()[0]){
                     timelapseid.waitForImages(function(){
                         $("#timelapse-canvas").show();
-                        //timelapse()
                     })
                 }
             }

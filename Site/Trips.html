@@ -60,6 +60,7 @@
                                 <div class="input-group-btn">
                                     <button class="btn btn-default" type="submit"><i class="glyphicon glyphicon-search"></i></button>
                                 </div>
+                            </div>
                         </form>
                     </li>
                     <li id="assistants"><a href="Trips.html?group=assistants">Assistants</a></li>
@@ -83,11 +84,11 @@
 
 <div class="row options">
     <div class="dropdown" style="display: inline;">
-        <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+        <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownUNIT" data-toggle="dropdown" aria-expanded="true">
             Options
             <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownUNIT">
             <form class="filter" role="form">
                 <div class="checkbox">
                     <label>
@@ -108,11 +109,11 @@
     </div>
     <p style="display:inline">Filter:</p>
     <div class="dropdown" style="display: inline;">
-        <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-expanded="true">
+        <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownDATE" data-toggle="dropdown" aria-expanded="true">
             Date
             <span class="caret"></span>
         </button>
-        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
+        <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownDATE">
             <li class="dropdown-header"></li>
             <form class="filter form-inline" role="form">
                 <div class="checkbox">
@@ -157,7 +158,7 @@
             <span class="caret"></span>
         </button>
         <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1">
-            <form class="filter" role="form" id="unitform">
+            <form class="filter" role="form" id="speedfilterunits">
                 <div class="radio">
                     <label><input type="radio" name="unitradio" checked="true" value="0">m/s</label>
                 </div>
@@ -165,7 +166,7 @@
                     <label><input type="radio" name="unitradio" value="0">km/u</label>
                 </div>
             </form>
-            <form class="filter" role="form" id="unitform">
+            <form class="filter" role="form" id="speedfilter">
                 From
                 <input class="" type="number" name="minspeed" min="0" max="200" value="0" required>
                 To
@@ -187,7 +188,7 @@
         </span>
             <span class="down caret" style="display: none;"></span>
         </button>
-        <button id="SpeedSort" class="btn btn-link" type="button" value="averageSpeed" style="display: inline;">
+        <button id="SpeedSort" class="btn btn-link" type="button" value="Speedavg" style="display: inline;">
             Speed
         <span class="up dropup" style="display: none;">
             <span class="caret"></span>
@@ -200,7 +201,7 @@
 <div class="overlay" id="loadicon" ></div>
 
 <div id="nodata" style="display: none">
-    <h3>No data found, please enter another groupID.</h3>
+    <h3>No data found, please enter another groupID or change filtersettings.</h3>
 </div>
 
 <div id="groupinfo" class="">
@@ -212,11 +213,6 @@
                 <div id="filter_mobile" class="" style="display: none; height:50px; background-color: lightgray"></div>
             </div>
         </div>
-    </div>
-
-    <div class="row">
-        <h4 class="hidden text-center" id="yearinfo"></h4>
-        <!--Katten zijn beter accept it!-->
     </div>
 
     <div id="slider" class="">
@@ -299,10 +295,6 @@
             <div id="heights-canvas" class="visual" style="display:none;">
                 <!--<h3>Elevation</h3>-->
                 <div id="heightschart" style="width: auto; height: 150px;"></div>
-            </div>
-            <div id="speed-canvas" class="hidden visual" style="display: none;">
-                <!--<h3>Speed</h3>-->
-                <div id="speedchart" style="width: auto; height: 150px;"></div>
             </div>
             <!--</div>-->
         </div>
