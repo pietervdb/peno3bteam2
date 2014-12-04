@@ -10,8 +10,19 @@ def read(tripnumber):
     with target as textfile:
         lines_list = textfile.readlines()
     target.close()
+    end_end()
     
     find_fix()
+
+def end_end():
+    global lines_list
+    if lines_list[-1][0:2] != 'En':
+        i=-2
+        while i > -len(lines_list):
+            if lines_list[i] == 'En':
+                break
+            i -= 1
+        lines_list = lines_list[:i]
 
 def find_fix(answer=False):
     "finds GPS fixes"
@@ -63,6 +74,7 @@ def find_data(first_five):
     position = data_position(first_five)
     data_list = []
     i = position
+    print 'zoek data van',first_five
     
     if first_five == "Date/":
         while i < len(lines_list):
@@ -70,6 +82,8 @@ def find_data(first_five):
             i += step
     else:
         while i < len(lines_list):
+            print type(lines_list[i][:-1])
+            print lines_list[i][:-1]
             data_list.append(float(lines_list[i][:-1]))
             i += step
         

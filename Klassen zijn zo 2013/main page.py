@@ -1,7 +1,5 @@
 from photography import *
-print 'photography'
 from saving import *
-print 'saving'
 
 import RPi.GPIO as GPIO
 import time
@@ -13,11 +11,11 @@ GPIO.setup(11,GPIO.OUT)
 GPIO.output(8,False)
 GPIO.output(11,True)
 on = False
-timer_last = time.time()
+
 tripnumber = '0'
 queue = []
 photonumber = 0
-
+print 'start'
 while True:
 
     if GPIO.input(7) == 1:
@@ -47,6 +45,7 @@ while True:
                     sent = True
                 queue = []
             else:
+                timer_last = time.time()
                 print 'aan'
                 on = True
                 GPIO.output(11,False)

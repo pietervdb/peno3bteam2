@@ -64,8 +64,8 @@ def send_data(tripnumber):
                     'endTime':end_time,'sensorData':datalist,\
                     'meta':meta_dict}]),on_response)
     socketIO.wait(5)
-    
     tripID = str(answer[0][u'_id'])
+    print 'send pictures'
     send_pictures(tripnumber)
             
 def send_pictures(tripnumber):
