@@ -155,7 +155,6 @@ lapse.getter = (function() {
                             speeddataDual.push(0);
                             ToolTipData.Speed.push(null);
                         }
-
                     }
                     break;
 
@@ -177,7 +176,6 @@ lapse.getter = (function() {
                     $(strhidden).appendTo(timelapseid);
                     break;
             }
-
         });
 
         if ( timelapseid.children().length == 0){
@@ -227,7 +225,6 @@ lapse.getter = (function() {
                 return callback(response, URL); // server response
             }
         });
-
     }
 
     return {

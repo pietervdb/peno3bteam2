@@ -33,7 +33,6 @@ var FilterMinDist = 0;
 var FilterMaxDist = 1000000;
 var total_refresh = false;
 
-
 //Wat doen bij laden van pagina
 $(document).ready(function(){
     (function(){
@@ -58,7 +57,6 @@ $(document).ready(function(){
         else if (groupID) {
             $jumbotext.text(groupID);
         }
-         console.log('b');
     })();
     loadMaps();
     spinner();
@@ -76,7 +74,6 @@ $(window).resize(function(){
 //
 //initialiseren buttons en basisfunctionaliteit
 function main(){
-
     //klik-functie van pijl naar rechts
     $('#arrow-next').click(function() {
         if ($(this).hasClass("disabled")){
@@ -237,13 +234,11 @@ function main(){
                 if (!total_refresh) {
                     lapse.getter.ExtractAverageMax(AllTrips);
                     thumbnail(AllTrips);
-                    console.log('if-lus');
                 }
                 else {
                     groupURL = "http://dali.cs.kuleuven.be:" + server + "/qbike/trips?groupID=" + groupID;
                     mapsloaded();
                     total_refresh = false;
-                    console.log('else-lus');
                 }
             }
         });
@@ -275,7 +270,7 @@ function main(){
                     AllTrips.reverse()
                 }
             }
-        };
+        }
         spinner();
         changecaret($(this));
         $("#loadicon").fadeIn({
@@ -424,7 +419,6 @@ function CONDITION(sensors, date, Speed,Distance){
         && FilterMaxSpeed>=Speed
         && FilterMinDist <= Distance
         && Distance <= FilterMaxDist
-
 }
 
 function spinner(){
@@ -457,7 +451,6 @@ function NODATA(){
     $("#nodata").show();
     $("#loadicon").hide().data('spinner').stop();
 }
-
 
 //
 //VISUALISATIE
@@ -580,10 +573,8 @@ function timelapse() {
         }
         currentimg.removeClass('active-img').addClass("hidden");
         nextimg.addClass('active-img').removeClass("hidden");
-
     }
 }
-
 
 //
 //GRAFIEKEN
@@ -651,11 +642,9 @@ function drawAverageMaxChart() {
             control.draw();
         });
     }
-
 }
 
 function drawTemp(){
-
     if (ToolTipData.Temp.length < 1){
         return false
     }
@@ -677,18 +666,14 @@ function drawTemp(){
             legend: 'none',
             titleY: 'Temperature [°C]',
             curveType: 'function'
-
         };
-
         TEMPCHART = new google.visualization.LineChart(document.getElementById('tempchart'));
-
         TEMPCHART.draw(datatemp, options);
     }
 }
 
 //Tekenen van hoogtegrafiek
 function loadElev() {
-
     // Create a new chart in the elevation_chart DIV.
     ELEVCHART = new google.visualization.ComboChart(document.getElementById('heightschart'));
     ELEVData = [];
@@ -699,8 +684,6 @@ function loadElev() {
     // Ask for 512 samples along that path.
     if (ELEVToCall.length > 512) {
         var ELEVCalling = ELEVToCall.splice(0,511);
-        console.log(ELEVCalling.length);
-
         pathRequest = {
             'path': ELEVCalling,
             'samples': ELEVCalling.length
@@ -724,8 +707,6 @@ function MoreElev(results){
     var pathRequest;
     if (ELEVToCall.length > 512) {
         var ELEVCalling = ELEVToCall.splice(0,511);
-        console.log(ELEVCalling.length);
-
         pathRequest = {
             'path': ELEVCalling,
             'samples': ELEVCalling.length
@@ -770,15 +751,12 @@ function plotElevation(results, status) {
             {title: 'Speed [' + UNITSPEED + ']',
                 titleTextStyle: {color: '#FF0000'}}
         ]
-
     };
 
     var data = new google.visualization.DataTable();
     data.addColumn('string', 'Sample');
     data.addColumn('number', 'Elevation');
-
     data.addColumn('number', 'Speed');
-
 
     for (var i = 0; i < results.length; i++) {
         data.addRow(['', parseFloat(ELEVData[i].toFixed(2)), speeddataDual[i]]);
@@ -878,9 +856,7 @@ function map(json) {
         });
 
         (function startMarker(){
-            console.log(ToolTipData.Timestamp);
             var textstart = '<div>';
-
 
             if (ToolTipData.Timestamp[0]){
                 var timestamp = new Date(ToolTipData.Timestamp[0]);
@@ -898,7 +874,6 @@ function map(json) {
             }
             if (ToolTipData.Images[0]){
                 textstart += ToolTipData.Images[0];
-
             }
 
             textstart += '</div>';
@@ -925,9 +900,7 @@ function map(json) {
 
         (function otherMarkers(){
             for (var i=1; i<GMCoordinates.length-1; i++){
-
                 var text = '<div>';
-
 
                 if (ToolTipData.Timestamp[i]){
                     var timestamp = new Date(ToolTipData.Timestamp[i]);
@@ -945,9 +918,7 @@ function map(json) {
                 }
                 if (ToolTipData.Images[i]){
                     text += ToolTipData.Images[i];
-
                 }
-
                 text += '</div>';
 
                 var markerimg = new google.maps.Circle({
@@ -973,14 +944,11 @@ function map(json) {
                     ELEVCHART.setSelection([{row:this.customPoint}]);
                     TEMPCHART.setSelection([{row:this.customPoint}]);
                 });
-
             }
         })();
 
         (function endMarker(){
-
             var textend = '<div>';
-
 
             if (ToolTipData.Timestamp[ToolTipData.Timestamp.length - 1]){
                 var timestamp = new Date(ToolTipData.Timestamp[ToolTipData.Timestamp.length - 1]);
@@ -1053,12 +1021,4 @@ function map(json) {
     map.fitBounds(bounds);
     map.panToBounds(bounds);
     bikePath.setMap(map);
-
 }
-
-
-
-
-
-
-
