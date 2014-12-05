@@ -32,6 +32,7 @@ var FilterMaxSpeed = 200;
 var FilterMinDist = 0;
 var FilterMaxDist = 1000000;
 
+
 //Wat doen bij laden van pagina
 $(document).ready(function(){
     (function(){

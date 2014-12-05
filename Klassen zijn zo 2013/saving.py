@@ -1,7 +1,7 @@
 import serial
 from help_functions import *
-arduino = serial.Serial('COM7',9600)
-##arduino = serial.Serial('/dev/serial/by-id/usb-Gravitech_ARDUINO_NANO_13BP0853-if00-port0',9600)
+##arduino = serial.Serial('COM7',9600)
+arduino = serial.Serial('/dev/serial/by-id/usb-Gravitech_ARDUINO_NANO_13BP0853-if00-port0',9600)
 whitelist = ['Qua','Loc','Spe','Ang','Alt','Sat','Pre','Tem']
 
 whitelist2 = ['Locat','Speed','Alt2t','Press','Tempe']

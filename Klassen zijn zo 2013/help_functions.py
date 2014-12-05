@@ -1,19 +1,19 @@
 def split_data(line):
     "Splits dataname and datadata based on bracket location"
+    print 'split line',line
     i = 0
     while True:
         if line[i] == "[":
             break
         i += 1
     j = i
-    while True:
+    while True and j < len(line):
         if line[j] == "]":
             break
         j += 1
     return [line[:i-1],line[i+1:j]]
 
 def decimalextender(number):
-    print 'number',number
     "converts one-digit numbers to two-digits: 1 -> 01, 5 -> 05, 10 -> 10"
     if int(number) < 10:
         return "0"+number
