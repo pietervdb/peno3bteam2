@@ -4,33 +4,19 @@
 //URL = "http://dali.cs.kuleuven.be:8080/qbike/trips/",
 var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
 var server; //8080 voor test, 8443 voor productie
-var groupURLbase;
-var groupID = getUrlVars()["group"];
-var groupURL;
-var group;
-var groupHead;
+var groupURLbase, groupURL, groupID = getUrlVars()["group"];
+var group, groupHead;
 var interval;
-var coordinates;
-var GMCoordinates;
-var dataaveragemax;
-var dashboard;
-var datatemp;
-var ELEVData;
-var ELEVCHART;
-var ELEVToCall;
 var averagemax = false;
+var dataaveragemax, dashboard;
+var GMCoordinates, ELEVData, ELEVCHART, ELEVToCall, TEMPCHART;
 var is_mobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|Windows Phone/i.test(navigator.userAgent);
+//Filtervariabelen
 var mindata = 0;
-var UNITMULTIPLIER = 1;
-var UNITSPEED = "m/s";
-var UNITDIST = "m";
-var UNITMULTIPLIERDIST = 1;
-var FilterStartDate = new Date(70,0,1,1,0,0,0);
-var FilterEndDate = new Date(2015,0,1,1,0,0,0);
-var FilterMinSpeed = 0;
-var FilterMaxSpeed = 200;
-var FilterMinDist = 0;
-var FilterMaxDist = 1000000;
+var UNITMULTIPLIER = 1, UNITSPEED = "m/s", UNITDIST = "m", UNITMULTIPLIERDIST = 1;
+var FilterStartDate = new Date(70,0,1,1,0,0,0), FilterEndDate = new Date(2015,0,1,1,0,0,0);
+var FilterMinSpeed = 0, FilterMaxSpeed = 200;
+var FilterMinDist = 0, FilterMaxDist = 1000000;
 var total_refresh = false;
 
 //Wat doen bij laden van pagina
@@ -521,7 +507,7 @@ function thumbnail(json){
         $("#tripinfo").slideUp({
             duration:"slow",
             complete: function(){
-                coordinates = "NONE";
+                GMCoordinates = "NONE";
                 $("#timelapse-pause").addClass("hidden");
                 $("#timelapse-play").removeClass("hidden");
                 $("#map-canvas").empty();
@@ -536,7 +522,7 @@ function thumbnail(json){
 }
 
 function deleteTripInfo() {
-    coordinates = "NONE";
+    GMCoordinates = "NONE";
     $("#timelapse-pause").addClass("hidden");
     $("#timelapse-play").removeClass("hidden");
     $("#map-canvas").empty();
@@ -649,7 +635,7 @@ function drawTemp(){
         return false
     }
     else {
-        datatemp = new google.visualization.DataTable();
+        var datatemp = new google.visualization.DataTable();
         datatemp.addColumn('number', 'Sample');
         datatemp.addColumn('number', 'Temperature');
         $.each(ToolTipData.Temp, function (i, v) {
@@ -674,14 +660,11 @@ function drawTemp(){
 
 //Tekenen van hoogtegrafiek
 function loadElev() {
-    // Create a new chart in the elevation_chart DIV.
     ELEVCHART = new google.visualization.ComboChart(document.getElementById('heightschart'));
     ELEVData = [];
     ELEVToCall = GMCoordinates;
     var pathRequest;
 
-    // Create a PathElevationRequest object using this array.
-    // Ask for 512 samples along that path.
     if (ELEVToCall.length > 512) {
         var ELEVCalling = ELEVToCall.splice(0,511);
         pathRequest = {

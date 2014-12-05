@@ -2,12 +2,11 @@ var lapse = lapse || {};
 var AllTrips;
 var TripInfo = 'NONE';
 var averagemax;
-var coordinates;
 var ToolTipData;
 var speeddataDual;
 var GPS = 1;
-var THERMO = 10;
 var CAM = 8;
+var BARO = 10;
 
 
 lapse.getter = (function() {
@@ -158,7 +157,7 @@ lapse.getter = (function() {
                     }
                     break;
 
-                case THERMO: //temperatuur
+                case BARO: //temperatuur
                     ToolTipData.Temp.push(this.data[0].temperature[0]);
                     var P = this.data[0].pressure[0];
                     if (800 < P && P < 1100){
