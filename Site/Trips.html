@@ -75,18 +75,22 @@
 
 <div class="row">
     <div id="jumbo" class='jumbotron'>
+        <!--Tekst wordt via javascript toegevoegd-->
         <h1></h1>
     </div>
 </div>
 
+<!--Optiebalk-->
 <div class="row options" data-toggle="tooltip" data-original-title="To apply filter or options: click refresh button" data-placement="top">
+    <!--Opties-->
     <div class="col-md-4 text-center">
         <div class="dropdown" style="display: inline;">
-            <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownUNIT" data-toggle="dropdown" aria-expanded="true">
+            <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownOPTIONS" data-toggle="dropdown" aria-expanded="true">
                 Options
                 <span class="caret"></span>
             </button>
-            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownUNIT">
+            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownOPTIONS">
+                <!--Alle trips laden-->
                 <form class="filter" role="form">
                     <div class="checkbox">
                         <label>
@@ -94,6 +98,7 @@
                         </label>
                     </div>
                 </form>
+                <!--Units selecteren-->
                 <li class="dropdown-header">Units</li>
                 <form class="filter" role="form" id="unitform">
                     <div class="radio">
@@ -103,6 +108,7 @@
                         <label><input class="unit" type="radio" name="unitradio" value="3.6 km/h km">km/h</label>
                     </div>
                 </form>
+                <!--Server selecteren-->
                 <li class="dropdown-header">Server</li>
                 <form class="filter" role="form" id="serverform">
                     <div class="radio">
@@ -115,6 +121,7 @@
             </ul>
         </div>
     </div>
+    <!--Filters-->
     <div class="col-md-4 text-center">
         <div style="text-align: center">
             <p style="display:inline; color: #428BCA">Filter:</p>
@@ -123,6 +130,7 @@
                     Date
                     <span class="caret"></span>
                 </button>
+                <!--Datumfilter-->
                 <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownDATE">
                     <li class="dropdown-header"></li>
                     <form class="filter form-inline" role="form">
@@ -162,6 +170,7 @@
                     </form>
                 </ul>
             </div>
+            <!--Snelheidfilter-->
             <div class="dropdown" style="display: inline;">
                 <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownSpeed" data-toggle="dropdown" aria-expanded="true">
                     Average Speed
@@ -180,6 +189,7 @@
                     </form>
                 </ul>
             </div>
+            <!--Afstandfilter-->
             <div class="dropdown" style="display: inline;">
                 <button class=" btn btn-link dropdown-toggle" type="button" id="dropdownDIST" data-toggle="dropdown" aria-expanded="true">
                     Distance
@@ -198,6 +208,7 @@
                     </form>
                 </ul>
             </div>
+            <!--Refreshbutton-->
             <div id="refresh" style="display: inline;">
                 <button class="btn btn-link" type="button">
                     <span class="glyphicon glyphicon-refresh"></span>
@@ -205,9 +216,10 @@
             </div>
         </div>
     </div>
-
+    <!--Sorteeropties-->
     <div class="col-md-4 text-center" id="Sort" style="display: inline;">
         <p class="" style="display: inline; color: #428BCA">Sort: </p>
+        <!--Datum-->
         <button id="TimeSort" class="btn btn-link" type="button" value="startTime" style="display: inline;">
             Date
         <span class="activesort up dropup">
@@ -215,6 +227,7 @@
         </span>
             <span class="down caret" style="display: none;"></span>
         </button>
+        <!--Snelheid-->
         <button id="SpeedSort" class="btn btn-link" type="button" value="Speedavg" style="display: inline;">
             Speed
         <span class="up dropup" style="display: none;">
@@ -222,6 +235,7 @@
         </span>
             <span class="down caret" style="display: none;"></span>
         </button>
+        <!--Afstand-->
         <button id="DistSort" class="btn btn-link" type="button" value="distance" style="display: inline;">
             Distance
         <span class="up dropup" style="display: none;">
@@ -233,13 +247,17 @@
     </div>
 </div>
 
+<!--Laadicoon-->
 <div class="overlay" id="loadicon" ></div>
 
+<!--Tekst bij geen data-->
 <div id="nodata" style="display: none">
     <h3>No data found, please enter another groupID or change filtersettings.</h3>
 </div>
 
+
 <div id="groupinfo" class="">
+    <!--Eerste grafiek-->
     <div class="row">
         <div class="charts" id="dashboard">
             <div id="dashboard_div" style="width: auto; height: auto;">
@@ -250,8 +268,8 @@
         </div>
     </div>
 
+    <!--Thumbnail navigatie-->
     <div id="slider" class="">
-        <!--Thumbnail navigatie-->
         <div class="slider-nav">
             <a id="arrow-prev" href="#" class="arrows" style="text-decoration:none;">
                 <span class="glyphicon glyphicon-chevron-left"></span></a>
@@ -266,7 +284,6 @@
     </div>
 
     <!--Tripinfo-->
-
     <div class="" id="tripinfo" style="display:none;">
         <div class="row">
             <div class="col-md-12 text-right">
@@ -292,8 +309,10 @@
                 </div>
             </div>
         </div>
+        <!--Visualisatie-->
         <div id="visual-container">
             <div class="row">
+                <!--Timelapse-->
                 <div class="col-md-6 col-lg-6" id="left-column">
 
                     <div id="timelapse-canvas" class="visual" style="display:none">
@@ -303,14 +322,17 @@
                             <button id="timelapse-pause" class="btn btn-primary btn-lg hidden" type="submit"><i class="glyphicon glyphicon-pause"></i></button>
                     </div>
                 </div>
+                <!--Kaart-->
                 <div class="col-md-6 col-lg-6" id="right-column">
                     <div id="map-canvas">
                     </div>
                 </div>
             </div>
+            <!--Hoogtegrafiek + snelheid-->
             <div id="heights-canvas" class="visual" style="display:none;">
                 <div id="heightschart" style="width: auto; height: 150px;"></div>
             </div>
+            <!--Temperatuurgrafiek-->
             <div id="temp-canvas" class="visual" style="display:none;">
                 <div id="tempchart" style="width: auto; height: 150px;"></div>
             </div>
