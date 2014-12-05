@@ -9,7 +9,6 @@ def make_photo_dir(tripnumber):
     global foldername
     foldername = 'Data/Photos/'+tripnumber
     os.makedirs(foldername)
-    print 'new photodir made', tripnumber
 
 def snap(photonumber):
     "takes picture and resizes it"
