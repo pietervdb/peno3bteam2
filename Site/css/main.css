@@ -28,18 +28,14 @@ body {
     list-style-type: none;
 }
 
-
-
 #navigation ul {
     padding: 10px 0px;
     margin-bottom: 0px;
     display:inline;
 }
 
-
 .jumbotron {
     background-image:url('http://goo.gl/SMXLQE');
-    /*background-image: url("../foto/Logo.png");*/
     background-position: left;
     background-size: 100%;
     background-repeat: no-repeat;
@@ -61,9 +57,7 @@ body {
     margin-top: 10px;
     margin-bottom: 10px;
 }
-/*.container {*/
-    /*background-color: lightgray;*/
-/*}*/
+
 
 #buttons{
     margin-left: auto;
