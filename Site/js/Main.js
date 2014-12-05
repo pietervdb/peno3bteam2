@@ -31,6 +31,7 @@ var FilterMinSpeed = 0;
 var FilterMaxSpeed = 200;
 var FilterMinDist = 0;
 var FilterMaxDist = 1000000;
+var total_refresh = false;
 
 
 //Wat doen bij laden van pagina
@@ -54,6 +55,7 @@ $(document).ready(function(){
         else if (groupID) {
             $jumbotext.text(groupID);
         }
+         console.log('b');
     })();
     loadMaps();
     spinner();
@@ -190,7 +192,10 @@ function main(){
         $("#distfilter").children(".dis").prop('placeholder', UNITDIST);
         $("#speedfilter").children(".spe").prop('placeholder', UNITSPEED);
     });
-
+    $('#serverform').find('.server').change(function(){
+        server = $('input[name=serverradio]:checked', '#serverform').val();
+        total_refresh = true;
+    });
     $("#FilterDateOn").change(function(){
         if (this.checked){
             $("#FilterDateFrom,#FilterDateTo").removeAttr("checked");
@@ -226,8 +231,17 @@ function main(){
                 $("#nodata").hide();
                 $("#slider-dots").empty();
                 $("#thumbnails").empty();
-                lapse.getter.ExtractAverageMax(AllTrips);
-                thumbnail(AllTrips);
+                if (!total_refresh) {
+                    lapse.getter.ExtractAverageMax(AllTrips);
+                    thumbnail(AllTrips);
+                    console.log('if-lus');
+                }
+                else {
+                    groupURL = "http://dali.cs.kuleuven.be:" + server + "/qbike/trips?groupID=" + groupID;
+                    mapsloaded();
+                    total_refresh = false;
+                    console.log('else-lus');
+                }
             }
         });
         $("#tripinfo").slideUp({
