@@ -81,6 +81,7 @@ lapse.getter = (function() {
         }
         else {
             if (status.length == 0){
+                AllTrips = [];
                 return NODATA()
             }
             else {
