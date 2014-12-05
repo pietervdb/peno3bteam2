@@ -263,23 +263,7 @@
 
     <div class="" id="tripinfo" style="display:none;">
         <div class="row">
-            <div class="col-md-11">
-                <form id="ShowCharts" class="form-inline" role="form">
-                    <div class="checkbox">
-                        <label><input id="ShowTimelapse" type="checkbox" value="#timelapse-canvas" checked>Timelapse</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input id="ShowMap" type="checkbox" value="#map-canvas" checked>Map</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input id="ShowElev" type="checkbox" value="#heights-canvas" checked>Elevation</label>
-                    </div>
-                    <div class="checkbox">
-                        <label><input id="ShowSpeed" type="checkbox" value="#speed-canvas" checked>Speed</label>
-                    </div>
-                </form>
-            </div>
-            <div class="col-md-1 text-right">
+            <div class="col-md-12 text-right">
                 <div id="close" style="display: inline;">
                     <button class="btn btn-link" type="button">
                         <span class="glyphicon glyphicon-remove"></span></button>
@@ -307,12 +291,14 @@
                 <div class="col-md-6 col-lg-6" id="left-column">
 
                     <div id="timelapse-canvas" class="visual" style="display:none">
-                        <h3>Timelapse
-                            <button id="timelapse-play" class="btn btn-link" type="submit"><i class="glyphicon glyphicon-play"></i></button>
-                            <button id="timelapse-pause" class="btn btn-link hidden" type="submit"><i class="glyphicon glyphicon-pause"></i></button>
-                        </h3>
+                        <!--<h3>Timelapse-->
+                            <!--<button id="timelapse-play" class="btn btn-link" type="submit"><i class="glyphicon glyphicon-play"></i></button>-->
+                            <!--<button id="timelapse-pause" class="btn btn-link hidden" type="submit"><i class="glyphicon glyphicon-pause"></i></button>-->
+                        <!--</h3>-->
                         <div id="timelapse">
                         </div>
+                            <button id="timelapse-play" class="btn btn-primary btn-lg" type="submit"><i class="glyphicon glyphicon-play"></i></button>
+                            <button id="timelapse-pause" class="btn btn-primary btn-lg hidden" type="submit"><i class="glyphicon glyphicon-pause"></i></button>
                     </div>
                 </div>
                 <div class="col-md-6 col-lg-6" id="right-column">

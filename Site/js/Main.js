@@ -179,16 +179,10 @@ function main(){
 
     //Checkbox "Get all trips"
     $('#filterall').change(function(){
-        if (this.checked){
-            mindata = -1
-        }
-        else {
-            mindata = 0
-        }
+        mindata = (this.checked)? -1 : 0;
     });
 
     $('#unitform').find('.unit').change(function(){
-        console.log("aa");
         var unitselection = $('input[name=unitradio]:checked', '#unitform').val().split(" ");
         UNITSPEED = unitselection[1];
         UNITDIST = unitselection[2];
@@ -211,18 +205,6 @@ function main(){
     $("#FilterDateTo").change(function(){
         if (this.checked){
             $("#FilterDateOn").removeAttr("checked");
-        }
-    });
-
-    $("#FilterSpeedFrom").change(function(){
-        if (this.checked){
-            $("#FilterSpeedOn").removeAttr("checked");
-        }
-    });
-
-    $("#FilterSpeedTo").change(function(){
-        if (this.checked){
-            $("#FilterSpeedOn").removeAttr("checked");
         }
     });
 
@@ -275,7 +257,7 @@ function main(){
                     AllTrips.reverse()
                 }
             }
-        }
+        };
         spinner();
         changecaret($(this));
         $("#loadicon").fadeIn({
@@ -316,19 +298,6 @@ function main(){
         $(this).addClass("hidden");
         clearInterval(interval);
     });
-
-    //
-    //Show visualization
-    //
-    $("#ShowCharts").find(":input").change(function(){
-        var value = this.val();
-        if (this.checked){
-            $(value).show();
-        }
-        else{
-            $(value).hide();
-        }
-    })
 }
 
 function SetDates(){
@@ -426,8 +395,17 @@ function getUrlVars() {
     return vars;
 }
 
+/**
+ * @return {boolean}
+ */
 function CONDITION(sensors, date, Speed,Distance){
-    return sensors != mindata && FilterStartDate <= date && FilterEndDate >= date && FilterMinSpeed<=Speed && FilterMaxSpeed>=Speed && FilterMinDist <= Distance && Distance <= FilterMaxDist
+    return sensors != mindata
+        && FilterStartDate <= date
+        && FilterEndDate >= date
+        && FilterMinSpeed<=Speed
+        && FilterMaxSpeed>=Speed
+        && FilterMinDist <= Distance
+        && Distance <= FilterMaxDist
 
 }
 
@@ -487,16 +465,12 @@ function thumbnail(json){
                 l = 1;
                 k = k + 1;
             }
-
-            if (startTime == endTime){
-                tooltip = startTime.format("HH:MM")
-            }
-            else {
-                tooltip = startTime.format("HH:MM") + ' - ' + endTime.format("HH:MM");
-            }
+            tooltip = startTime.format("HH:MM");
+            tooltip = (startTime == endTime)? tooltip : tooltip + ' - ' + endTime.format("HH:MM");
 
             var toAdd = '<div class="col-xs-3 col-sm-2 col-md-1 col-lg-1 thumbtn col-centered">' +
-                '<button class="thumbnail btn-default" type="button" data-toggle="tooltip" data-original-title="' + tooltip + '" data-placement="top" id="' +tripid + '" value="'+i+'">' +
+                '<button class="thumbnail btn-default" type="button" data-toggle="tooltip" data-original-title="' +
+                tooltip + '" data-placement="top" id="' +tripid + '" value="'+i+'">' +
                 '<img src="foto/logozondernaam.png" class="thumbimg">' +
                 '<p class="thumbp">'+ startTime.format("mmm dd yyyy")+
                 '</p></button></div>';
@@ -530,7 +504,6 @@ function thumbnail(json){
     });
 
     $thumbnails.find(".thumbnail").click(function () {
-        //var tripid = this.id;
         var tripid = $(this).val();
         $("#thumbnails").find(".thumbnail.active").removeClass("active");
         $(this).addClass("active");
@@ -578,8 +551,7 @@ function equalHeight(group) {
 function timelapse() {
 
     interval = setInterval( showIMG, 500);
-    //var h = $("#left-column").height();
-    //$("#map-canvas").height(h);
+
 
     function showIMG() {
         var $timelapse = $("#timelapse");
@@ -818,6 +790,7 @@ function map(json) {
     GMCoordinates = json.route;
     var bounds  = new google.maps.LatLngBounds();
     var HOEKPUNTEN;
+
     var mapstyle = [
         {"featureType":"administrative", "stylers":[{"visibility":"on"}]},
         {"featureType":"poi","stylers":[{"visibility":"simplified"}]},
@@ -848,7 +821,6 @@ function map(json) {
                 [50.861890,4.685460]];
             $.each(HOEKPUNTEN, function(){
                 var bound = new google.maps.LatLng(this[0],this[1]);
-                //coor_default.push(bound);
                 bounds.extend(bound);
             });
         }
@@ -964,7 +936,7 @@ function map(json) {
                     position: GMCoordinates[i],
                     center: GMCoordinates[i],
                     map: map,
-                    radius: 4,
+                    radius: 2.5,
                     strokeColor: '#428bca',
                     strokeOpacity: 0.8,
                     strokeWeight: 2,
@@ -1054,6 +1026,9 @@ function map(json) {
         strokeOpacity: 1.0,
         strokeWeight: 3
     });
+
+    var h = $("#left-column").height();
+    $("#map-canvas").height(h);
 
     map.controls[google.maps.ControlPosition.TOP_RIGHT].push(
         new FullScreenControl(map));

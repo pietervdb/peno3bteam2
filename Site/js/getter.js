@@ -109,7 +109,6 @@ lapse.getter = (function() {
                 ]);
             }
         });
-        console.log(averagemax);
         if (averagemax.length > 1){
             drawAverageMaxChart();
         }
@@ -125,8 +124,6 @@ lapse.getter = (function() {
     }
 
     function ExtractData(json){
-        //coordinates = [];
-        console.log(json);
         ToolTipData = {Timestamp:[],Speed:[], Images:[], Temp:[], Pressure:[]};
         speeddataDual = [];
 
@@ -146,7 +143,6 @@ lapse.getter = (function() {
             switch (this.sensorID) {
                 case GPS: //coordinaten
                     if (this.data[0].type == "Point") {
-                        console.log(this.timestamp);
                         ToolTipData.Timestamp.push(this.timestamp);
                         if (this.data[0].speed){
                             var sp = parseFloat((this.data[0].speed[0]*UNITMULTIPLIER).toFixed(2));
@@ -205,6 +201,8 @@ lapse.getter = (function() {
                 if (timelapseid.children()[0]){
                     timelapseid.waitForImages(function(){
                         $("#timelapse-canvas").show();
+                        var h = $("#left-column").height();
+                        $("#map-canvas").height(h);
                     })
                 }
             }
