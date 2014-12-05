@@ -3,8 +3,8 @@
  */
 //URL = "http://dali.cs.kuleuven.be:8080/qbike/trips/",
 var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
-var server = 8080; //8080 voor test, 8443 voor productie
-var groupURLbase = "http://dali.cs.kuleuven.be:" + server + "/qbike/trips?groupID=";
+var server; //8080 voor test, 8443 voor productie
+var groupURLbase;
 var groupID = getUrlVars()["group"];
 var groupURL;
 var group;
@@ -37,6 +37,9 @@ var total_refresh = false;
 //Wat doen bij laden van pagina
 $(document).ready(function(){
     (function(){
+        server = $('input[name=serverradio]:checked', '#serverform').val();
+        groupURLbase = "http://dali.cs.kuleuven.be:" + server + "/qbike/trips?groupID=";
+
         //controleren of laatste letter in URL een "#" is
         if (groupID[groupID.length-1] == "#"){
             groupID = groupID.slice(0,groupID.length-1)

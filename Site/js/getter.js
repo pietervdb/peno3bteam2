@@ -128,13 +128,14 @@ lapse.getter = (function() {
         ToolTipData = {Timestamp:[],Speed:[], Images:[], Temp:[], Pressure:[]};
         speeddataDual = [];
 
-        var time = json.startTime;
+        var starttime = json.startTime;
+        var endtime = json.endTime;
         var averageSpeed = parseFloat((json.Speedavg*UNITMULTIPLIER).toFixed(2));
         var maxSpeed = parseFloat((json.Speedmax*UNITMULTIPLIER).toFixed(2));
         var textavg = (averageSpeed == 0)? "/" : averageSpeed + " " + UNITSPEED;
         var textmax = (maxSpeed == 0)? "/" : maxSpeed + " " + UNITSPEED;
 
-        $("<p class='tripdata'>" + dateFormat(time)+"</p>").appendTo($("#dateinfo"));
+        $("<p class='tripdata'>" + starttime.format("HH:MM:ss") +  " - " + endtime.format("HH:MM:ss") + ", " + starttime.format("dddd, mmmm d, yyyy")  + "</p>").appendTo($("#dateinfo"));
         $("<p class='tripdata'>").text(textavg).appendTo($("#AVSPEED"));
         $("<p class='tripdata'>").text(textmax).appendTo($("#MAXSPEED"));
 
