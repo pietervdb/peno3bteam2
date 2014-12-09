@@ -74,7 +74,7 @@ void loop() {
     Serial.print("Speed (m/s):[");Serial.print(GPS.speed*0.514444444);Serial.print("]");Serial.println("");
     Serial.print("Angle: [");Serial.print(GPS.angle);Serial.print("]");Serial.println("");
     Serial.print("Alt1tude: [");Serial.print(GPS.altitude);Serial.print("]");Serial.println("");
-    Serial.print("Satellites: [");Serial.print((int)GPS.satellites);Serial.print("]");Serial.println("");
+    Serial.print("Satellites: [");Serial.print(GPS.satellites);Serial.print("]");Serial.println("");
     
     //}              
     

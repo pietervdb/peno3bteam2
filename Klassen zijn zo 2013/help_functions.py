@@ -1,6 +1,5 @@
 def split_data(line):
     "Splits dataname and datadata based on bracket location"
-    print 'split line',line
     i = 0
     while True:
         if line[i] == "[":
