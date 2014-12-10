@@ -35,11 +35,10 @@ while True:
 
         else:
             if duration >= 5:
-                from sending import *   #here because does not work without connection
+                GPIO.output(8,True) #do not disconnect-color
                 if connected():
-                    
+                    from sending import *   #here because does not work without connection
                     print 'send'
-                    GPIO.output(8,True) #do not disconnect-color
                     send_queue(queue)  #sends the queue
                     GPIO.output(8,False)
                     sent = True
@@ -54,12 +53,12 @@ while True:
                 make_photo_dir(tripnumber)  #makes new directory
                 snap(0)
                 photonumber = 1
-                save_arduino(tripnumber,True)
+                save_arduino_raw(tripnumber)
     
     timer_current = time.time()
     if on and (timer_current - timer_last > 10):
         print 'datapunt'
         snap(photonumber)  #takes picture
         photonumber += 1
-        save_arduino(tripnumber,False)  #saves arduino data
+        save_arduino_raw(tripnumber)  #saves arduino data
         timer_last = time.time()

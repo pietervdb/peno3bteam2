@@ -4,6 +4,7 @@ import requests
 import os
 from socketIO_client import SocketIO
 from reading import *
+from saving import *
 import urllib2
 domain = 'dali.cs.kuleuven.be'
 port = 8080
@@ -41,6 +42,7 @@ def send_queue(queue):
 
 def send_data(tripnumber):
     "send the trips' data"
+    process_raw_data(tripnumber)
     global tripID
     socketIO.on('server_message',on_response)
     socketIO.wait(2)

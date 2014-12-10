@@ -1,12 +1,27 @@
+##def split_data(line):
+##    "Splits dataname and datadata based on bracket location"
+##    i = 0
+##    while True:
+##        if line[i] == "[":
+##            break
+##        i += 1
+##    j = i
+##    while True and j < len(line):
+##        if line[j] == "]":
+##            break
+##        j += 1
+##    return [line[:i-1],line[i+1:j]]
+
 def split_data(line):
-    "Splits dataname and datadata based on bracket location"
-    i = 0
-    while True:
+    i=0
+    while i<len(line):
         if line[i] == "[":
             break
-        i += 1
-    j = i
-    while True and j < len(line):
+        i+=1
+        elif i = len(line):
+            return [0,0]
+    j=i
+    while j<len(line):
         if line[j] == "]":
             break
         j += 1

@@ -1,6 +1,6 @@
 lines_list = []
 fix_on = []
-step = 24
+step = 22
 
 def read(tripnumber):
     "reads the file and finds fixes (preparation for data operations)"
@@ -26,13 +26,16 @@ def end_end():
 
 def find_fix(answer=False):
     "finds GPS fixes"
-    global fix_on
+    global fix_on,fix
     fix_on = []
+    fix = []
     i = 0
     while i < len(lines_list):
-        if lines_list[i][0:5] == "Fix:Y":
-            fix_on.append(i)
-        i += step
+        if lines_list[i][0:3]=="Fix":
+            fix.append(lines_list[i][4])
+            if lines_list[i][0:5] == "Fix:Y":
+                fix_on.append(i)
+        i += 1
     if answer:
         return fix_on
     
@@ -40,10 +43,17 @@ def find_time(st):
     "finds start/stop time"
     if len(fix_on)==0:
             return None
-    if st == 'start':
-        return lines_list[fix_on[0]+4][:-1]
-    elif st == 'stop':
-        return lines_list[fix_on[-1]+4][:-1]
+    else:
+        dates = find_data("Date/")
+        if st == 'start':
+            for a in fix:
+                if fix[a] == 'y':
+                    return dates[a]
+        elif st == 'stop':
+            for b in reversed(fix):
+                if fix[b] == 'N':
+                    return dates[b]
+
 
 def data_position(first_five):
     "finds first occurence of given data"
@@ -127,7 +137,7 @@ def make_data_list():
     
     time_point = 0
     for i in range(len(temperature_list)):
-        if i*step in fix_on:
+        if fix[i]=='y':
             datalist.append({'sensorID':10, 'timestamp':timestamp_gps_list[time_point],'data': [{'pressure':[pressure_list[i]],\
                                     'temperature':[temperature_list[i]],'height':[alt2tude_list[i]]}]})
             time_point += 1

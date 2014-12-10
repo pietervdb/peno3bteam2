@@ -2,7 +2,7 @@ import serial
 from help_functions import *
 arduino = serial.Serial('COM7',9600)
 ##arduino = serial.Serial('/dev/serial/by-id/usb-Gravitech_ARDUINO_NANO_13BP0853-if00-port0',9600)
-whitelist = ['Qua','Loc','Spe','Ang','Alt','Sat','Pre','Tem']
+whitelist = ['Qua','Loc','Spe','Ang','Alt','Pre','Tem']
 whitelist2 = ['Locat','Speed','Alt2t','Press','Tempe']
 ##EDIT######
 ##step: 24 => 18
@@ -30,9 +30,10 @@ def process_raw_data(tripnumber):
     for line in raw_lijnen_lijst:
         if line[:3] == 'Fix':
             if line[4:7] == '[1]':
-                target.write('Fix:Y\n')
+                first = 'Fix:Y'
             else:
-                target.write('Fix:N\n')
+                first = 'Fix:N'
+            second = '\n'
         
         if line[:3] == 'Dat':
             [intro, datime] = split_data(line)
