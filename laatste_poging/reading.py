@@ -1,11 +1,11 @@
 lines_list = []
 fix_on = []
 step = 22
+from feedback import *
 
 def read(tripnumber):
     "reads the file and finds fixes (preparation for data operations)"
     global lines_list
-    
     target = open('Data/'+tripnumber+'.txt','r')
     with target as textfile:
         lines_list = textfile.readlines()
@@ -69,10 +69,9 @@ def find_gps_data(first_five):
     "data that is dependent on a fix"
     position = data_position(first_five)
     data_list = []
-
     if first_five == "Date/":
         for i in fix_on:
-            j = 0
+            j = 1
             while j < step:
                 if lines_list[i+j][:3] == "Fix":
                     break
@@ -82,7 +81,7 @@ def find_gps_data(first_five):
                 
     else:
         for i in fix_on:
-            j = 0
+            j = 1
             while j < step:
                 if lines_list[i+j][:3] == "Fix":
                     break
@@ -122,18 +121,25 @@ def compose_gps_coordinates():
 
 def make_data_list():
     datalist = []
+    nb_points = len(fix)
     #gps
     gps_coordinates = compose_gps_coordinates()
     timestamp_gps_list = find_gps_data('Date/')
     speed_list = find_gps_data('Speed')
+    update_speed(speed_list)
+    while len(speed_list) < len(fix_on):
+        speed_list+= [0,]
+    
     for i in range(len(gps_coordinates)):
+        print i , gps_coordinates[i]
         datalist.append({'sensorID':1,'timestamp':timestamp_gps_list[i],'data': [{'type':'Point',\
                                     'coordinates':gps_coordinates[i],'unit':'google','speed':[speed_list[i]]}]})
-
     #barometer
     temperature_list = find_data("Tempe")
     pressure_list = find_data("Press")
     alt2tude_list = find_data("Alt2t")
+
+    ## eventueel lijstaanvuller of deleter hier
     
     time_point = 0
     for i in range(len(temperature_list)):
@@ -146,7 +152,7 @@ def make_data_list():
             datalist.append({'sensorID':10,'data': [{'pressure':[pressure_list[i]],\
                                     'temperature':[temperature_list[i]],'height':[alt2tude_list[i]]}]})
 
-    return datalist
+    return datalist , speed_list
 
 def make_meta_dict():
     global fix_on
