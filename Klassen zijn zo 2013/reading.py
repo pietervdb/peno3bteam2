@@ -62,30 +62,41 @@ def find_gps_data(first_five):
 
     if first_five == "Date/":
         for i in fix_on:
-            data_list.append(lines_list[i+position][:-1])
+            j = 0
+            while j < step:
+                if lines_list[i+j][:3] == "Fix":
+                    break
+                elif lines_list[i+j][:5] == first_five:
+                    data_list.append(lines_list[i+position][:-1])
+                j += 1
+                
     else:
         for i in fix_on:
-            data_list.append(float(lines_list[i+position][:-1]))
-
+            j = 0
+            while j < step:
+                if lines_list[i+j][:3] == "Fix":
+                    break
+                elif lines_list[i+j][:5] == first_five:
+                    data_list.append(float(lines_list[i+position][:-1]))
+                j += 1
+                
     return data_list
 
 def find_data(first_five):
     "data that is independent of a fix"
-    position = data_position(first_five)
     data_list = []
-    i = position
     print 'zoek data van',first_five
-    
+    i = 0
     if first_five == "Date/":
         while i < len(lines_list):
-            data_list.append(lines_list[i][:-1])
-            i += step
+            if lines_list[i][:5] == first_five:
+                data_list.append(lines_list[i+1][:-1])
+            i += 1
     else:
         while i < len(lines_list):
-            print type(lines_list[i][:-1])
-            print lines_list[i][:-1]
-            data_list.append(float(lines_list[i][:-1]))
-            i += step
+            if lines_list[i][:5] == first_five:
+                data_list.append(float(lines_list[i+1][:-1]))
+            i += 1
         
     return data_list
 
