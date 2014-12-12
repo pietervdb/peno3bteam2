@@ -22,12 +22,12 @@ def save_arduino_raw(tripnumber):
         line = arduino.readline()
         print line
         target.write(line)
-        if line[0] == 'S':
-            a , speed = split_data(line)
+##        if line[0] == 'S':
+##            a , speed = split_data(line)
         if line[0]=='T':
             target.close()
             stop = True
-    return speed
+##    return speed
 
 def connected():
     try:
