@@ -35,8 +35,8 @@ body {
 }
 
 .jumbotron {
-    background-image:url('http://goo.gl/SMXLQE');
-    background-position: left;
+    background-image:url('../foto/city.jpg');
+    background-position: center;
     background-size: 100%;
     background-repeat: no-repeat;
     width: auto;
