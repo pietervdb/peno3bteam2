@@ -127,9 +127,13 @@ def make_data_list():
     timestamp_gps_list = find_gps_data('Date/')
     speed_list = find_gps_data('Speed')
     update_speed(speed_list)
-    while len(speed_list) < len(fix_on):
-        speed_list+= [0,]
-    
+    shortest1 = len(fix_on)
+    if len(gps_coordinates) < shortest1:
+        shortest1 = len(gps_coordinates)
+    if len(timestamp_gps_list) < shortest1:
+        shortest1 = len(timestamp_gps_list)
+    if len(speed_list) < shortest1:
+        shortest1 = len(speed_list) 
     for i in range(len(gps_coordinates)):
         print i , gps_coordinates[i]
         datalist.append({'sensorID':1,'timestamp':timestamp_gps_list[i],'data': [{'type':'Point',\
@@ -138,12 +142,15 @@ def make_data_list():
     temperature_list = find_data("Tempe")
     pressure_list = find_data("Press")
     alt2tude_list = find_data("Alt2t")
+    shortest2 = len(temperature_list)
+    if len(pressure_list) < shortest2:
+        shortest2 = len(pressure_list)
+    if len(alt2tude_list) < shortest2:
+        shortest2 = len(alt2tude_list) 
 
-    ## eventueel lijstaanvuller of deleter hier
-    
     time_point = 0
     for i in range(len(temperature_list)):
-        if fix[i]=='y':
+        if fix[i]=='y' and time_point < shortest1:
             datalist.append({'sensorID':10, 'timestamp':timestamp_gps_list[time_point],'data': [{'pressure':[pressure_list[i]],\
                                     'temperature':[temperature_list[i]],'height':[alt2tude_list[i]]}]})
             time_point += 1
