@@ -15,9 +15,12 @@ def save_arduino_raw(tripnumber):
     while not stop:
         line = arduino.readline()
         target.write(line+'/n')
+        if line[0] == 'S':
+            a , speed = split_data(line)
         if line[0]=='t':
             target.close()
             stop = True
+    return speed
 
 def process_raw_data(tripnumber):
     textfile = 'Data/'+tripnumber+'.txt'
