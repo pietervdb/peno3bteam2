@@ -14,7 +14,7 @@ def save_arduino_raw(tripnumber):
     stop = False
     while not stop:
         line = arduino.readline()
-        target.write(line)
+        target.write(line+'/n')
         if line[0]=='t':
             target.close()
             stop = True
