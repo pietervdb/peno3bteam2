@@ -12,20 +12,30 @@
 ##        j += 1
 ##    return [line[:i-1],line[i+1:j]]
 
+def is_number(s):
+    try:
+        float(s)
+        return True
+    except ValueError:
+        return False
+    
 def split_data(line):
     i=0
     while i<len(line):
         if line[i] == "[":
             break
         i+=1
-        elif i = len(line):
+        if i == len(line):
             return [0,0]
     j=i
     while j<len(line):
         if line[j] == "]":
             break
         j += 1
-    return [line[:i-1],line[i+1:j]]
+    data = line[i+1:j]
+    if not is_number(data):
+        data = 0
+    return [line[:i-1],data]
 
 def decimalextender(number):
     "converts one-digit numbers to two-digits: 1 -> 01, 5 -> 05, 10 -> 10"
