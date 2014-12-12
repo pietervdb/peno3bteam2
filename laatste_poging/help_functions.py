@@ -33,8 +33,9 @@ def split_data(line):
             break
         j += 1
     data = line[i+1:j]
-    if not is_number(data):
-        data = 0
+    if not line[:3] == 'Dat':
+        if not is_number(data):
+            data = 0
     return [line[:i-1],data]
 
 def decimalextender(number):

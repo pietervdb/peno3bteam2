@@ -62,15 +62,15 @@ while True:
                 save_arduino_raw(tripnumber)
     
     timer_current = time.time()
-    if on and (timer_current - timer_last > 10):
+    if on and (timer_current - timer_last > 5):
         print 'datapunt'
         snap(photonumber)  #takes picture
         photonumber += 1
         speed = save_arduino_raw(tripnumber)  #saves arduino data
-        if speed > gem_speed:
-            GPIO.output(9,False)
-            GPIO.output(25, True)
-        else:
-            GPIO.output(25,False)
-            GPIO.output(9, True)
+##        if speed > gem_speed:
+##            GPIO.output(9,False)
+##            GPIO.output(25, True)
+##        else:
+##            GPIO.output(25,False)
+##            GPIO.output(9, True)
         timer_last = time.time()

@@ -23,12 +23,7 @@ def connected2():
     except requests.ConnectionError:
         return False
 
-def connected():
-    try:
-        response=urllib2.urlopen('http://74.125.228.100', timeout=1)
-        return True
-    except urllib2.URLError as err: pass
-    return False
+
 print 'checked2'
 def on_response(*args):
     global answer
