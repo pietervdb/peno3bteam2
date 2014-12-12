@@ -1,4 +1,10 @@
 import serial
+import urllib2
+import base64
+import json
+import requests
+import os
+from socketIO_client import SocketIO
 from help_functions import *
 ##arduino = serial.Serial('COM7',9600)
 arduino = serial.Serial('/dev/serial/by-id/usb-Gravitech_ARDUINO_NANO_13BP0853-if00-port0',9600)
