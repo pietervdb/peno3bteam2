@@ -49,12 +49,12 @@ def find_time(st):
         dates = find_data("Date/")
         if st == 'start':
             while a < b:
-                if fix[a] == 'y':
+                if fix[a] == 'Y':
                     return dates[a]
                 a+=1
         elif st == 'stop':
             while b >=0:
-                if fix[b] == 'N':
+                if fix[b] == 'Y':
                     return dates[b]
                 b-=1
 
@@ -92,13 +92,11 @@ def find_gps_data(first_five):
                 elif lines_list[i+j][:5] == first_five:
                     data_list.append(float(lines_list[i+j+1][:-1]))
                 j += 1
-    print data_list
     return data_list
 
 def find_data(first_five):
     "data that is independent of a fix"
     data_list = []
-    print 'zoek data van',first_five
     i = 0
     if first_five == "Date/":
         while i < len(lines_list):
@@ -114,12 +112,19 @@ def find_data(first_five):
 
 def compose_gps_coordinates():
     x = find_gps_data('Loc_x')
+    for i in x:
+        if i == 0.0:
+            x.remove(i)
     y = find_gps_data('Loc_y')
-    data_list = []
-    
-    for i in range(len(x)):
+    for j in y:
+        if j == 0.0:
+            y.remove(j)
+    a = len(x)
+    data_list =[]
+    if len(y)<a:
+        a = len(y)
+    for i in range(a):
         data_list.append([x[i],y[i]])
-
     return data_list
 
 def make_data_list():
@@ -138,10 +143,7 @@ def make_data_list():
         shortest1 = len(timestamp_gps_list)
     if len(speed_list) < shortest1:
         shortest1 = len(speed_list)
-        print 'gps' , gps_coordinates
-        print 'time' , timestamp_gps_list
-        print 'speed' , speed_list
-    for i in range(len(gps_coordinates)):
+    for i in range(shortest1):
         datalist.append({'sensorID':1,'timestamp':timestamp_gps_list[i],'data': [{'type':'Point',\
                                     'coordinates':gps_coordinates[i],'unit':'google','speed':[speed_list[i]]}]})
     #barometer
@@ -153,9 +155,6 @@ def make_data_list():
         shortest2 = len(pressure_list)
     if len(alt2tude_list) < shortest2:
         shortest2 = len(alt2tude_list) 
-    print 'pres' , pressure_list
-    print 'alt' , alt2tude_list
-    print 'temp' , temperature_list
     time_point = 0
     for i in range(shortest2):
         if fix[i]=='y' and time_point < shortest1:

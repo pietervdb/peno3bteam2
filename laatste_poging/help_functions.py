@@ -61,13 +61,28 @@ def find_signs(line):
     return signs
 
 def timewriter(datime):
+    global last
+    try:
+        timewriter1(datime)
+        time = timewriter1(datime)
+        last = time
+        return time
+    except Exception:
+        return last
+
+def timewriter1(datime):
     "Gives time back in the right format"
+    global last
     signs_lst = find_signs(datime)
-    
     year = decimalextender(datime[:signs_lst[0]])
     day = decimalextender(datime[signs_lst[0]+1:signs_lst[1]])
     month = decimalextender(datime[signs_lst[1]+1:signs_lst[2]])
-    hours = decimalextender(str(1+int(datime[signs_lst[2]+1:signs_lst[3]]))) #UTC+1
+    try:
+        int(datime[signs_lst[2]+1:signs_lst[3]])
+        hours = decimalextender(str(1+int(datime[signs_lst[2]+1:signs_lst[3]])))
+    except ValueError:
+         hours = decimalextender(str(datime[signs_lst[2]+2:signs_lst[3]]))
+    #UTC+1
     minutes = decimalextender(datime[signs_lst[3]+1:signs_lst[4]])
     seconds = decimalextender(datime[signs_lst[4]+1:])
     
