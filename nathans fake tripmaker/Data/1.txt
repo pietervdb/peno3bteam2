@@ -1,0 +1,267 @@
+Fix:N
+Date/Time:
+2014-12-12T16:43:23.000Z
+Speed (m/s)
+0.00
+Pressure:
+6.59
+Alt2tude:
+164.25
+Temperature:
+24.62
+End
+Fix:N
+Date/Time:
+2014-12-12T16:43:25.000Z
+Speed (m/s)
+0.00
+Pressure:
+6.57
+Alt2tude:
+164.38
+Temperature:
+24.62
+End
+Fix:N
+Date/Time:
+2014-12-12T16:43:27.000Z
+Speed (m/s)
+0.00
+Pressure:
+6.57
+Alt2tude:
+164.50
+Temperature:
+24.62
+End
+Fix:N
+Date/Time:
+2014-12-12T16:43:29.000Z
+Speed (m/s)
+0.00
+Pressure:
+6.58
+Alt2tude:
+164.25
+Temperature:
+24.62
+End
+Fix:N
+Date/Time:
+2014-12-12T16:43:31.000Z
+Speed (m/s)
+0.00
+Pressure:
+6.58
+Alt2tude:
+164.56
+Temperature:
+24.62
+End
+Fix:N
+Date/Time:
+2014-12-12T16:43:33.000Z
+Speed (m/s)
+0.00
+Pressure:
+6.57
+Alt2tude:
+164.50
+Temperature:
+24.62
+End
+Fix:N
+Date/Time:
+2014-12-12T16:43:35.000Z
+Speed (m/s)
+0.00
+Pressure:
+6.57
+Alt2tude:
+164.38
+Temperature:
+24.62
+End
+Fix:N
+Date/Time:
+2014-12-12T16:43:37.000Z
+Speed (m/s)
+0.00
+Pressure:
+6.57
+Alt2tude:
+164.50
+Temperature:
+24.62
+End
+Fix:N
+Date/Time:
+2014-12-12T16:43:39.000Z
+Speed (m/s)
+0.00
+Pressure:
+6.57
+Alt2tude:
+164.13
+Temperature:
+24.69
+End
+Fix:N
+Date/Time:
+2014-12-12T16:43:41.000Z
+Speed (m/s)
+0.00
+Pressure:
+6.56
+Alt2tude:
+164.31
+Temperature:
+24.69
+End
+Fix:N
+Date/Time:
+2014-12-12T16:43:43.000Z
+Speed (m/s)
+0.00
+Pressure:
+6.56
+Alt2tude:
+164.25
+Temperature:
+24.69
+End
+Fix:N
+Date/Time:
+2014-12-12T16:43:45.000Z
+Speed (m/s)
+0.00
+Pressure:
+6.56
+Alt2tude:
+164.06
+Temperature:
+24.69
+End
+Fix:N
+Date/Time:
+2014-12-12T16:43:47.000Z
+Speed (m/s)
+0.00
+Pressure:
+6.57
+Alt2tude:
+164.13
+Temperature:
+24.69
+End
+Fix:N
+Date/Time:
+2014-12-12T16:43:49.000Z
+Alt2tude:
+161.75
+Temperature:
+17.94
+End
+Fix:Y
+Date/Time:
+2014-12-12T16:48:24.000Z
+Speed (m/s)
+0.34
+Pressure:
+6.47
+Date/Time:
+2014-12-12T16:48:26.000Z
+Speed (m/s)
+0.23
+Pressure:
+6.50
+Alt2tude:
+162.13
+Temperature:
+17.75
+End
+Fix:N
+Pressure:
+6.48
+Alt2tude:
+162.25
+Temperature:
+17.75
+End
+Fix:Y
+Date/Time:
+2014-12-12T16:48:30.000Z
+Speed (m/s)
+0.43
+Date/Time:
+2014-12-12T16:48:32.000Z
+Speed (m/s)
+0.36
+Pressure:
+6.49
+Alt2tude:
+162.06
+Temperature:
+17.69
+End
+Fix:Y
+Date/Time:
+2014-12-12T16:48:36.000Z
+Speed (m/s)
+0.51
+Date/Time:
+2014-12-12T16:48:38.000Z
+Speed (m/s)
+0.50
+Pressure:
+6.48
+Alt2tude:
+162.13
+Temperature:
+17 $26 = 0xB9
+
+End
+Fix:Y
+Date/Time:
+2014-12-12T16:48:43.000Z
+Speed (m/s)
+0.46
+Pressure:
+6.47
+Date/Time:
+2014-12-12T16:48:44.000Z
+Speed (m/s)
+0.49
+Pressure:
+6.49
+Alt2tude:
+161.88
+Temperature:
+17.31
+End
+Fix:Y
+Date/Time:
+2014-12-12T16:48:48.000Z
+Speed (m/s)
+0.44
+Pressure:
+6.47
+Date/Time:
+2014-12-12T16:48:51.000Z
+Speed (m/s)
+0.39
+Pressure:
+6.43
+Alt2tude:
+161.25
+Temperature:
+17
+
+End
+Fix:Y
+Date/Time:
+2014-12-12T16:48:55.000Z
+Speed (m/s)
+0.23
+Pressure:
+6.45

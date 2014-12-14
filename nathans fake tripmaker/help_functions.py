@@ -37,7 +37,7 @@ def timewriter(datime):
     year = decimalextender(datime[:signs_lst[0]])
     day = decimalextender(datime[signs_lst[0]+1:signs_lst[1]])
     month = decimalextender(datime[signs_lst[1]+1:signs_lst[2]])
-    hours = decimalextender(str(1+int(datime[signs_lst[2]+1:signs_lst[3]]))) #UTC+1
+    hours = decimalextender(datime[signs_lst[2]+1:signs_lst[3]])
     minutes = decimalextender(datime[signs_lst[3]+1:signs_lst[4]])
     seconds = decimalextender(datime[signs_lst[4]+1:])
     

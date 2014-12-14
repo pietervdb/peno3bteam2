@@ -1,0 +1,120 @@
+Fix:[1]
+Quality: [0]
+Date/Time: [14-12-12 16:0:8]
+Loc_x(GM):[50.864101409912109]
+Loc_y(GM):[4.679203033447265]
+Speed (m/s):[0.56]
+Angle: [346.62]
+Alt1tude: [0.00]
+Satellites: [0]
+C4
+Writing $26 = 0xB9
+Writing $13 = 0x7
+Writing $26 = 0x39
+Pressure: [6.41]
+Writing $26 = 0xB9
+Alt2tude: [160.25]
+Temperature: [15.31]
+Fix:[1]
+Quality: [0]
+Date/Time: [14-12-12 16:0:10]
+Loc_x(GM):[50.864101409912109]
+Loc_y(GM):[4.679213523864746]
+Speed (m/s):[0.26]
+Angle: [349.76]
+Fix:[0]
+Quality: [0]
+Date/Time: [0-0-0 0:0:0]
+Loc_x(GM):[0.000000000000000]
+Loc_y(GM):[0.000000000000000]
+Speed (m/s):[0.00]
+Angle: [0.00]
+Alt1tude: [0.00]
+Satellites: [0]
+C4
+Writing $26 = 0xB9
+Writing $13 = 0x7
+Writing $26 = 0x39
+Pressure: [6.39]
+Writing $26 = 0xB9
+Alt2tude: [160.00]
+Temperature: [15.19]
+Fix:[1]
+Quality: [0]
+Date/Time: [14-12-12 16:0:26]
+Loc_x(GM):[50.864128112792968]
+Loc_y(GM):[4.679263114929199]
+Speed (m/s):[0.30]
+Angle: [353.25]
+Alt1tude: [0.00]
+Satellites: [0]
+C4
+Writing $26 = 0xB9
+Writing $13 = 0x7
+Writing $26 = 0x39
+Pressure: [6.42]
+Writing $26 = 0xB9
+Alt2tude: [160.19]
+Temperature: [15.19]
+Fix:[1]
+Quality: [0]
+Date/Time: [14-12-12 16:0:28]
+Loc_x(GM):[50.864128112792968]
+Loc_y(GM):[4.679266452789306]
+Speed (m/s):[0.33]
+Angle: [8.38]
+Alt1tude: [0.00]
+Satellites: [0]
+C4
+Writing $26 = 0xB9
+Writing $13 = 0x7
+Writing $26 = 0x39
+Pressure: [6.41]
+Writing $26 = 0xB9
+Alt2tude: [159.94]
+Temperature: [15.19]
+Fix:[1]
+Quality: [0]
+Date/Time: [14-12-12 16:0:30]
+Loc_x(GM):[50.864120483398437]
+Loc_y(GM):[4.679265022277832]
+Speed (m/s):[0.32]
+Angle: [353.05]
+Alt1tude: [0.00]
+Satellites: [0]
+C4
+Writing $26 = 0xB9
+Writing $13 = 0x7
+Writing $26 = 0x39
+Pressure: [6.41]
+Writing $26 = 0xB9
+Alt2tude: [159.88]
+Temperature: [15.19]
+Fix:[1]
+Quality: [0]
+Date/Time: [14-12-12 16:0:32]
+Loc_x(GM):[50.864120483398437]
+Loc_y(GM):[4.679265022277832]
+Speed (m/s):[0.13]
+Angle: [353.05]
+Alt1tude: [0.00]
+Satellites: [0]
+C4
+Writing $26 = 0xB9
+Writing $13 = 0x7
+Writing $26 = 0x39
+Pressure: [6.40]
+Writing $26 = 0xB9
+Alt2tude: [160.00]
+Temperature: [15.13]
+Fix:[1]
+Quality: [0]
+Date/Time: [14-12-12 16:0:34]
+Loc_x(GM):[50.864112854003906]
+Loc_y(GM):[4.679261684417724]
+Speed (m/s):[0.26]
+Angle: [353.05]
+Alt1tude: [0.00]
+Satellites: [0]
+C4
+Writing $26 = 0xB9
