@@ -26,7 +26,7 @@ def split_data(line):
             break
         i+=1
         if i == len(line):
-            return [0,0]
+            return ['0','0']
     j=i
     while j<len(line):
         if line[j] == "]":
@@ -35,15 +35,19 @@ def split_data(line):
     data = line[i+1:j]
     if not line[:3] == 'Dat':
         if not is_number(data):
-            data = 0
+            data = '0'
     return [line[:i-1],data]
 
 def decimalextender(number):
     "converts one-digit numbers to two-digits: 1 -> 01, 5 -> 05, 10 -> 10"
-    if int(number) < 10:
-        return "0"+number
-    else:
-        return number
+    try:
+        int(number)
+        if int(number) < 10:
+            return "0"+number
+        else:
+            return number
+    except ValueError:
+        return '00'
 
 def find_signs(line):
     "Finds the signs and spaces in a line"

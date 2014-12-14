@@ -10,9 +10,10 @@ GPIO.setup(8,GPIO.OUT)
 GPIO.setup(11,GPIO.OUT)
 GPIO.output(8,False)
 GPIO.output(11,True)
-##GPIO.setup(,GPIO.OUT)
-##GPIO.setup(,GPIO.OUT)
-
+GPIO.setup(9,GPIO.OUT)
+GPIO.setup(25,GPIO.OUT)
+GPIO.output(9,False)
+GPIO.output(25, False)
 
 on = False
 
@@ -21,7 +22,7 @@ queue = []
 photonumber = 0
 print 'start'
 target = open('Data/gem_snelheid.txt','r')
-gem_speed = target.readline()
+gem_speed = float(target.readline()[0:-1])
 while True:
 
     if GPIO.input(7) == 1:
@@ -37,6 +38,7 @@ while True:
             GPIO.output(8,False)
             sent = False
             queue.append(tripnumber)
+            print queue
             time.sleep(1)
 
         else:
@@ -48,7 +50,7 @@ while True:
                     send_queue(queue)  #sends the queue
                     GPIO.output(8,False)
                     sent = True
-                queue = []
+                    queue = []
             else:
                 timer_last = time.time()
                 print 'aan'
@@ -62,15 +64,19 @@ while True:
                 save_arduino_raw(tripnumber)
     
     timer_current = time.time()
-    if on and (timer_current - timer_last > 5):
+    if on and (timer_current - timer_last > 10):
         print 'datapunt'
         snap(photonumber)  #takes picture
         photonumber += 1
-        speed = save_arduino_raw(tripnumber)  #saves arduino data
-##        if speed > gem_speed:
-##            GPIO.output(9,False)
-##            GPIO.output(25, True)
-##        else:
-##            GPIO.output(25,False)
-##            GPIO.output(9, True)
+        speed = float(save_arduino_raw(tripnumber))  #saves arduino data
+        print speed, gem_speed
+        if speed > gem_speed:
+            GPIO.output(9,False)
+            GPIO.output(25, True)
+        else:
+            GPIO.output(25,False)
+            GPIO.output(9, True)
+        save_arduino_raw(tripnumber)
+        save_arduino_raw(tripnumber)
+        save_arduino_raw(tripnumber)
         timer_last = time.time()

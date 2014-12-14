@@ -8,7 +8,7 @@ from saving import *
 import urllib2
 domain = 'dali.cs.kuleuven.be'
 port = 8080
-start = {'purpose':'batch-sender','groupID':'CWB2','userID':'r0369676'}
+start = {'purpose':'batch-sender','groupID':'cwb2','userID':'r0369676'}
 socketIO = SocketIO(domain,port)
 userID = "r0369676"
 groupID = "cwb2"
@@ -40,9 +40,9 @@ def send_data(tripnumber):
     process_raw_data(tripnumber)
     global tripID
     socketIO.on('server_message',on_response)
-    socketIO.wait(2)
+##    socketIO.wait(2)
     socketIO.emit('start',json.dumps(start),on_response)
-    socketIO.wait(2)
+##    socketIO.wait(2)
     
     read(tripnumber)
     start_time = find_time('start')
@@ -67,11 +67,14 @@ def send_data(tripnumber):
             
 def send_pictures(tripnumber):
     photo_lists = split_in(tripnumber,20)   #more/less? test!
-    fix_list = find_fix(True)
+    a,fix_list = find_fix(True)
     data_fix_list = []
     timestamp_list = find_data('Date/')
-    for fix in fix_list:
-        data_fix_list.append(int(float(fix)/24))
+    i=0
+    while i<len(fix_list):
+        if fix_list[i] == 'y':
+            data_fix_list.append(i)
+        i+=1
     i = 0
     for photo_list in photo_lists:
         socketIO.emit('endBikeTrip',json.dumps({"_id":tripID}),on_response) #is this required? also check socketIO.wait(x)

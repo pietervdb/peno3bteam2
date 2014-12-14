@@ -37,22 +37,26 @@ def find_fix(answer=False):
                 fix_on.append(i)
         i += 1
     if answer:
-        return fix_on
+        return fix_on,fix
     
 def find_time(st):
     "finds start/stop time"
+    b = len(fix)-1
+    a = 0
     if len(fix_on)==0:
             return None
     else:
         dates = find_data("Date/")
         if st == 'start':
-            for a in fix:
+            while a < b:
                 if fix[a] == 'y':
                     return dates[a]
+                a+=1
         elif st == 'stop':
-            for b in reversed(fix):
+            while b >=0:
                 if fix[b] == 'N':
                     return dates[b]
+                b-=1
 
 
 def data_position(first_five):
@@ -72,23 +76,23 @@ def find_gps_data(first_five):
     if first_five == "Date/":
         for i in fix_on:
             j = 1
-            while j < step:
+            while j < (len(lines_list) - i):
                 if lines_list[i+j][:3] == "Fix":
                     break
                 elif lines_list[i+j][:5] == first_five:
-                    data_list.append(lines_list[i+position][:-1])
+                    data_list.append(lines_list[i+j+1][:-1])
                 j += 1
                 
     else:
         for i in fix_on:
             j = 1
-            while j < step:
+            while j < (len(lines_list) - i):
                 if lines_list[i+j][:3] == "Fix":
                     break
                 elif lines_list[i+j][:5] == first_five:
-                    data_list.append(float(lines_list[i+position][:-1]))
+                    data_list.append(float(lines_list[i+j+1][:-1]))
                 j += 1
-                
+    print data_list
     return data_list
 
 def find_data(first_five):
@@ -106,7 +110,6 @@ def find_data(first_five):
             if lines_list[i][:5] == first_five:
                 data_list.append(float(lines_list[i+1][:-1]))
             i += 1
-        
     return data_list
 
 def compose_gps_coordinates():
@@ -126,16 +129,19 @@ def make_data_list():
     gps_coordinates = compose_gps_coordinates()
     timestamp_gps_list = find_gps_data('Date/')
     speed_list = find_gps_data('Speed')
-##    update_speed(speed_list)
+    if len(speed_list) > 0:
+        update_speed(speed_list)
     shortest1 = len(fix_on)
     if len(gps_coordinates) < shortest1:
         shortest1 = len(gps_coordinates)
     if len(timestamp_gps_list) < shortest1:
         shortest1 = len(timestamp_gps_list)
     if len(speed_list) < shortest1:
-        shortest1 = len(speed_list) 
+        shortest1 = len(speed_list)
+        print 'gps' , gps_coordinates
+        print 'time' , timestamp_gps_list
+        print 'speed' , speed_list
     for i in range(len(gps_coordinates)):
-        print i , gps_coordinates[i]
         datalist.append({'sensorID':1,'timestamp':timestamp_gps_list[i],'data': [{'type':'Point',\
                                     'coordinates':gps_coordinates[i],'unit':'google','speed':[speed_list[i]]}]})
     #barometer
@@ -147,9 +153,10 @@ def make_data_list():
         shortest2 = len(pressure_list)
     if len(alt2tude_list) < shortest2:
         shortest2 = len(alt2tude_list) 
-
+    print 'pres' , pressure_list
+    print 'alt' , alt2tude_list
+    print 'temp' , temperature_list
     time_point = 0
-    print fix , shortest2
     for i in range(shortest2):
         if fix[i]=='y' and time_point < shortest1:
             datalist.append({'sensorID':10, 'timestamp':timestamp_gps_list[time_point],'data': [{'pressure':[pressure_list[i]],\
@@ -159,8 +166,8 @@ def make_data_list():
         else:
             datalist.append({'sensorID':10,'data': [{'pressure':[pressure_list[i]],\
                                     'temperature':[temperature_list[i]],'height':[alt2tude_list[i]]}]})
-
-    return datalist , speed_list
+    print shortest1 , shortest2
+    return datalist
 
 def make_meta_dict():
     global fix_on
