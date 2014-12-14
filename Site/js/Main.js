@@ -175,8 +175,14 @@ function main(){
         var unitselection = $('input[name=unitradio]:checked', '#unitform').val().split(" ");
         UNITSPEED = unitselection[1];
         UNITDIST = unitselection[2];
+        UNITMULTIPLIER = unitselection[0];
+        UNITMULTIPLIERDIST = (UNITMULTIPLIER == 3.6)? 1000 : 1;
         $("#distfilter").children(".dis").prop('placeholder', UNITDIST);
         $("#speedfilter").children(".spe").prop('placeholder', UNITSPEED);
+
+        deleteTripInfo();
+        lapse.getter.ExtractData(TripInfo);
+
     });
     $('#serverform').find('.server').change(function(){
         server = $('input[name=serverradio]:checked', '#serverform').val();
@@ -205,8 +211,7 @@ function main(){
 
         spinner();
         var unitselection = $('input[name=unitradio]:checked', '#unitform').val().split(" ");
-        UNITMULTIPLIER = unitselection[0];
-        UNITMULTIPLIERDIST = (UNITMULTIPLIER == 3.6)? 1000 : 1;
+
 
         SetDates();
         SetSpeed();
@@ -576,7 +581,6 @@ function drawAverageMaxChart() {
         'containerId': 'chart_div',
         'options': {
             'legend': 'top',
-//            'title': 'Average Speed',
             'backgroundColor': '#dcdcdc',
             'vAxis': {
                 viewWindowMode:'explicit'
@@ -976,10 +980,9 @@ function map(json) {
 
     (function GetDistance(){
         var dist = json.distance;
-        //var dist = google.maps.geometry.spherical.computeLength(GMCoordinates);
 
         if (dist > 1000){
-            dist = parseFloat((dist/1000).toFixed(1));
+            dist = parseFloat((dist/1000).toFixed(2));
             $("<p class='tripdata'>").text(dist + " km").appendTo($("#DIST"));
         }
         else {

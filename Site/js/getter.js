@@ -95,7 +95,7 @@ lapse.getter = (function() {
 
 
     function ExtractAverageMax(json){
-        averagemax = [['Trip', 'Average Speed', 'Maximum Speed']];
+        averagemax = [['Trip', 'Average Speed (' + UNITSPEED + ')', 'Maximum Speed (' + UNITSPEED + ')']];
         $.each(json, function(i, v) {
             var currentDate = v.startTime;
             var C = v.sensorData;
@@ -140,6 +140,7 @@ lapse.getter = (function() {
 
         var C = json.sensorData;
         var timelapseid = $("#timelapse");
+        console.log(UNITMULTIPLIER);
         $.each(C,function() {
             switch (this.sensorID) {
                 case GPS: //coordinaten
@@ -147,6 +148,7 @@ lapse.getter = (function() {
                         ToolTipData.Timestamp.push(this.timestamp);
                         if (this.data[0].speed){
                             var sp = parseFloat((this.data[0].speed[0]*UNITMULTIPLIER).toFixed(2));
+                            console.log(sp);
                             speeddataDual.push(sp);
                             ToolTipData.Speed.push(sp);
                         }
@@ -231,7 +233,8 @@ lapse.getter = (function() {
         Sort:Sort,
         GroupData:GroupData,
         ExtractAverageMax:ExtractAverageMax,
-        ExtractTrip:ExtractTrip
+        ExtractTrip:ExtractTrip,
+        ExtractData:ExtractData
     };
 
 })();
