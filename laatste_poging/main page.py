@@ -62,6 +62,9 @@ while True:
                 snap(0)
                 photonumber = 1
                 save_arduino_raw(tripnumber)
+                save_arduino_raw(tripnumber)
+                save_arduino_raw(tripnumber)
+                save_arduino_raw(tripnumber)
     
     timer_current = time.time()
     if on and (timer_current - timer_last > 10):
@@ -76,7 +79,25 @@ while True:
         else:
             GPIO.output(25,False)
             GPIO.output(9, True)
-        save_arduino_raw(tripnumber)
-        save_arduino_raw(tripnumber)
-        save_arduino_raw(tripnumber)
+        speed = float(save_arduino_raw(tripnumber))
+        if speed > gem_speed:
+            GPIO.output(9,False)
+            GPIO.output(25, True)
+        else:
+            GPIO.output(25,False)
+            GPIO.output(9, True)
+        speed = float(save_arduino_raw(tripnumber))
+        if speed > gem_speed:
+            GPIO.output(9,False)
+            GPIO.output(25, True)
+        else:
+            GPIO.output(25,False)
+            GPIO.output(9, True)
+        speed = float(save_arduino_raw(tripnumber))
+        if speed > gem_speed:
+            GPIO.output(9,False)
+            GPIO.output(25, True)
+        else:
+            GPIO.output(25,False)
+            GPIO.output(9, True)
         timer_last = time.time()

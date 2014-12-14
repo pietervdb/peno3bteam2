@@ -14,7 +14,6 @@ userID = "r0369676"
 groupID = "cwb2"
 answer = 0
 tripID = ''
-print 'checked'
 def connected2():
     "checks whether the pi is connected tot the internet"
     try:
@@ -24,7 +23,6 @@ def connected2():
         return False
 
 
-print 'checked2'
 def on_response(*args):
     global answer
     print 'server message is',args
@@ -40,9 +38,9 @@ def send_data(tripnumber):
     process_raw_data(tripnumber)
     global tripID
     socketIO.on('server_message',on_response)
-##    socketIO.wait(2)
+    socketIO.wait(2)
     socketIO.emit('start',json.dumps(start),on_response)
-##    socketIO.wait(2)
+    socketIO.wait(2)
     
     read(tripnumber)
     start_time = find_time('start')
@@ -60,6 +58,9 @@ def send_data(tripnumber):
                     'groupID':groupID,'startTime':start_time,\
                     'endTime':end_time,'sensorData':datalist,\
                     'meta':meta_dict}]),on_response)
+        print datalist
+                     
+        
     socketIO.wait(5)
     tripID = str(answer[0][u'_id'])
     print 'send pictures'
@@ -75,7 +76,7 @@ def send_pictures(tripnumber):
         if fix_list[i] == 'y':
             data_fix_list.append(i)
         i+=1
-    i = 0
+    i = 1
     for photo_list in photo_lists:
         socketIO.emit('endBikeTrip',json.dumps({"_id":tripID}),on_response) #is this required? also check socketIO.wait(x)
         socketIO.wait(2)
@@ -87,6 +88,14 @@ def send_pictures(tripnumber):
             
             if i in data_fix_list:
                 photodata = json.dumps({"imageName" : "foto"+str(i+1)+".jpg", "tripID" : tripID, "userID" : "r0369676", "raw" : file, "timestamp" : timestamp_list[i]})
+            elif i+1 in data_fix_list:
+                photodata = json.dumps({"imageName" : "foto"+str(i+1)+".jpg", "tripID" : tripID, "userID" : "r0369676", "raw" : file, "timestamp" : timestamp_list[i+1]})  
+            elif i+2 in data_fix_list:
+                photodata = json.dumps({"imageName" : "foto"+str(i+1)+".jpg", "tripID" : tripID, "userID" : "r0369676", "raw" : file, "timestamp" : timestamp_list[i+2]})  
+            elif i+3 in data_fix_list:
+                photodata = json.dumps({"imageName" : "foto"+str(i+1)+".jpg", "tripID" : tripID, "userID" : "r0369676", "raw" : file, "timestamp" : timestamp_list[i+3]})  
+
+
             else:
                 photodata = json.dumps({"imageName" : "foto"+str(i+1)+".jpg", "tripID" : tripID, "userID" : "r0369676", "raw" : file})
                 
@@ -95,8 +104,9 @@ def send_pictures(tripnumber):
             r = requests.post(url, data = photodata, headers = headers)
             socketIO.emit('rt-sensordata', photodata,on_response)
             socketIO.wait(0.2)
-            print "image",i
-            i += 1
+            print "image",(i-2)/4
+            i += 4
+
 
 def split_in(tripnumber,number=10):
     "split in sublists for sending purposes"
