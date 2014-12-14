@@ -119,8 +119,11 @@ def compose_gps_coordinates():
     for j in y:
         if j == 0.0:
             y.remove(j)
-    data_list = []
-    for i in range(len(y)):
+    a = len(x)
+    data_list =[]
+    if len(y)<a:
+        a = len(y)
+    for i in range(a):
         data_list.append([x[i],y[i]])
     return data_list
 
