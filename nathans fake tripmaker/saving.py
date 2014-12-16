@@ -2,19 +2,34 @@ import serial
 import time
 from help_functions import *
 arduino = serial.Serial('COM7',9600)
-whitelist2 = ['Locat','Speed','Alt2t','Press','Tempe']
+whitelist = ['Locat','Speed','Alt2t','Press','Tempe']
 ##EDIT######
 ##step: 24 => 18
 ##find_time(st) 4 => 2 (2 times)
-
+def save_arduinotje(tripnumber):
+    textfile = 'Data/'+tripnumber+'.txt'
+    target = open(textfile,'a')
+    i = 0
+    while i < 30:
+        a = arduino.readline()
+        print a
+        target.write(a)
+        
+        target.write("\n")
+        i += 1
+    target.write("END")
+    target.write("\n")
+        
 def save_trip(tripnumber):
     i = 0
     a = time.time()
-    save_arduino(tripnumber,True)
+    save_arduinotje(tripnumber)
     while True:
         if time.time() - a >= 3:
-            save_arduino(tripnumber, False)
+            save_arduinotje(tripnumber)
+            print "##################################################"
             print "datapunt:",i
+            print "##################################################"
             i += 1
             a = time.time()
         
@@ -50,7 +65,7 @@ def save_arduino(tripnumber,first_time):
             first = intro + '\n'
             second = correct_datime + '\n'
             
-        elif line[:3] in whitelist: #line[:5] in whitelist2 (geen alt1, angle, sat#, quality)
+        elif line[:5] in whitelist: #line[:5] in whitelist2 (geen alt1, angle, sat#, quality)
             [intro, data] = split_data(line)
             first = intro + '\n'
             second = data + '\n'

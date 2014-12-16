@@ -1,0 +1,196 @@
+Fix:[0]
+
+Quality: [0]
+
+Date/Time: [0-0-0 0:0:1]
+
+Loc_x(GM):[0.000000000000000]
+
+Loc_y(GM):[0.000000000000000]
+
+Speed (m/s):[0.00]
+
+Angle: [0.00]
+
+Alt1tude: [0.00]
+
+Satellites: [0]
+
+C4
+
+Writing $26 = 0xB9
+
+Writing $13 = 0x7
+
+Writing $26 = 0x39
+
+Pressure: [6.36]
+
+Writing $26 = 0xB9
+
+Alt2tude: [159.19]
+
+Temperature: [14.88]
+
+Fix:[1]
+
+Quality: [0]
+
+Date/Time: [14-12-12 16:1:27]
+
+Loc_x(GM):[50.864151000976562]
+
+Loc_y(GM):[4.679218292236328]
+
+Speed (m/s):[0.45]
+
+Angle: [355.53]
+
+END
+Alt1tude: [0.00]
+
+Satellites: [0]
+
+C4
+
+Writing $26 = 0xB9
+
+Writing $13 = 0x7
+
+Writing $26 = 0x39
+
+Pressure: [6.37]
+
+Writing $26 = 0xB9
+
+Alt2tude: [159.25]
+
+Temperature: [14.88]
+
+Fix:[1]
+
+Quality: [0]
+
+Date/Time: [14-12-12 16:1:28]
+
+Loc_x(GM):[50.864158630371093]
+
+Loc_y(GM):[4.679213523864746]
+
+Speed (m/s):[0.56]
+
+Angle: [337.08]
+
+Alt1tude: [0.00]
+
+Satellites: [0]
+
+C4
+
+Writing $26 = 0xB9
+
+Writing $13 = 0x7
+
+Writing $26 = 0x39
+
+Pressure: [6.39]
+
+END
+Writing $26 = 0xB9
+
+Alt2tude: [159.50]
+
+Temperature: [14.88]
+
+Fix:[1]
+
+Quality: [0]
+
+Date/Time: [14-12-12 16:1:31]
+
+Loc_x(GM):[50.864158630371093]
+
+Loc_y(GM):[4.679209709167480]
+
+Speed (m/s):[0.98]
+
+Angle: [336.82]
+
+Alt1tude: [0.00]
+
+Satellites: [0]
+
+C4
+
+Writing $26 = 0xB9
+
+Writing $13 = 0x7
+
+Writing $26 = 0x39
+
+Pressure: [6.39]
+
+Writing $26 = 0xB9
+
+Alt2tude: [159.56]
+
+Temperature: [14.81]
+
+Fix:[1]
+
+Quality: [0]
+
+Date/Time: [14-12-12 16:1:32]
+
+Loc_x(GM):[50.864158630371093]
+
+END
+Loc_y(GM):[4.679208278656005]
+
+Speed (m/s):[0.81]
+
+Angle: [323.31]
+
+Alt1tude: [0.00]
+
+Satellites: [0]
+
+C4
+
+Writing $26 = 0xB9
+
+Writing $13 = 0x7
+
+Writing $26 = 0x39
+
+Pressure: [6.37]
+
+Writing $26 = 0xB9
+
+Alt2tude: [159.38]
+
+Temperature: [14.81]
+
+Fix:[1]
+
+Quality: [0]
+
+Date/Time: [14-12-12 16:1:35]
+
+Loc_x(GM):[50.864158630371093]
+
+Loc_y(GM):[4.679206371307373]
+
+Speed (m/s):[0.60]
+
+Angle: [323.27]
+
+Alt1tude: [0.00]
+
+Satellites: [0]
+
+C4
+
+Writing $26 = 0xB9
+
+END

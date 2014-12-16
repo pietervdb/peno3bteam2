@@ -18,16 +18,17 @@ def save_arduino_raw(tripnumber):
     text = 'Data/'+tripnumber+'raw.txt'
     target = open(text,'a')
     stop = False
+    speed = 0
     while not stop:
         line = arduino.readline()
         print line
         target.write(line)
-##        if line[0] == 'S':
-##            a , speed = split_data(line)
+        if line[0:2] == 'Sp':
+            a , speed = split_data(line)
         if line[0]=='T':
             target.close()
             stop = True
-##    return speed
+    return speed
 
 def connected():
     try:
@@ -44,6 +45,7 @@ def process_raw_data(tripnumber):
     raw_lijnen_lijst = target2.readlines()
     last = ''
     first = ''
+    target.write('Fix:N/n')
     for line in raw_lijnen_lijst:
         if line[:3] == 'Fix':
             if line[4:7] == '[1]':
@@ -54,7 +56,7 @@ def process_raw_data(tripnumber):
         
         if line[:3] == 'Dat':
             [intro, datime] = split_data(line)
-            correct_datime = timewriter(datime)                         
+            correct_datime = timewriter(datime)
             first = intro + '\n'
             second = correct_datime + '\n'
         elif line[:3] in whitelist: #line[:5] in whitelist2 (geen alt1, angle, sat#, quality)

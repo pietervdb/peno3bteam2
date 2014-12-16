@@ -1,0 +1,2655 @@
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:2:39] 
+Loc_x(GM):[50.864151000976562] 
+Loc_y(GM):[4.679233551025390] 
+Speed (m/s):[0.38] 
+Angle: [167.38] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [159.38] 
+Temperature: [14.56] 
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:2:40] 
+Loc_x(GM):[50.864143371582031] 
+Loc_y(GM):[4.679239749908447] 
+Speed (m/s):[0.86] 
+Angle: [165.16] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+END
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [159.13] 
+Temperature: [14.56] 
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:2:43] 
+Loc_x(GM):[50.864135742187500] 
+Loc_y(GM):[4.679241180419921] 
+Speed (m/s):[0.19] 
+Angle: [163.28] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.39] 
+Writing $26 = 0xB9 
+Alt2tude: [159.50] 
+Temperature: [14.56] 
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:2:44] 
+Loc_x(GM):[50.864135742187500] 
+Loc_y(GM):[4.679247856140136] 
+Speed (m/s):[0.20] 
+Angle: [163.28] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+END
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.41] 
+Writing $26 = 0xB9 
+Alt2tude: [160.06] 
+Temperature: [14.56] 
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:2:47] 
+Loc_x(GM):[50.864135742187500] 
+Loc_y(GM):[4.679253101348876] 
+Speed (m/s):[0.06] 
+Angle: [163.28] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.42] 
+Writing $26 = 0xB9 
+Alt2tude: [160.19] 
+Temperature: [14.50] 
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:2:48] 
+Loc_x(GM):[50.864135742187500] 
+Loc_y(GM):[4.679251670837402] 
+END
+Speed (m/s):[0.17] 
+Angle: [163.28] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.42] 
+Writing $26 = 0xB9 
+Alt2tude: [160.25] 
+Temperature: [14.50] 
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:2:51] 
+Loc_x(GM):[50.864135742187500] 
+Loc_y(GM):[4.679247856140136] 
+Speed (m/s):[0.09] 
+Angle: [163.28] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.40] 
+Writing $26 = 0xB9 
+Alt2tude: [160.00] 
+Temperature: [14.50] 
+Fix:[1] 
+END
+Quality: [0] 
+Date/Time: [14-12-12 16:2:52] 
+Loc_x(GM):[50.864135742187500] 
+Loc_y(GM):[4.679246425628662] 
+Speed (m/s):[0.17] 
+Angle: [163.28] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.39] 
+Writing $26 = 0xB9 
+Alt2tude: [159.81] 
+Temperature: [14.44] 
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:2:55] 
+Loc_x(GM):[50.864143371582031] 
+Loc_y(GM):[4.679244995117187] 
+Speed (m/s):[1.08] 
+Angle: [4.56] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.38] 
+END
+Writing $26 = 0xB9 
+Alt2tude: [159.38] 
+Temperature: [14.44] 
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:2:56] 
+Loc_x(GM):[50.864151000976562] 
+Loc_y(GM):[4.679246425628662] 
+Speed (m/s):[1.69] 
+Angle: [8.08] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.38] 
+Writing $26 = 0xB9 
+Alt2tude: [159.25] 
+Temperature: [14.44] 
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:2:59] 
+Loc_x(GM):[50.864170074462890] 
+Loc_y(GM):[4.679231643676757] 
+Speed (m/s):[1.39] 
+Angle: [334.28] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+END
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [159.06] 
+Temperature: [14.44] 
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:3:0] 
+Loc_x(GM):[50.864185333251953] 
+Loc_y(GM):[4.679234981536865] 
+Speed (m/s):[0.94] 
+Angle: [336.70] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [158.75] 
+Temperature: [14.44] 
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:3:3] 
+Loc_x(GM):[50.864192962646484] 
+Loc_y(GM):[4.679236888885498] 
+Speed (m/s):[0.72] 
+END
+Angle: [352.18] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [159.25] 
+Temperature: [14.38] 
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:3:4] 
+Loc_x(GM):[50.864215850830078] 
+Loc_y(GM):[4.679221630096435] 
+Speed (m/s):[0.73] 
+Angle: [351.42] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [159.13] 
+Temperature: [14.38] 
+Fix:[1] 
+Quality: [0] 
+END
+Date/Time: [14-12-12 16:3:7] 
+Loc_x(GM):[50.864234924316406] 
+Loc_y(GM):[4.679231643676757] 
+Speed (m/s):[0.77] 
+Angle: [11.88] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.35] 
+Writing $26 = 0xB9 
+Alt2tude: [160.06] 
+Temperature: [14.38] 
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:3:8] 
+Loc_x(GM):[50.864242553710937] 
+Loc_y(GM):[4.679238319396972] 
+Speed (m/s):[0.96] 
+Angle: [20.57] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.41] 
+Writing $26 = 0xB9 
+END
+Alt2tude: [159.31] 
+Temperature: [14.38] 
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:3:11] 
+Loc_x(GM):[50.864250183105468] 
+Loc_y(GM):[4.679243564605712] 
+Speed (m/s):[0.68] 
+Angle: [18.33] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.38] 
+Writing $26 = 0xB9 
+Alt2tude: [158.75] 
+Temperature: [14.38] 
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:3:12] 
+Loc_x(GM):[50.864250183105468] 
+Loc_y(GM):[4.679234981536865] 
+Speed (m/s):[0.98] 
+Angle: [349.48] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+END
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.38] 
+Writing $26 = 0xB9 
+Alt2tude: [159.13] 
+Temperature: [14.31] 
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:3:15] 
+Loc_x(GM):[50.864250183105468] 
+Loc_y(GM):[4.679238319396972] 
+Speed (m/s):[0.79] 
+Angle: [9.81] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.39] 
+Writing $26 = 0xB9 
+Alt2tude: [159.19] 
+Temperature: [14.31] 
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:3:16] 
+Loc_x(GM):[50.864257812500000] 
+Loc_y(GM):[4.679239749908447] 
+Speed (m/s):[1.55] 
+Angle: [4.20] 
+END
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.38] 
+Writing $26 = 0xB9 
+Alt2tude: [159.56] 
+Temperature: [14.31] 
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:3:19] 
+Loc_x(GM):[50.864265441894531] 
+Loc_y(GM):[4.679261684417724] 
+Speed (m/s):[1.20] 
+Angle: [9.72] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.39] 
+Writing $26 = 0xB9 
+Alt2tude: [160.44] 
+Temperature: [14.31] 
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:3:20] 
+END
+Loc_x(GM):[50.864234924316406] 
+Loc_y(GM):[4.679195404052734] 
+Speed (m/s):[0.97] 
+Angle: [302.34] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.37] 
+Writing $26 = 0xB9 
+Alt2tude: [159.81] 
+Temperature: [14.31] 
+Fix:[1] 
+Quality: [0] 
+Date/Time: [14-12-12 16:3:23] 
+Loc_x(GM):[50.864208221435546] 
+Loc_y(GM):[4.679166793823242] 
+Speed (m/s):[1.98] 
+Angle: [261.34] 
+Alt1tude: [0.00] 
+Satellites: [0] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.39] 
+Writing $26 = 0xB9 
+Alt2tude: [160.50] 
+END
+Temperature: [14.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:3:26] 
+Loc_x(GM):[50.864170074462890] 
+Loc_y(GM):[4.679114818572998] 
+Speed (m/s):[1.98] 
+Angle: [261.34] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.39] 
+Writing $26 = 0xB9 
+Alt2tude: [160.06] 
+Temperature: [14.31] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:3:28] 
+Loc_x(GM):[50.864151000976562] 
+Loc_y(GM):[4.679063320159912] 
+Speed (m/s):[2.66] 
+Angle: [242.84] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+END
+Writing $26 = 0x39 
+Pressure: [6.42] 
+Writing $26 = 0xB9 
+Alt2tude: [159.88] 
+Temperature: [14.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:3:30] 
+Loc_x(GM):[50.864128112792968] 
+Loc_y(GM):[4.678986549377441] 
+Speed (m/s):[3.65] 
+Angle: [246.97] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.40] 
+Writing $26 = 0xB9 
+Alt2tude: [159.75] 
+Temperature: [14.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:3:32] 
+Loc_x(GM):[50.864112854003906] 
+Loc_y(GM):[4.678879737854003] 
+Speed (m/s):[4.47] 
+Angle: [248.68] 
+Alt1tude: [3.80] 
+END
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.41] 
+Writing $26 = 0xB9 
+Alt2tude: [161.63] 
+Temperature: [14.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:3:34] 
+Loc_x(GM):[50.864070892333984] 
+Loc_y(GM):[4.678756713867187] 
+Speed (m/s):[5.03] 
+Angle: [250.72] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.42] 
+Writing $26 = 0xB9 
+Alt2tude: [160.38] 
+Temperature: [14.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:3:36] 
+Loc_x(GM):[50.864006042480468] 
+END
+Loc_y(GM):[4.678641796112060] 
+Speed (m/s):[5.32] 
+Angle: [241.83] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.40] 
+Writing $26 = 0xB9 
+Alt2tude: [160.50] 
+Temperature: [14.19] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:3:38] 
+Loc_x(GM):[50.863964080810546] 
+Loc_y(GM):[4.678499698638916] 
+Speed (m/s):[5.34] 
+Angle: [243.33] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.42] 
+Writing $26 = 0xB9 
+Alt2tude: [159.94] 
+Temperature: [14.19] 
+END
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:3:40] 
+Loc_x(GM):[50.863941192626953] 
+Loc_y(GM):[4.678363800048828] 
+Speed (m/s):[4.53] 
+Angle: [242.02] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.38] 
+Writing $26 = 0xB9 
+Alt2tude: [160.06] 
+Temperature: [14.19] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:3:42] 
+Loc_x(GM):[50.863941192626953] 
+Loc_y(GM):[4.678266525268554] 
+Speed (m/s):[2.06] 
+Angle: [245.99] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+END
+Pressure: [6.43] 
+Writing $26 = 0xB9 
+Alt2tude: [159.50] 
+Temperature: [14.19] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:3:44] 
+Loc_x(GM):[50.863964080810546] 
+Loc_y(GM):[4.678213596343994] 
+Speed (m/s):[2.81] 
+Angle: [254.84] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.39] 
+Writing $26 = 0xB9 
+Alt2tude: [160.38] 
+Temperature: [14.19] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:3:46] 
+Loc_x(GM):[50.864028930664062] 
+Loc_y(GM):[4.678131580352783] 
+Speed (m/s):[4.84] 
+Angle: [265.20] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+END
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.40] 
+Writing $26 = 0xB9 
+Alt2tude: [159.56] 
+Temperature: [14.19] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:3:48] 
+Loc_x(GM):[50.864093780517578] 
+Loc_y(GM):[4.678066253662109] 
+Speed (m/s):[4.94] 
+Angle: [275.93] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.38] 
+Writing $26 = 0xB9 
+Alt2tude: [159.56] 
+Temperature: [14.13] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:3:50] 
+Loc_x(GM):[50.864151000976562] 
+Loc_y(GM):[4.678034782409667] 
+END
+Speed (m/s):[4.60] 
+Angle: [314.40] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.38] 
+Writing $26 = 0xB9 
+Alt2tude: [159.88] 
+Temperature: [14.13] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:3:52] 
+Loc_x(GM):[50.864192962646484] 
+Loc_y(GM):[4.677925109863281] 
+Speed (m/s):[4.48] 
+Angle: [284.18] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.40] 
+Writing $26 = 0xB9 
+Alt2tude: [159.81] 
+Temperature: [14.13] 
+Fix:[1] 
+END
+Quality: [1] 
+Date/Time: [14-12-12 16:3:54] 
+Loc_x(GM):[50.864208221435546] 
+Loc_y(GM):[4.677786827087402] 
+Speed (m/s):[4.68] 
+Angle: [275.29] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.42] 
+Writing $26 = 0xB9 
+Alt2tude: [159.94] 
+Temperature: [14.13] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:3:56] 
+Loc_x(GM):[50.864200592041015] 
+Loc_y(GM):[4.677655220031738] 
+Speed (m/s):[3.81] 
+Angle: [254.03] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.41] 
+END
+Writing $26 = 0xB9 
+Alt2tude: [160.00] 
+Temperature: [14.13] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:3:58] 
+Loc_x(GM):[50.864143371582031] 
+Loc_y(GM):[4.677566528320312] 
+Speed (m/s):[4.19] 
+Angle: [208.35] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.41] 
+Writing $26 = 0xB9 
+Alt2tude: [159.69] 
+Temperature: [14.06] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:0] 
+Loc_x(GM):[50.864086151123046] 
+Loc_y(GM):[4.677491664886474] 
+Speed (m/s):[3.72] 
+Angle: [188.76] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+END
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.40] 
+Writing $26 = 0xB9 
+Alt2tude: [159.19] 
+Temperature: [14.06] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:2] 
+Loc_x(GM):[50.863998413085937] 
+Loc_y(GM):[4.677474975585937] 
+Speed (m/s):[4.98] 
+Angle: [181.15] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [159.81] 
+Temperature: [14.06] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:4] 
+Loc_x(GM):[50.863883972167968] 
+Loc_y(GM):[4.677456855773925] 
+Speed (m/s):[6.10] 
+END
+Angle: [183.28] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.43] 
+Writing $26 = 0xB9 
+Alt2tude: [161.25] 
+Temperature: [14.06] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:6] 
+Loc_x(GM):[50.863761901855468] 
+Loc_y(GM):[4.677390098571777] 
+Speed (m/s):[6.29] 
+Angle: [188.70] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.49] 
+Writing $26 = 0xB9 
+Alt2tude: [162.75] 
+Temperature: [14.06] 
+Fix:[1] 
+Quality: [1] 
+END
+Date/Time: [14-12-12 16:4:8] 
+Loc_x(GM):[50.863670349121093] 
+Loc_y(GM):[4.677266597747802] 
+Speed (m/s):[5.55] 
+Angle: [195.52] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.60] 
+Writing $26 = 0xB9 
+Alt2tude: [165.44] 
+Temperature: [14.06] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:10] 
+Loc_x(GM):[50.863624572753906] 
+Loc_y(GM):[4.677146434783935] 
+Speed (m/s):[4.28] 
+Angle: [204.53] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.56] 
+Writing $26 = 0xB9 
+END
+Alt2tude: [163.00] 
+Temperature: [14.00] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:12] 
+Loc_x(GM):[50.863590240478515] 
+Loc_y(GM):[4.677030086517333] 
+Speed (m/s):[4.46] 
+Angle: [213.59] 
+Alt1tude: [3.80] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.55] 
+Writing $26 = 0xB9 
+Alt2tude: [162.13] 
+Temperature: [14.06] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:15] 
+Loc_x(GM):[50.863548278808593] 
+Loc_y(GM):[4.676859855651855] 
+Speed (m/s):[4.46] 
+Angle: [213.59] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+END
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.60] 
+Writing $26 = 0xB9 
+Alt2tude: [165.63] 
+Temperature: [14.00] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:16] 
+Loc_x(GM):[50.863517761230468] 
+Loc_y(GM):[4.676746368408203] 
+Speed (m/s):[4.05] 
+Angle: [232.16] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.62] 
+Writing $26 = 0xB9 
+Alt2tude: [161.69] 
+Temperature: [14.00] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:19] 
+Loc_x(GM):[50.863502502441406] 
+Loc_y(GM):[4.676648616790771] 
+Speed (m/s):[3.51] 
+Angle: [261.24] 
+END
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.48] 
+Writing $26 = 0xB9 
+Alt2tude: [161.00] 
+Temperature: [14.00] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:20] 
+Loc_x(GM):[50.863483428955078] 
+Loc_y(GM):[4.676551818847656] 
+Speed (m/s):[3.91] 
+Angle: [256.89] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.46] 
+Writing $26 = 0xB9 
+Alt2tude: [161.50] 
+Temperature: [13.94] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:22] 
+END
+Loc_x(GM):[50.863483428955078] 
+Loc_y(GM):[4.676499843597412] 
+Speed (m/s):[3.93] 
+Angle: [255.89] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.45] 
+Writing $26 = 0xB9 
+Alt2tude: [161.00] 
+Temperature: [13.94] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:24] 
+Loc_x(GM):[50.863468170166015] 
+Loc_y(GM):[4.676381587982177] 
+Speed (m/s):[4.48] 
+Angle: [253.13] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.45] 
+Writing $26 = 0xB9 
+Alt2tude: [161.63] 
+END
+Temperature: [13.94] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:26] 
+Loc_x(GM):[50.863452911376953] 
+Loc_y(GM):[4.676253318786621] 
+Speed (m/s):[4.81] 
+Angle: [252.92] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.48] 
+Writing $26 = 0xB9 
+Alt2tude: [161.94] 
+Temperature: [13.94] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:28] 
+Loc_x(GM):[50.863418579101562] 
+Loc_y(GM):[4.676128387451171] 
+Speed (m/s):[4.62] 
+Angle: [253.46] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+END
+Writing $26 = 0x39 
+Pressure: [6.46] 
+Writing $26 = 0xB9 
+Alt2tude: [161.06] 
+Temperature: [13.94] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:30] 
+Loc_x(GM):[50.863368988037109] 
+Loc_y(GM):[4.676015377044677] 
+Speed (m/s):[4.31] 
+Angle: [250.55] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.43] 
+Writing $26 = 0xB9 
+Alt2tude: [159.69] 
+Temperature: [13.94] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:32] 
+Loc_x(GM):[50.863338470458984] 
+Loc_y(GM):[4.675889968872070] 
+Speed (m/s):[4.76] 
+Angle: [258.10] 
+Alt1tude: [-6.30] 
+END
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.43] 
+Writing $26 = 0xB9 
+Alt2tude: [160.25] 
+Temperature: [13.88] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:34] 
+Loc_x(GM):[50.863315582275390] 
+Loc_y(GM):[4.675753116607666] 
+Speed (m/s):[4.78] 
+Angle: [248.44] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.42] 
+Writing $26 = 0xB9 
+Alt2tude: [160.25] 
+Temperature: [13.88] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:36] 
+Loc_x(GM):[50.863273620605468] 
+END
+Loc_y(GM):[4.675628185272216] 
+Speed (m/s):[5.13] 
+Angle: [244.04] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.40] 
+Writing $26 = 0xB9 
+Alt2tude: [160.19] 
+Temperature: [13.88] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:38] 
+Loc_x(GM):[50.863231658935546] 
+Loc_y(GM):[4.675493240356445] 
+Speed (m/s):[5.29] 
+Angle: [247.04] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.42] 
+Writing $26 = 0xB9 
+Alt2tude: [160.50] 
+Temperature: [13.88] 
+END
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:40] 
+Loc_x(GM):[50.863193511962890] 
+Loc_y(GM):[4.675366878509521] 
+Speed (m/s):[5.01] 
+Angle: [245.36] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.41] 
+Writing $26 = 0xB9 
+Alt2tude: [160.38] 
+Temperature: [13.88] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:42] 
+Loc_x(GM):[50.863143920898437] 
+Loc_y(GM):[4.675250053405761] 
+Speed (m/s):[4.68] 
+Angle: [243.09] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+END
+Pressure: [6.41] 
+Writing $26 = 0xB9 
+Alt2tude: [160.31] 
+Temperature: [13.81] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:44] 
+Loc_x(GM):[50.863101959228515] 
+Loc_y(GM):[4.675126552581787] 
+Speed (m/s):[4.99] 
+Angle: [241.56] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.41] 
+Writing $26 = 0xB9 
+Alt2tude: [159.75] 
+Temperature: [13.81] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:46] 
+Loc_x(GM):[50.863029479980468] 
+Loc_y(GM):[4.675034999847412] 
+Speed (m/s):[4.42] 
+Angle: [205.74] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+END
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.38] 
+Writing $26 = 0xB9 
+Alt2tude: [159.69] 
+Temperature: [13.81] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:48] 
+Loc_x(GM):[50.862930297851562] 
+Loc_y(GM):[4.675061702728271] 
+Speed (m/s):[5.61] 
+Angle: [152.04] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [159.63] 
+Temperature: [13.81] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:50] 
+Loc_x(GM):[50.862834930419921] 
+Loc_y(GM):[4.675126552581787] 
+END
+Speed (m/s):[5.32] 
+Angle: [153.97] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.41] 
+Writing $26 = 0xB9 
+Alt2tude: [160.75] 
+Temperature: [13.81] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:52] 
+Loc_x(GM):[50.862728118896484] 
+Loc_y(GM):[4.675179958343505] 
+Speed (m/s):[5.26] 
+Angle: [155.20] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.43] 
+Writing $26 = 0xB9 
+Alt2tude: [160.25] 
+Temperature: [13.81] 
+Fix:[1] 
+END
+Quality: [1] 
+Date/Time: [14-12-12 16:4:54] 
+Loc_x(GM):[50.862628936767578] 
+Loc_y(GM):[4.675234794616699] 
+Speed (m/s):[4.68] 
+Angle: [158.35] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.42] 
+Writing $26 = 0xB9 
+Alt2tude: [160.50] 
+Temperature: [13.75] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:56] 
+Loc_x(GM):[50.862541198730468] 
+Loc_y(GM):[4.675286769866943] 
+Speed (m/s):[5.13] 
+Angle: [156.29] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.40] 
+END
+Writing $26 = 0xB9 
+Alt2tude: [160.50] 
+Temperature: [13.75] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:4:58] 
+Loc_x(GM):[50.862442016601562] 
+Loc_y(GM):[4.675386428833007] 
+Speed (m/s):[5.14] 
+Angle: [136.95] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.39] 
+Writing $26 = 0xB9 
+Alt2tude: [160.00] 
+Temperature: [13.75] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:0] 
+Loc_x(GM):[50.862384796142578] 
+Loc_y(GM):[4.675524711608886] 
+Speed (m/s):[5.40] 
+Angle: [103.43] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+END
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.38] 
+Writing $26 = 0xB9 
+Alt2tude: [159.44] 
+Temperature: [13.75] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:2] 
+Loc_x(GM):[50.862361907958984] 
+Loc_y(GM):[4.675721645355224] 
+Speed (m/s):[6.22] 
+Angle: [90.57] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.38] 
+Writing $26 = 0xB9 
+Alt2tude: [159.31] 
+Temperature: [13.75] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:4] 
+Loc_x(GM):[50.862354278564453] 
+Loc_y(GM):[4.675909996032714] 
+Speed (m/s):[6.03] 
+END
+Angle: [89.81] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.37] 
+Writing $26 = 0xB9 
+Alt2tude: [159.25] 
+Temperature: [13.69] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:6] 
+Loc_x(GM):[50.862354278564453] 
+Loc_y(GM):[4.676091670989990] 
+Speed (m/s):[6.04] 
+Angle: [89.59] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [158.63] 
+Temperature: [13.69] 
+Fix:[1] 
+Quality: [1] 
+END
+Date/Time: [14-12-12 16:5:8] 
+Loc_x(GM):[50.862354278564453] 
+Loc_y(GM):[4.676270008087158] 
+Speed (m/s):[6.11] 
+Angle: [92.42] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.37] 
+Writing $26 = 0xB9 
+Alt2tude: [158.94] 
+Temperature: [13.69] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:11] 
+Loc_x(GM):[50.862354278564453] 
+Loc_y(GM):[4.676553249359130] 
+Speed (m/s):[6.72] 
+Angle: [87.63] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.34] 
+Writing $26 = 0xB9 
+END
+Alt2tude: [158.63] 
+Temperature: [13.69] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:12] 
+Loc_x(GM):[50.862354278564453] 
+Loc_y(GM):[4.676743507385253] 
+Speed (m/s):[6.60] 
+Angle: [87.77] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.35] 
+Writing $26 = 0xB9 
+Alt2tude: [158.63] 
+Temperature: [13.69] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:15] 
+Loc_x(GM):[50.862361907958984] 
+Loc_y(GM):[4.676934719085693] 
+Speed (m/s):[6.92] 
+Angle: [86.10] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+END
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.33] 
+Writing $26 = 0xB9 
+Alt2tude: [158.31] 
+Temperature: [13.69] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:16] 
+Loc_x(GM):[50.862369537353515] 
+Loc_y(GM):[4.677136898040771] 
+Speed (m/s):[6.87] 
+Angle: [84.83] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.32] 
+Writing $26 = 0xB9 
+Alt2tude: [158.31] 
+Temperature: [13.63] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:19] 
+Loc_x(GM):[50.862384796142578] 
+Loc_y(GM):[4.677336692810058] 
+Speed (m/s):[6.91] 
+Angle: [82.87] 
+END
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.32] 
+Writing $26 = 0xB9 
+Alt2tude: [158.50] 
+Temperature: [13.63] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:20] 
+Loc_x(GM):[50.862411499023437] 
+Loc_y(GM):[4.677516937255859] 
+Speed (m/s):[6.61] 
+Angle: [79.57] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.35] 
+Writing $26 = 0xB9 
+Alt2tude: [159.06] 
+Temperature: [13.63] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:23] 
+END
+Loc_x(GM):[50.862434387207031] 
+Loc_y(GM):[4.677708625793457] 
+Speed (m/s):[7.01] 
+Angle: [76.93] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.37] 
+Writing $26 = 0xB9 
+Alt2tude: [159.06] 
+Temperature: [13.63] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:24] 
+Loc_x(GM):[50.862442016601562] 
+Loc_y(GM):[4.677881717681884] 
+Speed (m/s):[6.91] 
+Angle: [75.38] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.38] 
+Writing $26 = 0xB9 
+Alt2tude: [160.00] 
+END
+Temperature: [13.63] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:27] 
+Loc_x(GM):[50.862476348876953] 
+Loc_y(GM):[4.678058624267578] 
+Speed (m/s):[6.67] 
+Angle: [71.36] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.37] 
+Writing $26 = 0xB9 
+Alt2tude: [159.00] 
+Temperature: [13.63] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:28] 
+Loc_x(GM):[50.862514495849609] 
+Loc_y(GM):[4.678233146667480] 
+Speed (m/s):[6.82] 
+Angle: [64.75] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+END
+Writing $26 = 0x39 
+Pressure: [6.38] 
+Writing $26 = 0xB9 
+Alt2tude: [159.38] 
+Temperature: [13.63] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:31] 
+Loc_x(GM):[50.862583160400390] 
+Loc_y(GM):[4.678395271301269] 
+Speed (m/s):[6.78] 
+Angle: [53.97] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [158.69] 
+Temperature: [13.56] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:32] 
+Loc_x(GM):[50.862648010253906] 
+Loc_y(GM):[4.678528308868408] 
+Speed (m/s):[6.37] 
+Angle: [51.63] 
+Alt1tude: [-6.30] 
+END
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [159.06] 
+Temperature: [13.56] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:35] 
+Loc_x(GM):[50.862712860107421] 
+Loc_y(GM):[4.678668022155761] 
+Speed (m/s):[6.26] 
+Angle: [55.45] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.35] 
+Writing $26 = 0xB9 
+Alt2tude: [158.81] 
+Temperature: [13.56] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:36] 
+Loc_x(GM):[50.862777709960937] 
+END
+Loc_y(GM):[4.678800106048583] 
+Speed (m/s):[5.20] 
+Angle: [53.25] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.35] 
+Writing $26 = 0xB9 
+Alt2tude: [158.31] 
+Temperature: [13.56] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:39] 
+Loc_x(GM):[50.862834930419921] 
+Loc_y(GM):[4.678864955902099] 
+Speed (m/s):[2.75] 
+Angle: [9.20] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [159.06] 
+Temperature: [13.56] 
+END
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:40] 
+Loc_x(GM):[50.862873077392578] 
+Loc_y(GM):[4.678866386413574] 
+Speed (m/s):[2.09] 
+Angle: [335.84] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.37] 
+Writing $26 = 0xB9 
+Alt2tude: [159.50] 
+Temperature: [13.56] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:43] 
+Loc_x(GM):[50.862930297851562] 
+Loc_y(GM):[4.678819656372070] 
+Speed (m/s):[3.81] 
+Angle: [338.58] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+END
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [160.50] 
+Temperature: [13.56] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:44] 
+Loc_x(GM):[50.862995147705078] 
+Loc_y(GM):[4.678778171539306] 
+Speed (m/s):[4.11] 
+Angle: [344.58] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.39] 
+Writing $26 = 0xB9 
+Alt2tude: [159.63] 
+Temperature: [13.56] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:47] 
+Loc_x(GM):[50.863071441650390] 
+Loc_y(GM):[4.678761959075927] 
+Speed (m/s):[3.84] 
+Angle: [356.27] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+END
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.39] 
+Writing $26 = 0xB9 
+Alt2tude: [159.44] 
+Temperature: [13.50] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:48] 
+Loc_x(GM):[50.863143920898437] 
+Loc_y(GM):[4.678731918334960] 
+Speed (m/s):[3.78] 
+Angle: [353.79] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [158.94] 
+Temperature: [13.50] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:51] 
+Loc_x(GM):[50.863201141357421] 
+Loc_y(GM):[4.678708553314208] 
+END
+Speed (m/s):[2.70] 
+Angle: [352.38] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [158.44] 
+Temperature: [13.50] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:52] 
+Loc_x(GM):[50.863246917724609] 
+Loc_y(GM):[4.678688526153564] 
+Speed (m/s):[2.53] 
+Angle: [349.99] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.34] 
+Writing $26 = 0xB9 
+Alt2tude: [159.00] 
+Temperature: [13.50] 
+Fix:[1] 
+END
+Quality: [1] 
+Date/Time: [14-12-12 16:5:55] 
+Loc_x(GM):[50.863288879394531] 
+Loc_y(GM):[4.678679943084716] 
+Speed (m/s):[2.45] 
+Angle: [2.76] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [158.75] 
+Temperature: [13.50] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:5:56] 
+Loc_x(GM):[50.863338470458984] 
+Loc_y(GM):[4.678656578063964] 
+Speed (m/s):[2.74] 
+Angle: [346.22] 
+Alt1tude: [-6.30] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.37] 
+END
+Writing $26 = 0xB9 
+Alt2tude: [159.00] 
+Temperature: [13.50] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:0] 
+Loc_x(GM):[50.863403320312500] 
+Loc_y(GM):[4.678565025329589] 
+Speed (m/s):[2.74] 
+Angle: [346.22] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.38] 
+Writing $26 = 0xB9 
+Alt2tude: [158.75] 
+Temperature: [13.50] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:2] 
+Loc_x(GM):[50.863445281982421] 
+Loc_y(GM):[4.678568363189697] 
+Speed (m/s):[2.67] 
+Angle: [26.15] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+END
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [159.44] 
+Temperature: [13.50] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:4] 
+Loc_x(GM):[50.863491058349609] 
+Loc_y(GM):[4.678640365600585] 
+Speed (m/s):[3.42] 
+Angle: [33.15] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [159.13] 
+Temperature: [13.44] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:6] 
+Loc_x(GM):[50.863517761230468] 
+Loc_y(GM):[4.678736209869384] 
+Speed (m/s):[3.19] 
+END
+Angle: [41.14] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.37] 
+Writing $26 = 0xB9 
+Alt2tude: [158.69] 
+Temperature: [13.44] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:8] 
+Loc_x(GM):[50.863525390625000] 
+Loc_y(GM):[4.678804874420166] 
+Speed (m/s):[2.92] 
+Angle: [67.85] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [158.88] 
+Temperature: [13.44] 
+Fix:[1] 
+Quality: [1] 
+END
+Date/Time: [14-12-12 16:6:10] 
+Loc_x(GM):[50.863548278808593] 
+Loc_y(GM):[4.678893566131591] 
+Speed (m/s):[3.87] 
+Angle: [66.97] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [159.44] 
+Temperature: [13.44] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:12] 
+Loc_x(GM):[50.863574981689453] 
+Loc_y(GM):[4.679003238677978] 
+Speed (m/s):[4.11] 
+Angle: [74.02] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.38] 
+Writing $26 = 0xB9 
+END
+Alt2tude: [159.25] 
+Temperature: [13.44] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:14] 
+Loc_x(GM):[50.863590240478515] 
+Loc_y(GM):[4.679116725921630] 
+Speed (m/s):[4.02] 
+Angle: [77.10] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [158.88] 
+Temperature: [13.44] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:16] 
+Loc_x(GM):[50.863613128662109] 
+Loc_y(GM):[4.679241180419921] 
+Speed (m/s):[4.50] 
+Angle: [69.77] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+END
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.35] 
+Writing $26 = 0xB9 
+Alt2tude: [158.75] 
+Temperature: [13.44] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:18] 
+Loc_x(GM):[50.863639831542968] 
+Loc_y(GM):[4.679359912872314] 
+Speed (m/s):[3.84] 
+Angle: [73.75] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [159.13] 
+Temperature: [13.38] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:20] 
+Loc_x(GM):[50.863662719726562] 
+Loc_y(GM):[4.679454803466796] 
+Speed (m/s):[3.36] 
+Angle: [70.37] 
+END
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.35] 
+Writing $26 = 0xB9 
+Alt2tude: [158.63] 
+Temperature: [13.38] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:22] 
+Loc_x(GM):[50.863689422607421] 
+Loc_y(GM):[4.679551601409912] 
+Speed (m/s):[3.62] 
+Angle: [69.81] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [159.06] 
+Temperature: [13.38] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:24] 
+END
+Loc_x(GM):[50.863712310791015] 
+Loc_y(GM):[4.679630279541015] 
+Speed (m/s):[2.50] 
+Angle: [69.04] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.37] 
+Writing $26 = 0xB9 
+Alt2tude: [158.69] 
+Temperature: [13.38] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:26] 
+Loc_x(GM):[50.863761901855468] 
+Loc_y(GM):[4.679640293121337] 
+Speed (m/s):[2.66] 
+Angle: [336.96] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.35] 
+Writing $26 = 0xB9 
+Alt2tude: [159.00] 
+END
+Temperature: [13.38] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:28] 
+Loc_x(GM):[50.863803863525390] 
+Loc_y(GM):[4.679615020751953] 
+Speed (m/s):[1.96] 
+Angle: [334.40] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.37] 
+Writing $26 = 0xB9 
+Alt2tude: [159.13] 
+Temperature: [13.38] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:30] 
+Loc_x(GM):[50.863826751708984] 
+Loc_y(GM):[4.679594993591308] 
+Speed (m/s):[2.31] 
+Angle: [342.45] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+END
+Writing $26 = 0x39 
+Pressure: [6.37] 
+Writing $26 = 0xB9 
+Alt2tude: [159.13] 
+Temperature: [13.38] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:32] 
+Loc_x(GM):[50.863876342773437] 
+Loc_y(GM):[4.679568290710449] 
+Speed (m/s):[3.46] 
+Angle: [341.09] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.37] 
+Writing $26 = 0xB9 
+Alt2tude: [159.44] 
+Temperature: [13.38] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:34] 
+Loc_x(GM):[50.863948822021484] 
+Loc_y(GM):[4.679536342620849] 
+Speed (m/s):[4.04] 
+Angle: [342.74] 
+Alt1tude: [-3.00] 
+END
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.39] 
+Writing $26 = 0xB9 
+Alt2tude: [159.50] 
+Temperature: [13.38] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:36] 
+Loc_x(GM):[50.864028930664062] 
+Loc_y(GM):[4.679491519927978] 
+Speed (m/s):[4.44] 
+Angle: [341.09] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.37] 
+Writing $26 = 0xB9 
+Alt2tude: [159.44] 
+Temperature: [13.38] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:38] 
+Loc_x(GM):[50.864093780517578] 
+END
+Loc_y(GM):[4.679444789886474] 
+Speed (m/s):[3.35] 
+Angle: [332.45] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.38] 
+Writing $26 = 0xB9 
+Alt2tude: [159.56] 
+Temperature: [13.38] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:40] 
+Loc_x(GM):[50.864128112792968] 
+Loc_y(GM):[4.679358482360839] 
+Speed (m/s):[3.43] 
+Angle: [288.50] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.38] 
+Writing $26 = 0xB9 
+Alt2tude: [159.81] 
+Temperature: [13.31] 
+END
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:42] 
+Loc_x(GM):[50.864128112792968] 
+Loc_y(GM):[4.679291725158691] 
+Speed (m/s):[1.59] 
+Angle: [262.83] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.34] 
+Writing $26 = 0xB9 
+Alt2tude: [160.06] 
+Temperature: [13.31] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:44] 
+Loc_x(GM):[50.864135742187500] 
+Loc_y(GM):[4.679246425628662] 
+Speed (m/s):[1.48] 
+Angle: [264.64] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+END
+Pressure: [6.37] 
+Writing $26 = 0xB9 
+Alt2tude: [159.19] 
+Temperature: [13.31] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:46] 
+Loc_x(GM):[50.864143371582031] 
+Loc_y(GM):[4.679233551025390] 
+Speed (m/s):[0.05] 
+Angle: [264.64] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [159.25] 
+Temperature: [13.31] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:48] 
+Loc_x(GM):[50.864143371582031] 
+Loc_y(GM):[4.679231643676757] 
+Speed (m/s):[0.02] 
+Angle: [264.64] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+END
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.37] 
+Writing $26 = 0xB9 
+Alt2tude: [159.50] 
+Temperature: [13.31] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:50] 
+Loc_x(GM):[50.864143371582031] 
+Loc_y(GM):[4.679226875305175] 
+Speed (m/s):[0.01] 
+Angle: [264.64] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [159.13] 
+Temperature: [13.31] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:52] 
+Loc_x(GM):[50.864143371582031] 
+Loc_y(GM):[4.679223060607910] 
+END
+Speed (m/s):[0.03] 
+Angle: [264.64] 
+Alt1tude: [-3.00] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.34] 
+Writing $26 = 0xB9 
+Alt2tude: [159.63] 
+Temperature: [13.31] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:55] 
+Loc_x(GM):[50.864151000976562] 
+Loc_y(GM):[4.679218292236328] 
+Speed (m/s):[0.03] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.38] 
+Writing $26 = 0xB9 
+Alt2tude: [159.69] 
+Temperature: [13.31] 
+Fix:[1] 
+END
+Quality: [1] 
+Date/Time: [14-12-12 16:6:56] 
+Loc_x(GM):[50.864151000976562] 
+Loc_y(GM):[4.679213523864746] 
+Speed (m/s):[0.00] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.37] 
+Writing $26 = 0xB9 
+Alt2tude: [159.25] 
+Temperature: [13.31] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:6:59] 
+Loc_x(GM):[50.864151000976562] 
+Loc_y(GM):[4.679211616516113] 
+Speed (m/s):[0.00] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.38] 
+END
+Writing $26 = 0xB9 
+Alt2tude: [159.38] 
+Temperature: [13.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:0] 
+Loc_x(GM):[50.864151000976562] 
+Loc_y(GM):[4.679211616516113] 
+Speed (m/s):[0.01] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.35] 
+Writing $26 = 0xB9 
+Alt2tude: [158.94] 
+Temperature: [13.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:3] 
+Loc_x(GM):[50.864151000976562] 
+Loc_y(GM):[4.679209709167480] 
+Speed (m/s):[0.00] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+END
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+Alt2tude: [160.00] 
+Temperature: [13.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:4] 
+Loc_x(GM):[50.864151000976562] 
+Loc_y(GM):[4.679208278656005] 
+Speed (m/s):[0.02] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.40] 
+Writing $26 = 0xB9 
+Alt2tude: [159.19] 
+Temperature: [13.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:7] 
+Loc_x(GM):[50.864151000976562] 
+Loc_y(GM):[4.679206371307373] 
+Speed (m/s):[0.00] 
+END
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.38] 
+Writing $26 = 0xB9 
+Alt2tude: [159.75] 
+Temperature: [13.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:8] 
+Loc_x(GM):[50.864151000976562] 
+Loc_y(GM):[4.679196834564208] 
+Speed (m/s):[0.51] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.39] 
+Writing $26 = 0xB9 
+Alt2tude: [160.00] 
+Temperature: [13.25] 
+Fix:[1] 
+Quality: [1] 
+END
+Date/Time: [14-12-12 16:7:11] 
+Loc_x(GM):[50.864143371582031] 
+Loc_y(GM):[4.679190158843994] 
+Speed (m/s):[0.00] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.40] 
+Writing $26 = 0xB9 
+Alt2tude: [159.44] 
+Temperature: [13.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:12] 
+Loc_x(GM):[50.864143371582031] 
+Loc_y(GM):[4.679188728332519] 
+Speed (m/s):[0.00] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.36] 
+Writing $26 = 0xB9 
+END
+Alt2tude: [160.13] 
+Temperature: [13.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:15] 
+Loc_x(GM):[50.864143371582031] 
+Loc_y(GM):[4.679186344146728] 
+Speed (m/s):[0.00] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.41] 
+Writing $26 = 0xB9 
+Alt2tude: [160.44] 
+Temperature: [13.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:16] 
+Loc_x(GM):[50.864143371582031] 
+Loc_y(GM):[4.679188728332519] 
+Speed (m/s):[0.00] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+END
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.41] 
+Writing $26 = 0xB9 
+Alt2tude: [159.88] 
+Temperature: [13.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:19] 
+Loc_x(GM):[50.864143371582031] 
+Loc_y(GM):[4.679188728332519] 
+Speed (m/s):[0.01] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.42] 
+Writing $26 = 0xB9 
+Alt2tude: [160.25] 
+Temperature: [13.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:20] 
+Loc_x(GM):[50.864143371582031] 
+Loc_y(GM):[4.679188728332519] 
+Speed (m/s):[0.02] 
+Angle: [264.64] 
+END
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.42] 
+Writing $26 = 0xB9 
+Alt2tude: [161.19] 
+Temperature: [13.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:23] 
+Loc_x(GM):[50.864135742187500] 
+Loc_y(GM):[4.679190158843994] 
+Speed (m/s):[0.03] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.42] 
+Writing $26 = 0xB9 
+Alt2tude: [160.13] 
+Temperature: [13.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:24] 
+END
+Loc_x(GM):[50.864128112792968] 
+Loc_y(GM):[4.679191589355468] 
+Speed (m/s):[0.04] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.41] 
+Writing $26 = 0xB9 
+Alt2tude: [160.56] 
+Temperature: [13.19] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:27] 
+Loc_x(GM):[50.864128112792968] 
+Loc_y(GM):[4.679193019866943] 
+Speed (m/s):[0.02] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.39] 
+Writing $26 = 0xB9 
+Alt2tude: [161.63] 
+END
+Temperature: [13.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:28] 
+Loc_x(GM):[50.864128112792968] 
+Loc_y(GM):[4.679193019866943] 
+Speed (m/s):[0.01] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.47] 
+Writing $26 = 0xB9 
+Alt2tude: [162.13] 
+Temperature: [13.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:31] 
+Loc_x(GM):[50.864120483398437] 
+Loc_y(GM):[4.679193019866943] 
+Speed (m/s):[0.01] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+END
+Writing $26 = 0x39 
+Pressure: [6.52] 
+Writing $26 = 0xB9 
+Alt2tude: [162.94] 
+Temperature: [13.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:32] 
+Loc_x(GM):[50.864120483398437] 
+Loc_y(GM):[4.679193019866943] 
+Speed (m/s):[0.01] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.53] 
+Writing $26 = 0xB9 
+Alt2tude: [163.56] 
+Temperature: [13.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:35] 
+Loc_x(GM):[50.864120483398437] 
+Loc_y(GM):[4.679193019866943] 
+Speed (m/s):[0.06] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+END
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.55] 
+Writing $26 = 0xB9 
+Alt2tude: [164.13] 
+Temperature: [13.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:36] 
+Loc_x(GM):[50.864120483398437] 
+Loc_y(GM):[4.679193019866943] 
+Speed (m/s):[0.09] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.51] 
+Writing $26 = 0xB9 
+Alt2tude: [162.94] 
+Temperature: [13.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:39] 
+Loc_x(GM):[50.864120483398437] 
+END
+Loc_y(GM):[4.679191589355468] 
+Speed (m/s):[0.11] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.52] 
+Writing $26 = 0xB9 
+Alt2tude: [163.25] 
+Temperature: [13.25] 
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:42] 
+Loc_x(GM):[50.864112854003906] 
+Loc_y(GM):[4.679190158843994] 
+Speed (m/s):[0.14] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.55] 
+Writing $26 = 0xB9 
+Alt2tude: [163.25] 
+Temperature: [13.25] 
+END
+Fix:[1] 
+Quality: [1] 
+Date/Time: [14-12-12 16:7:44] 
+Loc_x(GM):[50.864112854003906] 
+Loc_y(GM):[4.679186344146728] 
+Speed (m/s):[0.15] 
+Angle: [264.64] 
+Alt1tude: [6.90] 
+Satellites: [8] 
+C4 
+Writing $26 = 0xB9 
+Writing $13 = 0x7 
+Writing $26 = 0x39 
+Pressure: [6.52] 
+Writing $26 = 0xB9 
+Alt2tude: [163.50] 
+Temperature: [13.25] 
+END
+
+
