@@ -9,12 +9,13 @@ from zet_in_lijst import *
 
 domain = 'dali.cs.kuleuven.be'
 port = 8080
-start = {'purpose':'batch-sender','groupID':'jos','userID':'r0369676'}
+
 socketIO = SocketIO(domain,port)
 userID = "r0369676"
 groupID = "cwb2"
 answer = 0
 tripID = ''
+start = {'purpose':'batch-sender','groupID':groupID,'userID':userID}
 print 'checked'
 
 def connected2():
@@ -56,9 +57,16 @@ def send_GPS(tripnumber):
     datalist = make_gps_datalist()
     meta_dict = make_meta_dict2()
     print "emit"
+    print "data:"
+    for i in datalist:
+        print i
+    print "meta:"
+    print meta_dict
+    print start_time
+    print end_time
     socketIO.emit('batch-tripdata', json.dumps([{'userID':userID,\
                     'groupID':groupID,'startTime':start_time,'endTime':end_time,'sensorData':datalist,'meta':meta_dict}]),on_response)
-    socketIO.wait(3)
+    socketIO.wait(5)
     tripID = str(answer[0][u'_id'])
     send_da_picz()
 
@@ -71,9 +79,11 @@ def send_da_picz():
     socketIO.on('server_message',on_response)
     socketIO.emit('start',json.dumps(start),on_response)
     socketIO.wait(2)
+    meta_dict = make_meta_dict2()
     a = 0
     while i < len(timestamp_list):
-        if a == 5:
+        if a == 100:
+            print "reboot serving"
             socketIO.emit('endBikeTrip', json.dumps({"_id":tripID}),on_response)
             socketIO.wait(2)
             socketIO.on('server_message',on_response)
@@ -81,7 +91,7 @@ def send_da_picz():
             socketIO.wait(2)
             a = 0
         file = open('screenshots/'+str(i)+'.jpg',"rb").read().encode("base64")
-        photodata = json.dumps({"imageName" : "foto"+str(i+1)+".jpg", "tripID" : tripID, "userID" : "r0369676", "raw" : file, "timestamp" : timestamp_list[i]})
+        photodata = json.dumps({"imageName" : "foto"+str(i+1)+".jpg", "tripID" : tripID, "userID" : "r0369676", "raw" : file, "timestamp" : timestamp_list[i],'meta':meta_dict})
         url = "http://dali.cs.kuleuven.be:8080/qbike/upload"
         headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
         r = requests.post(url, data = photodata, headers = headers)
