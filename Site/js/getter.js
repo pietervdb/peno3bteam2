@@ -29,8 +29,26 @@ lapse.getter = (function() {
         json.sort(sortByProperty(property));
     }
 
+    function ComputeAverage(array){
+        var sum = 0;
+        var l = array.length;
+        $.each(array, function(i,v){
+            sum += parseFloat(v);
+        });
+        var average = sum / l;
+        average = parseFloat(average.toFixed(2));
+        if (!average){
+            average = 0;
+        }
+        return average
+    }
+
     function ConfigureJSON(json){
         $.each(json,function(i,v){
+            var endtime = new Date(70,0,1,1,0,0,0);
+            var speeds = [];
+            var maxspeed = 0;
+            var averagespeed = 0;
             (function ConfigureSensorData(){
                 if (!v.sensorData){
                     v.sensorData = [];
@@ -49,26 +67,53 @@ lapse.getter = (function() {
                                 });
                             }
                             else if (this.data[0].type == "Point") {
+                                var coortime = new Date(this.timestamp);
+                                var currentspeed = this.data[0].speed[0];
                                 var a = new google.maps.LatLng(this.data[0].coordinates[0],this.data[0].coordinates[1]);
                                 route.push(a);
+                                speeds.push(currentspeed);
+                                if (coortime > endtime){
+                                    endtime = coortime;
+                                }
+                                if (currentspeed > maxspeed){
+                                    maxspeed = currentspeed;
+                                }
+
                             }
                         }
                     });
+                    if (route[0][0] >= 100){
+                        $.each(route, function(){
+                            var x = this[0];
+                            var y = this[1];
+                            var x1 = (x - x%100)/100;
+                            var x2 = x%100 - x%1;
+                            var x3 = (x%1)*100;
+                            var ddx = x1 + x2/60 + x3/3600;
+                            var y1 = (y - y%100)/100;
+                            var y2 = y%100 - y%1;
+                            var y3 = (y%1)*100;
+                            var ddy =y1+y2/60 + y3/3600;
+
+                            this[0] = ddx;
+                            this[1] = ddy;
+                        });
+                    }
                     v.distance = google.maps.geometry.spherical.computeLength(route);
                     v.route = route;
                 }
             })();
 
             (function ConfigureTime(){
-                v.startTime = v.startTime || v.endTime;
-                v.endTime = v.endTime || v.startTime;
                 v.startTime = new Date(v.startTime);
-                v.endTime = new Date(v.endTime);
+                v.endTime = endtime;
+                v.startTime = (v.startTime=='Invalid Date')? v.endTime:v.startTime;
             })();
 
             (function ConfigureSpeeds(){
-                v.Speedavg = v.meta.averageSpeed || 0;
-                v.Speedmax = v.meta.maxSpeed || 0;
+                averagespeed = ComputeAverage(speeds);
+                v.Speedavg = v.meta.averageSpeed || averagespeed;
+                v.Speedmax = v.meta.maxSpeed || maxspeed;
             })();
 
         });
@@ -124,8 +169,9 @@ lapse.getter = (function() {
     }
 
     function ExtractData(json){
-        ToolTipData = {Timestamp:[],Speed:[], Images:[], Temp:[], Pressure:[]};
+        ToolTipData = {Timestamp:[], Coordinates: json.route, Speed:[],Height:[], Images:[], Temp:[], Pressure:[]};
         speeddataDual = [];
+        GMCoordinates = json.route;
 
         var starttime = json.startTime;
         var endtime = json.endTime;
@@ -138,9 +184,14 @@ lapse.getter = (function() {
         $("<p class='tripdata'>").text(textavg).appendTo($("#AVSPEED"));
         $("<p class='tripdata'>").text(textmax).appendTo($("#MAXSPEED"));
 
+        if (GMCoordinates.length > 0) {
+            // Create an ElevationService.
+            elevator = new google.maps.ElevationService();
+            loadElev();
+        }
+
         var C = json.sensorData;
         var timelapseid = $("#timelapse");
-        console.log(UNITMULTIPLIER);
         $.each(C,function() {
             switch (this.sensorID) {
                 case GPS: //coordinaten
@@ -148,7 +199,6 @@ lapse.getter = (function() {
                         ToolTipData.Timestamp.push(this.timestamp);
                         if (this.data[0].speed){
                             var sp = parseFloat((this.data[0].speed[0]*UNITMULTIPLIER).toFixed(2));
-                            console.log(sp);
                             speeddataDual.push(sp);
                             ToolTipData.Speed.push(sp);
                         }
@@ -171,9 +221,16 @@ lapse.getter = (function() {
                     break;
 
                 case CAM: //images
+                    var time = this.timestamp;
+                    var timeindex = ToolTipData.Timestamp.indexOf(time);
                     var str = '<img src="' + imageURL.concat(this.data[0]) + '">';
                     var strhidden = '<img class="hidden" src="' + imageURL.concat(this.data[0]) + '">';
-                    ToolTipData.Images.push(str);
+                    if (timeindex != -1){
+                        ToolTipData.Images[timeindex] = str;
+                    }
+                    else{
+                        ToolTipData.Images.push(str);
+                    }
                     $(strhidden).appendTo(timelapseid);
                     break;
             }

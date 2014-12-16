@@ -4,7 +4,7 @@
 //URL = "http://dali.cs.kuleuven.be:8080/qbike/trips/",
 var imageURL = "http://dali.cs.kuleuven.be:8080/qbike/images/";
 var server; //8080 voor test, 8443 voor productie
-var groupURLbase, groupURL, groupID = getUrlVars()["group"];
+var groupURLbase, groupURL, groupID = getUrlVars();
 var group, groupHead;
 var interval;
 var averagemax = false;
@@ -23,7 +23,7 @@ var total_refresh = false;
 $(document).ready(function(){
     (function(){
         server = $('input[name=serverradio]:checked', '#serverform').val();
-        groupURLbase = "http://dali.cs.kuleuven.be:" + server + "/qbike/trips?groupID=";
+        groupURLbase = "http://dali.cs.kuleuven.be:" + server + "/qbike/trips?";
 
         //controleren of laatste letter in URL een "#" is
         if (groupID[groupID.length-1] == "#"){
@@ -31,6 +31,7 @@ $(document).ready(function(){
         }
         groupURL = groupURLbase.concat(groupID);
 
+        groupID = groupID.split('=')[1];
         group = document.getElementById(groupID);
         var $jumbotext = $("#jumbo").children("h1");
 
@@ -211,8 +212,6 @@ function main(){
 
         spinner();
         var unitselection = $('input[name=unitradio]:checked', '#unitform').val().split(" ");
-
-
         SetDates();
         SetSpeed();
         SetDistances();
@@ -253,7 +252,6 @@ function main(){
                     $button.children(".up").removeClass("activesort").hide();
                     $button.children(".down").addClass("activesort").show();
                     AllTrips.reverse();
-                    //reversed = true;
                 }
                 else{
                     $button.children(".down").removeClass("activesort").hide();
@@ -392,9 +390,10 @@ function SetDistances(){
 
 //parameters uit URL halen
 function getUrlVars() {
-    var vars = {};
+    //var vars = {};
+    var vars;
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
-        vars[key] = value;
+        vars = key + '=' + value;
     });
     return vars;
 }
@@ -402,7 +401,7 @@ function getUrlVars() {
 /**
  * @return {boolean}
  */
-function CONDITION(sensors, date, Speed,Distance){
+function CONDITION(sensors, date, Speed, Distance){
     return sensors != mindata
         && FilterStartDate <= date
         && FilterEndDate >= date
@@ -667,23 +666,21 @@ function loadElev() {
     ELEVCHART = new google.visualization.ComboChart(document.getElementById('heightschart'));
     ELEVData = [];
     ELEVToCall = GMCoordinates;
-    var pathRequest;
+    var locationRequest;
 
     if (ELEVToCall.length > 512) {
         var ELEVCalling = ELEVToCall.splice(0,511);
-        pathRequest = {
-            'path': ELEVCalling,
-            'samples': ELEVCalling.length
+        locationRequest = {
+            'locations': ELEVCalling
         };
-        elevator.getElevationAlongPath(pathRequest, MoreElev);
+        elevator.getElevationForLocations(locationRequest, MoreElev);
     }
 
     else{
-        pathRequest = {
-            'path': ELEVToCall,
-            'samples': ELEVToCall.length
+        locationRequest = {
+            'locations': ELEVToCall
         };
-        elevator.getElevationAlongPath(pathRequest, plotElevation);
+        elevator.getElevationForLocations(locationRequest, plotElevation);
     }
 }
 
@@ -691,22 +688,20 @@ function MoreElev(results){
     for (var i=0; i<results.length; i++){
         ELEVData.push(results[i].elevation)
     }
-    var pathRequest;
+    var locationRequest;
     if (ELEVToCall.length > 512) {
         var ELEVCalling = ELEVToCall.splice(0,511);
-        pathRequest = {
-            'path': ELEVCalling,
-            'samples': ELEVCalling.length
+        locationRequest = {
+            'locations': ELEVCalling
         };
-        elevator.getElevationAlongPath(pathRequest, MoreElev);
+        elevator.getElevationForLocations(locationRequest, MoreElev);
     }
 
     else{
-        pathRequest = {
-            'path': ELEVToCall,
-            'samples': ELEVToCall.length
+        locationRequest = {
+            'locations': ELEVToCall
         };
-        elevator.getElevationAlongPath(pathRequest, plotElevation);
+        elevator.getElevationForLocations(locationRequest, plotElevation);
     }
 }
 
@@ -717,6 +712,11 @@ function plotElevation(results, status) {
     for (i=0; i<results.length; i++){
         ELEVData.push(results[i].elevation)
     }
+    ToolTipData.Height = ELEVData;
+    if (ELEVData.length == 1){
+        return false
+    }
+
     $("#heights-canvas").show();
 
     var options = {
@@ -809,32 +809,9 @@ function map(json) {
         }
 
         else {
-            if (GMCoordinates[0][0] >= 100){
-                $.each(GMCoordinates, function(){
-                    var x = this[0];
-                    var y = this[1];
-                    var x1 = (x - x%100)/100;
-                    var x2 = x%100 - x%1;
-                    var x3 = (x%1)*100;
-                    var ddx = x1 + x2/60 + x3/3600;
-                    var y1 = (y - y%100)/100;
-                    var y2 = y%100 - y%1;
-                    var y3 = (y%1)*100;
-                    var ddy =y1+y2/60 + y3/3600;
-
-                    this[0] = ddx;
-                    this[1] = ddy;
-                });
-            }
-
             $.each(GMCoordinates, function(i,v){
                 bounds.extend(v);
             });
-        }
-        if (GMCoordinates.length >= 2) {
-            // Create an ElevationService.
-            elevator = new google.maps.ElevationService();
-            loadElev();
         }
     })();
 
@@ -855,6 +832,9 @@ function map(json) {
             }
             if (ToolTipData.Temp[0]){
                 textstart += '<p>Temperature: ' + ToolTipData.Temp[0] + ' °C' + '</p>';
+            }
+            if (ToolTipData.Height[0]){
+                textstart += '<p>Height: ' + parseFloat(ToolTipData.Height[0].toFixed(2)) + ' m' + '</p>';
             }
             if (ToolTipData.Pressure[0]){
                 textstart += '<p>Pressure: ' + ToolTipData.Pressure[0] + ' °hPa' + '</p>';
@@ -888,6 +868,9 @@ function map(json) {
         (function otherMarkers(){
             for (var i=1; i<GMCoordinates.length-1; i++){
                 var text = '<div>';
+                var color = '#428bcb';
+                var strcolor = '#428bca';
+
 
                 if (ToolTipData.Timestamp[i]){
                     var timestamp = new Date(ToolTipData.Timestamp[i]);
@@ -900,11 +883,16 @@ function map(json) {
                 if (ToolTipData.Temp[i]){
                     text += '<p>Temperature: ' + ToolTipData.Temp[i] + ' °C' + '</p>';
                 }
+                if (ToolTipData.Height[0]){
+                    text += '<p>Height: ' + parseFloat(ToolTipData.Height[i].toFixed(2)) + ' m' + '</p>';
+                }
                 if (ToolTipData.Pressure[i]){
                     text += '<p>Pressure: ' + ToolTipData.Pressure[i] + ' °hPa' + '</p>';
                 }
                 if (ToolTipData.Images[i]){
                     text += ToolTipData.Images[i];
+                    color = '#ff1919';
+                    strcolor = '#ff0000';
                 }
                 text += '</div>';
 
@@ -913,10 +901,10 @@ function map(json) {
                     center: GMCoordinates[i],
                     map: map,
                     radius: 2.5,
-                    strokeColor: '#428bca',
+                    strokeColor: strcolor,
                     strokeOpacity: 0.8,
                     strokeWeight: 2,
-                    fillColor: '#428bcb',
+                    fillColor: color,
                     fillOpacity: 0.35,
                     customData: text,
                     customPoint: i
@@ -947,6 +935,9 @@ function map(json) {
             }
             if (ToolTipData.Temp[ToolTipData.Temp.length - 1]){
                 textend += '<p>Temperature: ' + ToolTipData.Temp[ToolTipData.Temp.length - 1] + ' °C' + '</p>';
+            }
+            if (ToolTipData.Height[ToolTipData.Height.length - 1]){
+                textend += '<p>Height: ' + parseFloat(ToolTipData.Height[ToolTipData.Height.length - 1].toFixed(2)) + ' m' + '</p>';
             }
             if (ToolTipData.Pressure[ToolTipData.Pressure.length - 1]){
                 textend += '<p>Pressure: ' + ToolTipData.Pressure[ToolTipData.Pressure.length - 1] + ' °hPa' + '</p>';
