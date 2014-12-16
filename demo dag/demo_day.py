@@ -1,7 +1,7 @@
 import os
 import json
 import base64
-##import picamera
+import picamera
 import PIL
 from PIL import Image
 from PIL import ImageGrab
@@ -27,14 +27,15 @@ def decimalextender(number):
     else:
         return number
     
-##def snap(name):
-##    with picamera.PiCamera() as camera:
-##        camera.capture('Photos/'+name+'.jpg')
-##    img = Image.open('Photos/'+name+'.jpg')
-##    img = img.resize((500,338), Image.ANTIALIAS)
-##    img.save('Photos/'+name+'.jpg',"JPEG")    
+def snap(name):
+    with picamera.PiCamera() as camera:
+        camera.capture('Photos/'+name+'.jpg')
+    img = Image.open('Photos/'+name+'.jpg')
+    img = img.resize((500,338), Image.ANTIALIAS)
+    img.save('Photos/'+name+'.jpg',"JPEG")    
 
 def snap2(name):
+    "snaps screenshot"
     img = PIL.ImageGrab.grab()
     ##img = img.resize((500,338), Image.ANTIALIAS)
     img.save('Photos/'+name+'.jpg',"JPEG")
@@ -45,21 +46,22 @@ def on_response(*args):
     answer = args
 
 def send(name):
+    "sends gps, time, picture"
     userID = name
     groupID = name
     time = strftime("%Y-", gmtime())+decimalextender(strftime("%m", gmtime()))+\
            '-'+decimalextender(strftime("%d", gmtime()))+'T'+decimalextender(strftime("%H", gmtime()))+\
            ':'+decimalextender(strftime("%M", gmtime()))+':'+decimalextender(strftime('%S', gmtime()))+".000z"
     socketIO.on('server_message',on_response)
-    socketIO.wait(2)
+    ##socketIO.wait(1)
     start = {'purpose':'batch-sender','groupID':name,'userID':name}
     socketIO.emit('start',json.dumps(start),on_response)
-    socketIO.wait(2)
+    ##socketIO.wait(1)
     socketIO.emit('batch-tripdata', json.dumps([{'userID':name,\
                     'groupID':name,'startTime':time,\
                     'endTime':time,'sensorData':[{'sensorID':1,'timestamp':time,'data': [{'type':'Point',\
                                     'coordinates':[50.8611926,4.681042],'unit':'google','speed':[0.0]}]}],}]),on_response)
-    socketIO.wait(2)
+    socketIO.wait(5)
     tripID = str(answer[0][u'_id'])
     file = open('Photos/'+name+'.jpg',"rb").read().encode("base64")
     photodata = json.dumps({"imageName" : name+".jpg", "tripID" : tripID, "userID" : name, "raw" : file, "timestamp" : time})
@@ -67,9 +69,9 @@ def send(name):
     headers = {'Content-type': 'application/json', 'Accept': 'text/plain'}
     r = requests.post(url, data = photodata, headers = headers)
     socketIO.emit('rt-sensordata', photodata,on_response)
+    socketIO.wait(1)
+    socketIO.emit('endBikeTrip',json.dumps({"_id":tripID}),on_response)
     socketIO.wait(2)
-    
-
 
 while True:
     name = raw_input("What's your name?\n>>>")
@@ -85,7 +87,7 @@ while True:
     print "1..."
     time.sleep(1)
     print 'Smile!'
-    snap2(name)
+    snap(name)
     send(name)
     time.sleep(3)
     print "\n"*100
