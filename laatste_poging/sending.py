@@ -35,6 +35,8 @@ def send_queue(queue):
     for trip in queue:
         send_data(trip)
 
+
+
 def send_data(tripnumber):
     "send the trips' data"
     process_raw_data(tripnumber)

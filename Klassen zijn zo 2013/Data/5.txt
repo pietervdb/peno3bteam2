@@ -1,0 +1,24 @@
+Fix:Y
+Quality:
+0
+Date/Time:
+2014-12-17T09:27:04.000Z
+Loc_x(GM)
+50.861228942871093
+Loc_y(GM)
+4.681231498718261
+Speed (m/s)
+0.27
+Angle:
+100.27
+Alt1tude:
+0.00
+Satellites:
+0
+Pressure:
+4.32
+Alt2tude:
+108.00
+Temperature:
+21.06
+End

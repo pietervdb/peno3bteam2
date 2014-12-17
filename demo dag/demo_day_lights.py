@@ -4,7 +4,7 @@ import base64
 import picamera
 import PIL
 from PIL import Image
-from PIL import ImageGrab
+##from PIL import ImageGrab
 import time
 from socketIO_client import SocketIO
 import requests
@@ -26,10 +26,10 @@ GPIO.setup(8,GPIO.OUT)
 GPIO.setup(9,GPIO.OUT)
 GPIO.setup(11,GPIO.OUT)
 GPIO.setup(25,GPIO.OUT)
-GPIO.output(8,False)
-GPIO.output(9,False)
-GPIO.output(11,False)
-GPIO.output(25,False)
+GPIO.output(8,False)    #
+GPIO.output(9,False)    #
+GPIO.output(11,False)   #
+GPIO.output(25,False)   #
 
 def decimalextender(number):
     "converts one-digit numbers to two-digits: 1 -> 01, 5 -> 05, 10 -> 10"
@@ -45,12 +45,12 @@ def snap(name):
     img = img.resize((500,338), Image.ANTIALIAS)
     img.save('Photos/'+name+'.jpg',"JPEG")    
 
-def snap2(name):
-    "snaps screenshot"
-    img = PIL.ImageGrab.grab()
-    ##img = img.resize((500,338), Image.ANTIALIAS)
-    img.save('Photos/'+name+'.jpg',"JPEG")
-    
+##def snap2(name):
+##    "snaps screenshot"
+##    img = PIL.ImageGrab.grab()
+##    ##img = img.resize((500,338), Image.ANTIALIAS)
+##    img.save('Photos/'+name+'.jpg',"JPEG")
+##    
 def on_response(*args):
     global answer
     print 'server message is',args

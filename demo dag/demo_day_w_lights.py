@@ -10,6 +10,7 @@ from socketIO_client import SocketIO
 import requests
 import datetime
 from time import strftime, gmtime
+import RPi.GPIO as GPIO
 
 ##os.makedirs('Photos')     ##(only if first time on pi)
 name_list = []
@@ -19,6 +20,16 @@ port = 8080
 socketIO = SocketIO(domain,port)
 answer = 0
 timestamp = ''
+GPIO.setmode(GPIO.BCM)
+GPIO.setwarnings(False)
+GPIO.setup(8,GPIO.OUT)
+GPIO.setup(9,GPIO.OUT)
+GPIO.setup(11,GPIO.OUT)
+GPIO.setup(25,GPIO.OUT)
+GPIO.output(8,False)    # groen 1
+GPIO.output(9,False)    # rood 2
+GPIO.output(11,False)   # rood 1
+GPIO.output(25,False)   # groen 2
 
 def decimalextender(number):
     "converts one-digit numbers to two-digits: 1 -> 01, 5 -> 05, 10 -> 10"
@@ -82,13 +93,21 @@ while True:
     name_list.append(name)
         
     print "Taking picture in 3..."
+    GPIO.output(25,True)
+    GPIO.output(8,True)
     time.sleep(1)
     print "2..."
+    GPIO.output(9,True)
+    GPIO.output(11,True)
     time.sleep(1)
     print "1..."
     time.sleep(1)
+    GPIO.output(25,False)
+    GPIO.output(8, False)
     print 'Smile!'
     snap(name)
+    GPIO.output(9,False)
+    GPIO.output(11,False)
     send(name)
     time.sleep(3)
-    print "\n"*100
+    print "\n"*5
